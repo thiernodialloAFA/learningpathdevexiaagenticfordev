@@ -1,33 +1,24 @@
 #!/usr/bin/env node
 // Dependency-free validation of the versioned content files in data/.
-// Fails (exit code 1) when any content file is missing, malformed, or
-// violates the expected schema, so CI can block invalid content.
+// Usable both as a CLI (fails with exit code 1 when any content file is
+// missing, malformed, or violates the expected schema, so CI can block
+// invalid content) and as a module: the server's authoring API reuses
+// validateContentSet() to validate proposed content before publishing.
 
 const fs = require("fs");
 const path = require("path");
 
-const dataDir = path.join(__dirname, "..", "data");
-const errors = [];
-
-const fail = (file, message) => errors.push(`${file}: ${message}`);
-
-const readJson = (file) => {
-  const fullPath = path.join(dataDir, file);
-  if (!fs.existsSync(fullPath)) {
-    fail(file, "file is missing");
-    return null;
-  }
-  try {
-    return JSON.parse(fs.readFileSync(fullPath, "utf8"));
-  } catch (error) {
-    fail(file, `invalid JSON: ${error.message}`);
-    return null;
-  }
-};
+const CONTENT_FILES = [
+  "plan.en.json",
+  "plan.fr.json",
+  "academy.en.json",
+  "academy.fr.json",
+  "academy-settings.json"
+];
 
 const isNonEmptyString = (value) => typeof value === "string" && value.trim().length > 0;
 
-const checkStringArray = (file, value, label) => {
+const checkStringArray = (fail, file, value, label) => {
   if (!Array.isArray(value) || value.length === 0) {
     fail(file, `${label} must be a non-empty array`);
     return;
@@ -37,7 +28,7 @@ const checkStringArray = (file, value, label) => {
   });
 };
 
-const checkResources = (file, resources, label) => {
+const checkResources = (fail, file, resources, label) => {
   if (!Array.isArray(resources) || resources.length === 0) {
     fail(file, `${label} must be a non-empty array`);
     return;
@@ -50,7 +41,7 @@ const checkResources = (file, resources, label) => {
   });
 };
 
-const checkQuiz = (file, quiz, label) => {
+const checkQuiz = (fail, file, quiz, label) => {
   if (!Array.isArray(quiz) || quiz.length === 0) {
     fail(file, `${label} must be a non-empty array`);
     return;
@@ -68,14 +59,13 @@ const checkQuiz = (file, quiz, label) => {
   });
 };
 
-const validatePlan = (file) => {
-  const plan = readJson(file);
-  if (!plan) return null;
+const validatePlan = (fail, file, plan) => {
+  if (!plan) return;
 
   ["duration", "targetRole", "readinessTarget"].forEach((key) => {
     if (!isNonEmptyString(plan[key])) fail(file, `${key} must be a non-empty string`);
   });
-  checkStringArray(file, plan.goals, "goals");
+  checkStringArray(fail, file, plan.goals, "goals");
 
   if (!Array.isArray(plan.modules) || plan.modules.length === 0) {
     fail(file, "modules must be a non-empty array");
@@ -93,10 +83,10 @@ const validatePlan = (file) => {
       ["weeks", "title", "objective"].forEach((key) => {
         if (!isNonEmptyString(module[key])) fail(file, `${label}.${key} must be a non-empty string`);
       });
-      checkStringArray(file, module.outcomes, `${label}.outcomes`);
-      checkStringArray(file, module.deliverables, `${label}.deliverables`);
-      checkResources(file, module.resources, `${label}.resources`);
-      checkQuiz(file, module.quiz, `${label}.quiz`);
+      checkStringArray(fail, file, module.outcomes, `${label}.outcomes`);
+      checkStringArray(fail, file, module.deliverables, `${label}.deliverables`);
+      checkResources(fail, file, module.resources, `${label}.resources`);
+      checkQuiz(fail, file, module.quiz, `${label}.quiz`);
     });
   }
 
@@ -106,16 +96,14 @@ const validatePlan = (file) => {
   if (!Array.isArray(plan.applicationPlan) || plan.applicationPlan.length === 0) {
     fail(file, "applicationPlan must be a non-empty array");
   }
-  return plan;
 };
 
-const validateAcademy = (file) => {
-  const academy = readJson(file);
-  if (!academy) return null;
+const validateAcademy = (fail, file, academy) => {
+  if (!academy) return;
 
   if (!Array.isArray(academy.levels) || academy.levels.length === 0) {
     fail(file, "levels must be a non-empty array");
-    return academy;
+    return;
   }
   const ids = new Set();
   academy.levels.forEach((level, index) => {
@@ -130,16 +118,14 @@ const validateAcademy = (file) => {
     ["icon", "rank", "title", "focus"].forEach((key) => {
       if (!isNonEmptyString(level[key])) fail(file, `${label}.${key} must be a non-empty string`);
     });
-    checkStringArray(file, level.modules, `${label}.modules`);
-    checkResources(file, level.resources, `${label}.resources`);
-    checkQuiz(file, level.quiz, `${label}.quiz`);
+    checkStringArray(fail, file, level.modules, `${label}.modules`);
+    checkResources(fail, file, level.resources, `${label}.resources`);
+    checkQuiz(fail, file, level.quiz, `${label}.quiz`);
   });
-  return academy;
 };
 
-const validateSettings = (file) => {
-  const settings = readJson(file);
-  if (!settings) return null;
+const validateSettings = (fail, file, settings) => {
+  if (!settings) return;
   if (!Number.isInteger(settings.passThreshold) || settings.passThreshold < 1 || settings.passThreshold > 100) {
     fail(file, "passThreshold must be an integer between 1 and 100");
   }
@@ -148,10 +134,9 @@ const validateSettings = (file) => {
       fail(file, `${key} must be an https URL`);
     }
   });
-  return settings;
 };
 
-const checkParity = (fileA, a, fileB, b, listKey, idKey) => {
+const checkParity = (fail, fileA, a, fileB, b, listKey, idKey) => {
   if (!a || !b || !Array.isArray(a[listKey]) || !Array.isArray(b[listKey])) return;
   if (a[listKey].length !== b[listKey].length) {
     fail(fileB, `${listKey} count differs from ${fileA} (${b[listKey].length} vs ${a[listKey].length})`);
@@ -165,19 +150,66 @@ const checkParity = (fileA, a, fileB, b, listKey, idKey) => {
   });
 };
 
-const planEn = validatePlan("plan.en.json");
-const planFr = validatePlan("plan.fr.json");
-const academyEn = validateAcademy("academy.en.json");
-const academyFr = validateAcademy("academy.fr.json");
-validateSettings("academy-settings.json");
+// Validates a full set of parsed content objects keyed by file name.
+// Returns an array of error strings (empty when the set is valid).
+const validateContentSet = (contents) => {
+  const errors = [];
+  const fail = (file, message) => errors.push(`${file}: ${message}`);
+  const source = contents || {};
 
-checkParity("plan.en.json", planEn, "plan.fr.json", planFr, "modules", "id");
-checkParity("academy.en.json", academyEn, "academy.fr.json", academyFr, "levels", "id");
+  for (const file of CONTENT_FILES) {
+    if (source[file] === undefined || source[file] === null) fail(file, "file is missing");
+  }
 
-if (errors.length > 0) {
-  console.error(`Content validation failed with ${errors.length} error(s):`);
-  errors.forEach((error) => console.error(`  - ${error}`));
-  process.exit(1);
+  validatePlan(fail, "plan.en.json", source["plan.en.json"]);
+  validatePlan(fail, "plan.fr.json", source["plan.fr.json"]);
+  validateAcademy(fail, "academy.en.json", source["academy.en.json"]);
+  validateAcademy(fail, "academy.fr.json", source["academy.fr.json"]);
+  validateSettings(fail, "academy-settings.json", source["academy-settings.json"]);
+
+  checkParity(fail, "plan.en.json", source["plan.en.json"], "plan.fr.json", source["plan.fr.json"], "modules", "id");
+  checkParity(
+    fail,
+    "academy.en.json",
+    source["academy.en.json"],
+    "academy.fr.json",
+    source["academy.fr.json"],
+    "levels",
+    "id"
+  );
+
+  return errors;
+};
+
+// Reads the content files from a directory into a { fileName: object } map.
+// Parse or read failures are reported through the errors array.
+const readContentDir = (dataDir, errors) => {
+  const contents = {};
+  for (const file of CONTENT_FILES) {
+    const fullPath = path.join(dataDir, file);
+    if (!fs.existsSync(fullPath)) continue;
+    try {
+      contents[file] = JSON.parse(fs.readFileSync(fullPath, "utf8"));
+    } catch (error) {
+      errors.push(`${file}: invalid JSON: ${error.message}`);
+    }
+  }
+  return contents;
+};
+
+module.exports = { CONTENT_FILES, validateContentSet, readContentDir };
+
+if (require.main === module) {
+  const dataDir = path.join(__dirname, "..", "data");
+  const parseErrors = [];
+  const contents = readContentDir(dataDir, parseErrors);
+  const errors = [...parseErrors, ...validateContentSet(contents)];
+
+  if (errors.length > 0) {
+    console.error(`Content validation failed with ${errors.length} error(s):`);
+    errors.forEach((error) => console.error(`  - ${error}`));
+    process.exit(1);
+  }
+
+  console.log("Content validation passed.");
 }
-
-console.log("Content validation passed.");

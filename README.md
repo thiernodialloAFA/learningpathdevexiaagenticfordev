@@ -24,6 +24,10 @@ Once GitHub Pages is enabled (see below), the app is available at:
 - A global assessment aligned to Principal-level expectations
 - An application plan describing the product, architecture, and roadmap for scaling this into a fuller training platform
 - Local progress tracking with export, import, and reset tools
+- **Readiness dashboard**: an interview readiness score (module completion, quiz mastery, Copilot Academy, mock interviews), risk zones, and adaptive next-step recommendations
+- **Mock interviews**: a deterministic 10-question simulator that samples hard questions across every module and grades them with a rubric (accuracy, breadth, consistency, mastery) plus readiness snapshots over time
+- **Optional server mode**: a dependency-free Node.js server (`server/`) that adds accounts with cross-device sync, server-side quiz scoring, deliverable submissions with rubric-based mentor reviews, anonymized cohorts, and a content authoring studio
+- **Offline support (PWA)**: a manifest and service worker cache the app shell and content for degraded offline revision
 
 ## Run locally
 
@@ -35,12 +39,31 @@ python3 -m http.server 8000
 
 Then visit `http://localhost:8000`.
 
+## Run in server mode (accounts, sync, mentoring)
+
+The same static app upgrades itself automatically when it is served by the bundled zero-dependency Node.js server:
+
+```bash
+node server/server.js            # defaults to port 3000
+PORT=8080 node server/server.js  # custom port
+```
+
+Server mode adds, on top of everything the static site does:
+
+- **Accounts & sync**: passwordless accounts based on a generated sync key (scrypt-hashed, shown once). Progress is merged across devices — no email, no password, no PII. `server/auth.js` documents OIDC as the production upgrade path.
+- **Server-side scoring**: the API serves sanitized content (no answers or explanations in the browser); quizzes and mock interviews are graded via the API, and attempt history is recorded.
+- **Community**: deliverable submissions reviewed against a 4-dimension rubric, a mentor review queue (mentor/admin roles), and cohorts with anonymized aggregate stats.
+- **Authoring studio**: authors/admins edit content JSON in the browser, validate it against the schema, and publish without redeploying (stored as an overlay in the data directory).
+- **GDPR-friendly**: accounts can be deleted with all their data (`DELETE /api/accounts/me`); the first account created becomes admin.
+
+State is stored as JSON files under `server/.data/` (configurable with `DATA_DIR`); the roadmap documents PostgreSQL as the scale-up path.
+
 ## Validate and test
 
 ```bash
 node --check app.js                 # JavaScript syntax check
 node scripts/validate-content.js    # Content schema validation
-node --test tests/*.test.js         # Automated tests
+node --test tests/*.test.js         # Automated tests (content, engine, server API, PWA)
 ```
 
 ## Deploy to GitHub Pages
@@ -60,11 +83,14 @@ The workflow checks JavaScript syntax, validates the content files, runs the aut
 | File | Purpose |
 | --- | --- |
 | `index.html` | Page shell and section containers |
-| `app.js` | Content loading, UI translations, and rendering logic |
+| `app.js` | Content loading, UI translations, rendering logic, and server-mode integration |
+| `lib/engine.js` | Shared learning engine (scoring, readiness, recommendations, interviews, rubrics) used by the browser and the server |
 | `data/*.json` | Versioned content: learning plans (EN/FR), Copilot Academy levels (EN/FR), and academy settings |
-| `scripts/validate-content.js` | Dependency-free schema validation for the content files |
-| `tests/content.test.js` | Automated tests (content schema, EN/FR parity, quiz integrity) |
+| `server/` | Optional dependency-free Node.js server: API, auth, JSON file store, content overlay/publishing |
+| `scripts/validate-content.js` | Dependency-free schema validation for the content files (module + CLI) |
+| `tests/*.test.js` | Automated tests: content schema, engine, server API end-to-end, and PWA wiring |
 | `styles.css` | Styling for the dark, responsive layout |
+| `manifest.webmanifest`, `sw.js`, `icons/` | PWA manifest, service worker (offline cache), and app icon |
 | `plan.md` | Application plan and roadmap |
 | `.github/workflows/deploy.yml` | CI validation and GitHub Pages deployment |
 | `.nojekyll` | Disables Jekyll processing on GitHub Pages |
@@ -74,3 +100,4 @@ The workflow checks JavaScript syntax, validates the content files, runs the aut
 - The app is dependency-free and uses browser `localStorage` to persist quiz scores, completion status, and the selected language. Progress is per-browser; use **Export progress** / **Import progress** in the overview panel to move it between devices. Quiz scores are shared across languages, so switching between English and French keeps your progress.
 - Copilot Academy progress (best score per level) is stored in the same state and included in exports/imports/reset. Level unlocking is derived from best scores, so passed levels stay unlocked across sessions and languages.
 - Content lives in versioned JSON files under `data/` and is validated in CI by `scripts/validate-content.js` and `node --test tests/*.test.js`, in addition to `node --check app.js`.
+- The GitHub Pages deployment stays fully static: the app probes `api/health` at startup and only shows the account, community, and authoring panels when the server answers. In server mode the `data/` directory is not served directly — the API serves sanitized content so answers stay server-side.
