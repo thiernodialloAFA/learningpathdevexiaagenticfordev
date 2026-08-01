@@ -1492,6 +1492,1089 @@ const planFr = {
 
 const plans = { en: planEn, fr: planFr };
 
+const academySettings = {
+  passThreshold: 80,
+  siteUrl: "https://axafrance.github.io/learning-path-copilot/",
+  repoUrl: "https://github.com/AxaFrance/learning-path-copilot"
+};
+
+const academyDoc = (path) =>
+  `https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/${path}`;
+
+const copilotAcademyEn = {
+  levels: [
+    {
+      id: "academy-beginner",
+      icon: "🌱",
+      rank: "Beginner",
+      title: "First steps with Copilot",
+      focus:
+        "The three Copilot surfaces, persistent instructions, and reusable prompt files — the foundations every developer needs.",
+      modules: ["100 · Setup & posture", "101 · Custom instructions", "102 · Custom prompts"],
+      resources: [
+        { name: "100 · Setup & posture", url: academyDoc("01-fondations/100-setup-posture.md") },
+        { name: "101 · Instructions", url: academyDoc("01-fondations/101-instructions.md") },
+        { name: "102 · Prompts", url: academyDoc("01-fondations/102-prompts.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "In VS Code, which Copilot surface can read your workspace, create several files in one turn, and propose a global diff you accept or reject?",
+          options: [
+            "Inline suggestion",
+            "Copilot Chat",
+            "Agent mode",
+            "The Copilot status bar icon"
+          ],
+          answer: 2,
+          explanation:
+            "Inline suggestion only sees the open file, chat answers without modifying files, and agent mode is the surface that reads the file tree and proposes multi-file diffs."
+        },
+        {
+          prompt:
+            "\"Use Vitest, never Jest\" must apply to every conversation in your repo. What is it?",
+          options: [
+            "A prompt — restate it in each request",
+            "A persistent instruction, e.g. in .github/copilot-instructions.md",
+            "A skill triggered by the semantic router",
+            "An MCP server setting"
+          ],
+          answer: 1,
+          explanation:
+            "A prompt covers today's one-shot intent; a permanent team rule belongs in an instruction file that is loaded at every interaction."
+        },
+        {
+          prompt:
+            "Which file do Copilot Chat and agent mode load automatically for every conversation in a repository, with no activation step?",
+          options: [
+            ".vscode/copilot.json",
+            ".github/copilot-instructions.md",
+            "README.md",
+            ".agents/instructions.md"
+          ],
+          answer: 1,
+          explanation:
+            ".github/copilot-instructions.md at the repo root is loaded automatically — it is the single file the whole team shares."
+        },
+        {
+          prompt:
+            "You want TypeScript-only rules that load only when a .ts file is in scope. What does the handbook recommend?",
+          options: [
+            "Add the rules to README.md",
+            "Create .github/instructions/typescript.instructions.md with an applyTo: '**/*.ts' frontmatter",
+            "Put every language's rules in one big copilot-instructions.md",
+            "Rename the file to typescript.prompt.md"
+          ],
+          answer: 1,
+          explanation:
+            "Scoped instruction files in .github/instructions/ use an applyTo glob so they only load when matching files are in scope, keeping global context lean."
+        },
+        {
+          prompt:
+            "In a .prompt.md file, which mode should you pick for a command that explains code but must never modify files?",
+          options: ["agent", "edit", "ask", "chat"],
+          answer: 2,
+          explanation:
+            "ask responds in chat only; edit modifies the open file; agent can read, write, and run commands. Using agent for everything adds latency and unnecessary tool calls."
+        }
+      ]
+    },
+    {
+      id: "academy-padawan",
+      icon: "⚔️",
+      rank: "Padawan",
+      title: "Skills, agents, and hooks",
+      focus:
+        "Teach Copilot procedural know-how, build custom conversation agents, and automate on agent events.",
+      modules: ["103 · Skills", "104 · Agents (.agent.md)", "105 · Hooks"],
+      resources: [
+        { name: "103 · Skills", url: academyDoc("01-fondations/103-skills.md") },
+        { name: "104 · Agents", url: academyDoc("01-fondations/104-agents.md") },
+        { name: "105 · Hooks", url: academyDoc("01-fondations/105-hooks.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "What determines whether Copilot loads a skill stored in .agents/skills/<name>/SKILL.md?",
+          options: [
+            "The skill is loaded in every conversation, like an instruction",
+            "The semantic router matches the skill's description against the user's request",
+            "The user must type the skill name in the prompt",
+            "The skill loads whenever its folder is open in the editor"
+          ],
+          answer: 1,
+          explanation:
+            "The description is a semantic trigger, not documentation: the router loads the skill only when the request matches it. That is why it should start with 'Use when…'."
+        },
+        {
+          prompt:
+            "A procedure is only needed when someone asks for a commit message, but a style rule must apply everywhere. How do you split them?",
+          options: [
+            "Both as skills",
+            "Both as instructions",
+            "Commit procedure as a skill, style rule as an instruction",
+            "Commit procedure as an instruction, style rule as a skill"
+          ],
+          answer: 2,
+          explanation:
+            "Instruction = permanent rule loaded in every conversation; skill = conditional procedure loaded on semantic trigger. Duplicating the same content in both feeds Copilot twice."
+        },
+        {
+          prompt:
+            "How do you build a review-only agent (.agent.md) that cannot modify files or run commands?",
+          options: [
+            "Add 'read-only' to its description",
+            "Set model: gpt-5-mini",
+            "Omit editFiles and runInTerminal from its tools list",
+            "Set mode: ask in the frontmatter"
+          ],
+          answer: 2,
+          explanation:
+            "The tools key is the strongest lever: anything not listed is forbidden, so an agent without editFiles and runInTerminal can only read and discuss."
+        },
+        {
+          prompt: "Agent A delegates to agent B with runSubagent. What context does B receive?",
+          options: [
+            "A's full conversation history",
+            "B runs isolated with its own tools and model — only what A explicitly passes",
+            "Everything in A's context window plus the workspace",
+            "B shares A's tool permissions automatically"
+          ],
+          answer: 1,
+          explanation:
+            "Sub-agents run in isolated sub-conversations and inherit their own frontmatter configuration, not the caller's context — the caller must pass what matters."
+        },
+        {
+          prompt: "Which hook mechanism can block a dangerous tool call before it executes?",
+          options: [
+            "PostToolUse with decision: 'block'",
+            "SessionStart with additionalContext",
+            "PreToolUse returning permissionDecision: 'deny'",
+            "Stop with a reason"
+          ],
+          answer: 2,
+          explanation:
+            "PreToolUse fires before a tool executes and its permissionDecision (allow/deny/ask) is the only mechanism that can stop the call before it runs. PostToolUse only reacts afterwards."
+        }
+      ]
+    },
+    {
+      id: "academy-intermediate",
+      icon: "🛠️",
+      rank: "Intermediate",
+      title: "Tools and models",
+      focus:
+        "Extend Copilot with MCP servers without compromising security, and pick the right model for each task.",
+      modules: ["106 · MCP", "107 · Model choice"],
+      resources: [
+        { name: "106 · MCP", url: academyDoc("01-fondations/106-mcp.md") },
+        { name: "107 · Model choice", url: academyDoc("01-fondations/107-choix-de-modeles.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Why does the handbook say \"never connect an MCP server you haven't audited\"?",
+          options: [
+            "MCP servers slow down inline completions",
+            "An MCP server is an executable process running with your permissions — it can read files, run commands, or exfiltrate secrets",
+            "MCP servers overwrite copilot-instructions.md",
+            "MCP servers only work with one model family"
+          ],
+          answer: 1,
+          explanation:
+            "Unlike a skill (text only), an MCP server is a real process on your machine, so it inherits your permissions and can touch files, networks, and environment secrets."
+        },
+        {
+          prompt:
+            "What is the recommended way to give an MCP server a GitHub token in .vscode/mcp.json?",
+          options: [
+            "Hard-code the token in the env block",
+            "Use ${input:github-token} so VS Code prompts for it",
+            "Commit the token in .env",
+            "Paste the token in the chat once per session"
+          ],
+          answer: 1,
+          explanation:
+            "${input:} triggers a VS Code prompt so the team can share the server configuration without ever committing credentials."
+        },
+        {
+          prompt:
+            "You keep 5 MCP servers with 10 tools each connected. What is the hidden cost even when you never use them?",
+          options: [
+            "Nothing — unused tools are free",
+            "50 tool descriptions are injected into the system prompt on every request",
+            "Each server charges a per-minute fee",
+            "VS Code disables inline completions"
+          ],
+          answer: 1,
+          explanation:
+            "Every connected server adds its tool descriptions to Copilot's context each turn, which is why the handbook recommends preferring an existing CLI (gh, az, git) when one exists."
+        },
+        {
+          prompt:
+            "According to the GitHub task categories, which models should you pick for deep reasoning and debugging?",
+          options: [
+            "Raptor mini and GPT-5 mini",
+            "Claude Haiku 4.5",
+            "GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro, or Goldeneye",
+            "Any model — they are equivalent"
+          ],
+          answer: 2,
+          explanation:
+            "Fast repetitive tasks suit Haiku-class models and general coding suits GPT-5 mini or Raptor mini, while deep reasoning and debugging calls for premium reasoning models."
+        },
+        {
+          prompt: "Why is \"one model per session\" the recommended rule?",
+          options: [
+            "Model switching is not allowed by license",
+            "Switching invalidates the prompt cache prefix, producing inconsistent results and re-billing tokens at full price",
+            "Different models cannot read the same files",
+            "Sessions crash when models change"
+          ],
+          answer: 1,
+          explanation:
+            "The prompt cache reuses already-processed input tokens; a mid-session model switch invalidates the whole cached prefix and wastes tokens."
+        }
+      ]
+    },
+    {
+      id: "academy-confirmed",
+      icon: "🚀",
+      rank: "Confirmed",
+      title: "Composition at team scale",
+      focus:
+        "Package, share, and orchestrate primitives with APM, multi-agent workflows, plugins, and the Copilot CLI.",
+      modules: ["207 · APM", "208 · Workflows", "209 · Plugins", "210 · Copilot CLI"],
+      resources: [
+        { name: "207 · APM", url: academyDoc("02-composition/207-apm.md") },
+        { name: "208 · Workflows", url: academyDoc("02-composition/208-workflows.md") },
+        { name: "209 · Plugins", url: academyDoc("02-composition/209-plugins.md") },
+        { name: "210 · Copilot CLI", url: academyDoc("02-composition/210-copilot-cli.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "In an APM setup, where does the exact resolved commit SHA of each dependency live?",
+          options: [
+            "In apm.yml next to each dependency",
+            "In apm.lock.yaml (resolved_commit + content_hash), generated automatically",
+            "In .github/copilot-instructions.md",
+            "Only in the Git tag"
+          ],
+          answer: 1,
+          explanation:
+            "apm.yml declares dependencies (optionally pinned with #tag); the lockfile stores the resolved commit and content hash and should be committed, like package-lock.json."
+        },
+        {
+          prompt: "Which command makes APM-installed primitives visible to VS Code / Copilot?",
+          options: ["apm audit", "apm run copilot", "apm compile -t copilot", "apm publish"],
+          answer: 2,
+          explanation:
+            "apm compile -t copilot writes the compiled configuration (e.g. .github/copilot-instructions.md) so Copilot picks it up with zero extra config."
+        },
+        {
+          prompt:
+            "In an Outside-In workflow, why must the orchestrator explicitly pass sub-agent N's output to sub-agent N+1?",
+          options: [
+            "To keep an audit log",
+            "Because sub-agents run in isolated conversations and never see previous steps' history",
+            "Because sub-agents only accept JSON",
+            "To avoid exceeding the model's rate limit"
+          ],
+          answer: 1,
+          explanation:
+            "Each sub-agent has its own isolated context. The orchestrator is the relay: it collects step N's output and transmits it as input to step N+1 — and it never does the work itself."
+        },
+        {
+          prompt:
+            "What defines a Copilot plugin, compared with installing individual primitives via APM?",
+          options: [
+            "A plugin is a paid binary from a store",
+            "A plugin is a bundle of skills/agents (manifest .github/plugin/plugin.json) installed as a block, e.g. from github/awesome-copilot",
+            "A plugin only works in JetBrains IDEs",
+            "A plugin is another name for an MCP server"
+          ],
+          answer: 1,
+          explanation:
+            "Plugins deliver a coherent kit of primitives as one Git repo, with user or project scope; APM manages individual primitives per project. They complement each other."
+        },
+        {
+          prompt:
+            "In the terminal, which command asks Copilot to explain an unfamiliar shell command flag by flag?",
+          options: [
+            "gh copilot suggest -t shell",
+            "gh copilot explain",
+            "gh explain",
+            "copilot --help"
+          ],
+          answer: 1,
+          explanation:
+            "gh copilot explain breaks down a given command; gh copilot suggest proposes a command from a description (with -t shell/gh/git types and the ghcs/ghce aliases)."
+        }
+      ]
+    },
+    {
+      id: "academy-expert",
+      icon: "🧠",
+      rank: "Expert",
+      title: "Pipelines, LSP, and evals",
+      focus:
+        "Run rigorous multi-agent pipelines, wire compiler-grade LSP intelligence, and prove skill value with binary and LLM-judge evals.",
+      modules: [
+        "211 · Agent pipeline",
+        "212 · LSP",
+        "213 · APM vs plugins",
+        "310 · Binary evals",
+        "315 · LLM-judge evals"
+      ],
+      resources: [
+        { name: "211 · Agent pipeline", url: academyDoc("02-composition/211-pipeline-agents-handbook.md") },
+        { name: "212 · LSP", url: academyDoc("02-composition/212-lsp.md") },
+        { name: "213 · APM vs plugins", url: academyDoc("02-composition/213-apm-vs-plugins.md") },
+        { name: "310 · Binary evals", url: academyDoc("03-ingenierie-de-contexte/310-evals.md") },
+        { name: "315 · LLM-judge evals", url: academyDoc("03-ingenierie-de-contexte/315-evals-llm-juge.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "In the handbook's writing pipeline, why must the reviewer agent start with FRESH CONTEXT (never reading previous review rounds)?",
+          options: [
+            "To save tokens",
+            "To avoid inheriting the writer's biases and to re-verify every citation in its real source context",
+            "Because review files are deleted after each round",
+            "Because the reviewer uses a smaller model"
+          ],
+          answer: 1,
+          explanation:
+            "A warm-context reviewer sees quotes in the author's intended framing. Fresh context plus re-fetching every cited URL is the only way to get genuine adversarial fact-checking."
+        },
+        {
+          prompt:
+            "The writer–reviewer alignment loop is bounded at 3 rounds. What happens if round 3 still ends in REVISE?",
+          options: [
+            "The chapter is auto-published",
+            "The loop restarts from zero",
+            "A human checkpoint: the pipeline stops and asks a human to decide",
+            "The orchestrator rewrites the chapter itself"
+          ],
+          answer: 2,
+          explanation:
+            "Every agent loop must have a deterministic human exit — an unbounded loop is an agent that self-justifies indefinitely."
+        },
+        {
+          prompt:
+            "What is the main benefit of configuring LSP servers for Copilot CLI (.github/lsp.json)?",
+          options: [
+            "It enables syntax highlighting in the terminal",
+            "Compiler-grade operations like find-references return compact structured results instead of loading whole files into context",
+            "It replaces the need for Git",
+            "It makes Copilot work offline"
+          ],
+          answer: 1,
+          explanation:
+            "LSP gives Copilot precise code navigation (definitions, references, symbols) with token-efficient results, and the CLI uses configured servers automatically."
+        },
+        {
+          prompt:
+            "Which part of an installed skill is loaded into context at EVERY turn, even when the skill never triggers?",
+          options: [
+            "The full SKILL.md body",
+            "Nothing until it triggers",
+            "The name + description frontmatter (roughly 35–300 tokens per skill)",
+            "Only the folder name"
+          ],
+          answer: 2,
+          explanation:
+            "Descriptions are always loaded so the router can match them; bodies load on demand. That is why symlinking a whole multi-stack skill repo everywhere destroys the targeted-context benefit."
+        },
+        {
+          prompt:
+            "You run your eval fixtures with_skill (9/10) and without_skill (8/10). What does the handbook conclude?",
+          options: [
+            "Ship it — 9/10 is a great score",
+            "The +10% delta is below the ~30% bar: the skill probably doesn't justify its place in context",
+            "Add more assertions until the delta grows",
+            "Rewrite the fixtures so without_skill fails"
+          ],
+          answer: 1,
+          explanation:
+            "The with/without delta is the only objective proof of a skill's value. A skill improving results by less than ~30% — or a without_skill score already ≥80% — is probably unnecessary."
+        },
+        {
+          prompt: "In pairwise LLM-judge comparisons, how do you neutralize position bias?",
+          options: [
+            "Always put the candidate answer first",
+            "Use a longer rubric",
+            "Call the judge twice with the order inverted and only declare a winner if both calls agree",
+            "Raise the temperature"
+          ],
+          answer: 2,
+          explanation:
+            "Judges favor the first answer. The double-call-with-inversion protocol (plus a judge from a different model family and calibration on a golden set) makes verdicts trustworthy."
+        }
+      ]
+    },
+    {
+      id: "academy-master",
+      icon: "🏆",
+      rank: "Master",
+      title: "Context engineering mastery",
+      focus:
+        "Token sobriety, mechanical reduction tooling, autoresearch loops, and cache-aware model orchestration.",
+      modules: [
+        "311 · Tokens & context",
+        "312 · Sobriety patterns",
+        "313 · Reduction tools",
+        "314 · Autoresearch",
+        "316 · Moving context between models",
+        "317 · Orchestrating subagents",
+        "318 · Measuring consumption"
+      ],
+      resources: [
+        { name: "311 · Tokens & context", url: academyDoc("03-ingenierie-de-contexte/311-tokens-contexte.md") },
+        { name: "312 · Sobriety patterns", url: academyDoc("03-ingenierie-de-contexte/312-patterns-sobriete.md") },
+        { name: "313 · Reduction tools", url: academyDoc("03-ingenierie-de-contexte/313-outils-reduction.md") },
+        { name: "314 · Autoresearch", url: academyDoc("03-ingenierie-de-contexte/314-autoresearch.md") },
+        { name: "316 · Moving context", url: academyDoc("03-ingenierie-de-contexte/316-deplacer-contexte-modeles.md") },
+        { name: "317 · Subagents", url: academyDoc("03-ingenierie-de-contexte/317-orchestrer-subagents.md") },
+        { name: "318 · Measuring usage", url: academyDoc("03-ingenierie-de-contexte/318-mesurer-optimiser-consommation.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Why does output quality degrade even on models with huge context windows?",
+          options: [
+            "Long contexts are truncated silently",
+            "Signal dilution: the model attends to every token, so more noise means less focus on what matters",
+            "Big windows disable the prompt cache",
+            "Tokens beyond 100k are free but ignored"
+          ],
+          answer: 1,
+          explanation:
+            "Signal dilution is the most insidious of the four costs (cost, latency, saturation, dilution): quality drops as the signal-to-noise ratio drops, regardless of window size."
+        },
+        {
+          prompt:
+            "Which code-structuring practice most reduces the context Copilot needs to load?",
+          options: [
+            "Merging related services into one big file for fewer reads",
+            "SRP with domain-driven names: one file = one intent, e.g. calculateShippingCost(order, policy): Money",
+            "Files of at most 5 lines",
+            "Adding detailed comments on every line"
+          ],
+          answer: 1,
+          explanation:
+            "Ubiquitous language and SOLID make the code self-describing so only the relevant file gets loaded; over-fragmentation (5-line files) adds navigation noise — target ~30–80 lines."
+        },
+        {
+          prompt:
+            "What distinguishes a genuinely useful synthesis sub-agent from a fake one?",
+          options: [
+            "It uses a premium model",
+            "It reads 3 files (~4000 tokens) and returns a ~200-token conclusion instead of copy-pasting raw file contents",
+            "It always returns JSON",
+            "It runs in under 10 ms"
+          ],
+          answer: 1,
+          explanation:
+            "A sub-agent that pastes 500 raw lines shifts cost instead of reducing it. SNIP/RTK and ast-grep/rg/jq apply the same principle mechanically (up to ~90–99% savings)."
+        },
+        {
+          prompt:
+            "In an autoresearch loop, how many changes should each experiment make to SKILL.md?",
+          options: [
+            "As many as possible to converge faster",
+            "Exactly one mutation, then re-run and KEEP or DISCARD",
+            "One per eval fixture",
+            "None — only the fixtures change"
+          ],
+          answer: 1,
+          explanation:
+            "One mutation at a time is the only way to know what helped. Stop at a 95%+ pass rate on 3 consecutive experiments — with 70–85% being the realistic ceiling for most skills."
+        },
+        {
+          prompt:
+            "You planned with a deep-reasoning model and now want a lighter model to implement. When is the Markdown transfer (plan.md + new session) better than forking the conversation?",
+          options: [
+            "When the implementation needs every detail of the planning reasoning",
+            "When the plan is cleanly summarizable in a document, so the new session starts with minimal, noise-free context",
+            "When you want to keep the warm cache prefix",
+            "Never — forking is always better"
+          ],
+          answer: 1,
+          explanation:
+            "Fork inherits full context including planning noise; a plan.md transfer starts a clean session where only the spec matters (at the price of a cold cache)."
+        },
+        {
+          prompt:
+            "In the Route & Assemble subagent pattern, which model tier should the orchestrator itself run on?",
+          options: [
+            "The premium reasoning tier — it makes the hardest decisions",
+            "The lightweight tier (e.g. Haiku 4.5 / Gemini Flash) because it only routes and assembles, never reasons deeply or writes code",
+            "The same tier as the implementer",
+            "It doesn't matter"
+          ],
+          answer: 1,
+          explanation:
+            "The orchestrator's value is routing: planner sub-agents get deep-reasoning models, implementers get everyday engineering models, and each sub-agent's context is discarded after completion."
+        },
+        {
+          prompt: "Which action does NOT break the prompt cache during a long session?",
+          options: [
+            "Editing an earlier message",
+            "Reinserting a large block at the top of the conversation",
+            "Appending new context at the end of the conversation",
+            "Switching models mid-session"
+          ],
+          answer: 2,
+          explanation:
+            "The cache reuses the stable prefix (system + tools + earlier messages). Adding to the end preserves it — that is how sessions reach ~88% cache hit rates in Agent Debug Logs."
+        }
+      ]
+    }
+  ]
+};
+
+const copilotAcademyFr = {
+  levels: [
+    {
+      id: "academy-beginner",
+      icon: "🌱",
+      rank: "Débutant",
+      title: "Premiers pas avec Copilot",
+      focus:
+        "Les trois surfaces de Copilot, les instructions persistantes et les fichiers de prompt réutilisables — les fondations dont chaque développeur a besoin.",
+      modules: ["100 · Setup & posture", "101 · Instructions personnalisées", "102 · Prompts personnalisés"],
+      resources: [
+        { name: "100 · Setup & posture", url: academyDoc("01-fondations/100-setup-posture.md") },
+        { name: "101 · Instructions", url: academyDoc("01-fondations/101-instructions.md") },
+        { name: "102 · Prompts", url: academyDoc("01-fondations/102-prompts.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Dans VS Code, quelle surface de Copilot peut lire votre espace de travail, créer plusieurs fichiers en un tour et proposer un diff global à accepter ou refuser ?",
+          options: [
+            "La suggestion inline",
+            "Copilot Chat",
+            "Le mode agent",
+            "L'icône Copilot de la barre d'état"
+          ],
+          answer: 2,
+          explanation:
+            "La suggestion inline ne voit que le fichier ouvert, le chat répond sans modifier de fichiers, et le mode agent est la surface qui lit l'arborescence et propose des diffs multi-fichiers."
+        },
+        {
+          prompt:
+            "« Utilise Vitest, jamais Jest » doit s'appliquer à chaque conversation du dépôt. De quoi s'agit-il ?",
+          options: [
+            "D'un prompt — à répéter dans chaque requête",
+            "D'une instruction persistante, p. ex. dans .github/copilot-instructions.md",
+            "D'un skill déclenché par le routeur sémantique",
+            "D'un réglage de serveur MCP"
+          ],
+          answer: 1,
+          explanation:
+            "Un prompt couvre l'intention ponctuelle du jour ; une règle permanente d'équipe se place dans un fichier d'instructions chargé à chaque interaction."
+        },
+        {
+          prompt:
+            "Quel fichier Copilot Chat et le mode agent chargent-ils automatiquement pour chaque conversation d'un dépôt, sans étape d'activation ?",
+          options: [
+            ".vscode/copilot.json",
+            ".github/copilot-instructions.md",
+            "README.md",
+            ".agents/instructions.md"
+          ],
+          answer: 1,
+          explanation:
+            ".github/copilot-instructions.md à la racine du dépôt est chargé automatiquement — c'est le fichier unique partagé par toute l'équipe."
+        },
+        {
+          prompt:
+            "Vous voulez des règles TypeScript chargées uniquement quand un fichier .ts est concerné. Que recommande le handbook ?",
+          options: [
+            "Ajouter les règles au README.md",
+            "Créer .github/instructions/typescript.instructions.md avec un frontmatter applyTo: '**/*.ts'",
+            "Mettre toutes les règles de tous les langages dans copilot-instructions.md",
+            "Renommer le fichier en typescript.prompt.md"
+          ],
+          answer: 1,
+          explanation:
+            "Les fichiers d'instructions ciblés de .github/instructions/ utilisent un glob applyTo pour ne se charger que lorsque des fichiers correspondants sont concernés, ce qui garde le contexte global léger."
+        },
+        {
+          prompt:
+            "Dans un fichier .prompt.md, quel mode choisir pour une commande qui explique du code mais ne doit jamais modifier de fichiers ?",
+          options: ["agent", "edit", "ask", "chat"],
+          answer: 2,
+          explanation:
+            "ask répond uniquement dans le chat ; edit modifie le fichier ouvert ; agent peut lire, écrire et exécuter des commandes. Utiliser agent partout ajoute latence et appels d'outils inutiles."
+        }
+      ]
+    },
+    {
+      id: "academy-padawan",
+      icon: "⚔️",
+      rank: "Padawan",
+      title: "Skills, agents et hooks",
+      focus:
+        "Apprenez des savoir-faire procéduraux à Copilot, créez des agents de conversation personnalisés et automatisez sur les événements de l'agent.",
+      modules: ["103 · Skills", "104 · Agents (.agent.md)", "105 · Hooks"],
+      resources: [
+        { name: "103 · Skills", url: academyDoc("01-fondations/103-skills.md") },
+        { name: "104 · Agents", url: academyDoc("01-fondations/104-agents.md") },
+        { name: "105 · Hooks", url: academyDoc("01-fondations/105-hooks.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Qu'est-ce qui détermine si Copilot charge un skill stocké dans .agents/skills/<nom>/SKILL.md ?",
+          options: [
+            "Le skill est chargé à chaque conversation, comme une instruction",
+            "Le routeur sémantique compare la description du skill à la requête de l'utilisateur",
+            "L'utilisateur doit taper le nom du skill dans le prompt",
+            "Le skill se charge dès que son dossier est ouvert dans l'éditeur"
+          ],
+          answer: 1,
+          explanation:
+            "La description est un déclencheur sémantique, pas de la documentation : le routeur ne charge le skill que si la requête correspond. C'est pourquoi elle doit commencer par « Use when… »."
+        },
+        {
+          prompt:
+            "Une procédure ne sert que lorsqu'on demande un message de commit, mais une règle de style doit s'appliquer partout. Comment les répartir ?",
+          options: [
+            "Les deux en skills",
+            "Les deux en instructions",
+            "La procédure de commit en skill, la règle de style en instruction",
+            "La procédure de commit en instruction, la règle de style en skill"
+          ],
+          answer: 2,
+          explanation:
+            "Instruction = règle permanente chargée à chaque conversation ; skill = procédure conditionnelle chargée sur déclencheur sémantique. Dupliquer le même contenu dans les deux nourrit Copilot deux fois."
+        },
+        {
+          prompt:
+            "Comment construire un agent de revue (.agent.md) incapable de modifier des fichiers ou d'exécuter des commandes ?",
+          options: [
+            "Ajouter « read-only » à sa description",
+            "Définir model: gpt-5-mini",
+            "Omettre editFiles et runInTerminal de sa liste tools",
+            "Définir mode: ask dans le frontmatter"
+          ],
+          answer: 2,
+          explanation:
+            "La clé tools est le levier le plus puissant : ce qui n'est pas listé est interdit, donc un agent sans editFiles ni runInTerminal ne peut que lire et discuter."
+        },
+        {
+          prompt: "L'agent A délègue à l'agent B via runSubagent. Quel contexte B reçoit-il ?",
+          options: [
+            "Tout l'historique de conversation de A",
+            "B s'exécute isolé avec ses propres outils et modèle — seulement ce que A transmet explicitement",
+            "Tout le contexte de A plus l'espace de travail",
+            "B hérite automatiquement des permissions d'outils de A"
+          ],
+          answer: 1,
+          explanation:
+            "Les sous-agents s'exécutent dans des sous-conversations isolées et héritent de leur propre configuration, pas du contexte de l'appelant — l'appelant doit transmettre ce qui compte."
+        },
+        {
+          prompt:
+            "Quel mécanisme de hook peut bloquer un appel d'outil dangereux avant son exécution ?",
+          options: [
+            "PostToolUse avec decision: 'block'",
+            "SessionStart avec additionalContext",
+            "PreToolUse retournant permissionDecision: 'deny'",
+            "Stop avec une raison"
+          ],
+          answer: 2,
+          explanation:
+            "PreToolUse se déclenche avant l'exécution d'un outil et sa permissionDecision (allow/deny/ask) est le seul mécanisme qui puisse stopper l'appel avant qu'il ne s'exécute. PostToolUse ne fait que réagir après coup."
+        }
+      ]
+    },
+    {
+      id: "academy-intermediate",
+      icon: "🛠️",
+      rank: "Intermédiaire",
+      title: "Outils et modèles",
+      focus:
+        "Étendez Copilot avec des serveurs MCP sans compromettre la sécurité, et choisissez le bon modèle pour chaque tâche.",
+      modules: ["106 · MCP", "107 · Choix de modèles"],
+      resources: [
+        { name: "106 · MCP", url: academyDoc("01-fondations/106-mcp.md") },
+        { name: "107 · Choix de modèles", url: academyDoc("01-fondations/107-choix-de-modeles.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Pourquoi le handbook dit-il « ne connectez jamais un serveur MCP que vous n'avez pas audité » ?",
+          options: [
+            "Les serveurs MCP ralentissent les complétions inline",
+            "Un serveur MCP est un processus exécutable qui tourne avec vos permissions — il peut lire des fichiers, exécuter des commandes ou exfiltrer des secrets",
+            "Les serveurs MCP écrasent copilot-instructions.md",
+            "Les serveurs MCP ne fonctionnent qu'avec une seule famille de modèles"
+          ],
+          answer: 1,
+          explanation:
+            "Contrairement à un skill (texte seul), un serveur MCP est un vrai processus sur votre machine : il hérite de vos permissions et peut toucher fichiers, réseau et secrets d'environnement."
+        },
+        {
+          prompt:
+            "Quelle est la méthode recommandée pour fournir un token GitHub à un serveur MCP dans .vscode/mcp.json ?",
+          options: [
+            "Coder le token en dur dans le bloc env",
+            "Utiliser ${input:github-token} pour que VS Code le demande",
+            "Committer le token dans .env",
+            "Coller le token dans le chat à chaque session"
+          ],
+          answer: 1,
+          explanation:
+            "${input:} déclenche une invite VS Code : l'équipe partage la configuration du serveur sans jamais committer d'identifiants."
+        },
+        {
+          prompt:
+            "Vous gardez 5 serveurs MCP de 10 outils chacun connectés. Quel est le coût caché même sans jamais les utiliser ?",
+          options: [
+            "Aucun — les outils inutilisés sont gratuits",
+            "50 descriptions d'outils sont injectées dans le prompt système à chaque requête",
+            "Chaque serveur facture à la minute",
+            "VS Code désactive les complétions inline"
+          ],
+          answer: 1,
+          explanation:
+            "Chaque serveur connecté ajoute ses descriptions d'outils au contexte de Copilot à chaque tour ; d'où la règle : préférer une CLI existante (gh, az, git) quand elle existe."
+        },
+        {
+          prompt:
+            "Selon les catégories de tâches GitHub, quels modèles choisir pour le raisonnement profond et le débogage ?",
+          options: [
+            "Raptor mini et GPT-5 mini",
+            "Claude Haiku 4.5",
+            "GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro ou Goldeneye",
+            "N'importe lequel — ils sont équivalents"
+          ],
+          answer: 2,
+          explanation:
+            "Les tâches rapides et répétitives conviennent aux modèles type Haiku et le codage généraliste à GPT-5 mini ou Raptor mini, tandis que le raisonnement profond appelle les modèles premium."
+        },
+        {
+          prompt: "Pourquoi « un modèle par session » est-elle la règle recommandée ?",
+          options: [
+            "Changer de modèle est interdit par la licence",
+            "Changer de modèle invalide le préfixe du cache de prompt, produit des résultats incohérents et refacture les tokens plein tarif",
+            "Des modèles différents ne peuvent pas lire les mêmes fichiers",
+            "Les sessions plantent quand on change de modèle"
+          ],
+          answer: 1,
+          explanation:
+            "Le cache de prompt réutilise les tokens d'entrée déjà traités ; un changement de modèle en cours de session invalide tout le préfixe mis en cache et gaspille des tokens."
+        }
+      ]
+    },
+    {
+      id: "academy-confirmed",
+      icon: "🚀",
+      rank: "Confirmé",
+      title: "Composition à l'échelle de l'équipe",
+      focus:
+        "Packagez, partagez et orchestrez les primitives avec APM, les workflows multi-agents, les plugins et la CLI Copilot.",
+      modules: ["207 · APM", "208 · Workflows", "209 · Plugins", "210 · Copilot CLI"],
+      resources: [
+        { name: "207 · APM", url: academyDoc("02-composition/207-apm.md") },
+        { name: "208 · Workflows", url: academyDoc("02-composition/208-workflows.md") },
+        { name: "209 · Plugins", url: academyDoc("02-composition/209-plugins.md") },
+        { name: "210 · Copilot CLI", url: academyDoc("02-composition/210-copilot-cli.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Dans une configuration APM, où vit le SHA de commit exact résolu de chaque dépendance ?",
+          options: [
+            "Dans apm.yml à côté de chaque dépendance",
+            "Dans apm.lock.yaml (resolved_commit + content_hash), généré automatiquement",
+            "Dans .github/copilot-instructions.md",
+            "Uniquement dans le tag Git"
+          ],
+          answer: 1,
+          explanation:
+            "apm.yml déclare les dépendances (épinglables avec #tag) ; le lockfile stocke le commit résolu et le hash de contenu et doit être commité, comme package-lock.json."
+        },
+        {
+          prompt:
+            "Quelle commande rend les primitives installées par APM visibles pour VS Code / Copilot ?",
+          options: ["apm audit", "apm run copilot", "apm compile -t copilot", "apm publish"],
+          answer: 2,
+          explanation:
+            "apm compile -t copilot écrit la configuration compilée (p. ex. .github/copilot-instructions.md) pour que Copilot la prenne en compte sans configuration supplémentaire."
+        },
+        {
+          prompt:
+            "Dans un workflow Outside-In, pourquoi l'orchestrateur doit-il transmettre explicitement la sortie du sous-agent N au sous-agent N+1 ?",
+          options: [
+            "Pour tenir un journal d'audit",
+            "Parce que les sous-agents s'exécutent dans des conversations isolées et ne voient jamais l'historique des étapes précédentes",
+            "Parce que les sous-agents n'acceptent que du JSON",
+            "Pour éviter de dépasser la limite de débit du modèle"
+          ],
+          answer: 1,
+          explanation:
+            "Chaque sous-agent a son propre contexte isolé. L'orchestrateur est le relais : il collecte la sortie de l'étape N et la transmet en entrée de l'étape N+1 — et il ne fait jamais le travail lui-même."
+        },
+        {
+          prompt:
+            "Qu'est-ce qui définit un plugin Copilot, par rapport à l'installation de primitives individuelles via APM ?",
+          options: [
+            "Un plugin est un binaire payant d'un store",
+            "Un plugin est un bundle de skills/agents (manifeste .github/plugin/plugin.json) installé en bloc, p. ex. depuis github/awesome-copilot",
+            "Un plugin ne fonctionne que dans les IDE JetBrains",
+            "Un plugin est un autre nom pour un serveur MCP"
+          ],
+          answer: 1,
+          explanation:
+            "Les plugins livrent un kit cohérent de primitives sous forme d'un dépôt Git, avec portée user ou project ; APM gère des primitives individuelles par projet. Les deux se complètent."
+        },
+        {
+          prompt:
+            "Dans le terminal, quelle commande demande à Copilot d'expliquer une commande shell inconnue drapeau par drapeau ?",
+          options: [
+            "gh copilot suggest -t shell",
+            "gh copilot explain",
+            "gh explain",
+            "copilot --help"
+          ],
+          answer: 1,
+          explanation:
+            "gh copilot explain décompose une commande donnée ; gh copilot suggest propose une commande à partir d'une description (avec les types -t shell/gh/git et les alias ghcs/ghce)."
+        }
+      ]
+    },
+    {
+      id: "academy-expert",
+      icon: "🧠",
+      rank: "Expert",
+      title: "Pipelines, LSP et evals",
+      focus:
+        "Faites tourner des pipelines multi-agents rigoureux, branchez l'intelligence LSP de niveau compilateur et prouvez la valeur des skills avec des evals binaires et LLM-juge.",
+      modules: [
+        "211 · Pipeline d'agents",
+        "212 · LSP",
+        "213 · APM vs plugins",
+        "310 · Evals binaires",
+        "315 · Evals LLM-juge"
+      ],
+      resources: [
+        { name: "211 · Pipeline d'agents", url: academyDoc("02-composition/211-pipeline-agents-handbook.md") },
+        { name: "212 · LSP", url: academyDoc("02-composition/212-lsp.md") },
+        { name: "213 · APM vs plugins", url: academyDoc("02-composition/213-apm-vs-plugins.md") },
+        { name: "310 · Evals binaires", url: academyDoc("03-ingenierie-de-contexte/310-evals.md") },
+        { name: "315 · Evals LLM-juge", url: academyDoc("03-ingenierie-de-contexte/315-evals-llm-juge.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Dans le pipeline de rédaction du handbook, pourquoi l'agent reviewer doit-il démarrer avec un CONTEXTE FRAIS (sans lire les rounds de review précédents) ?",
+          options: [
+            "Pour économiser des tokens",
+            "Pour éviter d'hériter des biais du writer et re-vérifier chaque citation dans son vrai contexte source",
+            "Parce que les fichiers de review sont supprimés à chaque round",
+            "Parce que le reviewer utilise un modèle plus petit"
+          ],
+          answer: 1,
+          explanation:
+            "Un reviewer en contexte chaud voit les citations dans le cadrage voulu par l'auteur. Contexte frais plus re-téléchargement de chaque URL citée : c'est la seule façon d'obtenir un vrai fact-checking contradictoire."
+        },
+        {
+          prompt:
+            "La boucle d'alignement writer–reviewer est bornée à 3 rounds. Que se passe-t-il si le round 3 se termine encore en REVISE ?",
+          options: [
+            "Le chapitre est auto-publié",
+            "La boucle repart de zéro",
+            "Un checkpoint humain : le pipeline s'arrête et demande à un humain de décider",
+            "L'orchestrateur réécrit lui-même le chapitre"
+          ],
+          answer: 2,
+          explanation:
+            "Toute boucle d'agents doit avoir une sortie humaine déterministe — une boucle non bornée est un agent qui s'auto-justifie indéfiniment."
+        },
+        {
+          prompt:
+            "Quel est le principal bénéfice de configurer des serveurs LSP pour Copilot CLI (.github/lsp.json) ?",
+          options: [
+            "Cela active la coloration syntaxique dans le terminal",
+            "Des opérations de niveau compilateur comme find-references renvoient des résultats structurés compacts au lieu de charger des fichiers entiers dans le contexte",
+            "Cela remplace Git",
+            "Cela fait fonctionner Copilot hors ligne"
+          ],
+          answer: 1,
+          explanation:
+            "LSP donne à Copilot une navigation de code précise (définitions, références, symboles) avec des résultats économes en tokens, et la CLI utilise automatiquement les serveurs configurés."
+        },
+        {
+          prompt:
+            "Quelle partie d'un skill installé est chargée dans le contexte à CHAQUE tour, même si le skill ne se déclenche jamais ?",
+          options: [
+            "Tout le corps du SKILL.md",
+            "Rien tant qu'il ne se déclenche pas",
+            "Le frontmatter name + description (environ 35–300 tokens par skill)",
+            "Seulement le nom du dossier"
+          ],
+          answer: 2,
+          explanation:
+            "Les descriptions sont toujours chargées pour que le routeur puisse les évaluer ; les corps se chargent à la demande. C'est pourquoi symlinker partout un dépôt de skills multi-stacks détruit le bénéfice du contexte ciblé."
+        },
+        {
+          prompt:
+            "Vous exécutez vos fixtures d'eval with_skill (9/10) et without_skill (8/10). Que conclut le handbook ?",
+          options: [
+            "On publie — 9/10 est un super score",
+            "Le delta de +10 % est sous la barre des ~30 % : le skill ne justifie probablement pas sa place dans le contexte",
+            "Ajouter des assertions jusqu'à ce que le delta grossisse",
+            "Réécrire les fixtures pour faire échouer without_skill"
+          ],
+          answer: 1,
+          explanation:
+            "Le delta with/without est la seule preuve objective de la valeur d'un skill. Un skill qui améliore de moins de ~30 % — ou un score without_skill déjà ≥ 80 % — est probablement inutile."
+        },
+        {
+          prompt:
+            "Dans les comparaisons pairwise en LLM-juge, comment neutraliser le biais de position ?",
+          options: [
+            "Toujours mettre la réponse candidate en premier",
+            "Utiliser une rubrique plus longue",
+            "Appeler le juge deux fois en inversant l'ordre et ne déclarer un gagnant que si les deux appels concordent",
+            "Augmenter la température"
+          ],
+          answer: 2,
+          explanation:
+            "Les juges favorisent la première réponse. Le protocole du double appel inversé (plus un juge d'une autre famille de modèles et une calibration sur golden set) rend les verdicts fiables."
+        }
+      ]
+    },
+    {
+      id: "academy-master",
+      icon: "🏆",
+      rank: "Maître",
+      title: "Maîtrise de l'ingénierie de contexte",
+      focus:
+        "Sobriété de tokens, outillage de réduction mécanique, boucles d'autoresearch et orchestration de modèles consciente du cache.",
+      modules: [
+        "311 · Tokens & contexte",
+        "312 · Patterns de sobriété",
+        "313 · Outils de réduction",
+        "314 · Autoresearch",
+        "316 · Déplacer le contexte entre modèles",
+        "317 · Orchestrer des subagents",
+        "318 · Mesurer & optimiser sa consommation"
+      ],
+      resources: [
+        { name: "311 · Tokens & contexte", url: academyDoc("03-ingenierie-de-contexte/311-tokens-contexte.md") },
+        { name: "312 · Patterns de sobriété", url: academyDoc("03-ingenierie-de-contexte/312-patterns-sobriete.md") },
+        { name: "313 · Outils de réduction", url: academyDoc("03-ingenierie-de-contexte/313-outils-reduction.md") },
+        { name: "314 · Autoresearch", url: academyDoc("03-ingenierie-de-contexte/314-autoresearch.md") },
+        { name: "316 · Déplacer le contexte", url: academyDoc("03-ingenierie-de-contexte/316-deplacer-contexte-modeles.md") },
+        { name: "317 · Subagents", url: academyDoc("03-ingenierie-de-contexte/317-orchestrer-subagents.md") },
+        { name: "318 · Mesurer sa consommation", url: academyDoc("03-ingenierie-de-contexte/318-mesurer-optimiser-consommation.md") }
+      ],
+      quiz: [
+        {
+          prompt:
+            "Pourquoi la qualité se dégrade-t-elle même sur des modèles à très grande fenêtre de contexte ?",
+          options: [
+            "Les longs contextes sont tronqués silencieusement",
+            "Dilution du signal : le modèle prête attention à chaque token, donc plus de bruit signifie moins de focus sur l'essentiel",
+            "Les grandes fenêtres désactivent le cache de prompt",
+            "Les tokens au-delà de 100k sont gratuits mais ignorés"
+          ],
+          answer: 1,
+          explanation:
+            "La dilution du signal est le plus insidieux des quatre coûts (coût, latence, saturation, dilution) : la qualité baisse quand le ratio signal/bruit baisse, quelle que soit la taille de la fenêtre."
+        },
+        {
+          prompt:
+            "Quelle pratique de structuration du code réduit le plus le contexte que Copilot doit charger ?",
+          options: [
+            "Fusionner les services liés dans un gros fichier pour moins de lectures",
+            "SRP et noms métier : un fichier = une intention, p. ex. calculateShippingCost(order, policy): Money",
+            "Des fichiers de 5 lignes maximum",
+            "Des commentaires détaillés à chaque ligne"
+          ],
+          answer: 1,
+          explanation:
+            "Le langage omniprésent et SOLID rendent le code auto-descriptif : seul le fichier pertinent est chargé ; la sur-fragmentation (fichiers de 5 lignes) ajoute du bruit de navigation — visez ~30–80 lignes."
+        },
+        {
+          prompt:
+            "Qu'est-ce qui distingue un sous-agent de synthèse réellement utile d'un faux ?",
+          options: [
+            "Il utilise un modèle premium",
+            "Il lit 3 fichiers (~4000 tokens) et renvoie une conclusion d'environ 200 tokens au lieu de copier-coller les fichiers bruts",
+            "Il renvoie toujours du JSON",
+            "Il s'exécute en moins de 10 ms"
+          ],
+          answer: 1,
+          explanation:
+            "Un sous-agent qui colle 500 lignes brutes déplace le coût au lieu de le réduire. SNIP/RTK et ast-grep/rg/jq appliquent le même principe mécaniquement (jusqu'à ~90–99 % d'économies)."
+        },
+        {
+          prompt:
+            "Dans une boucle d'autoresearch, combien de changements chaque expérience doit-elle apporter au SKILL.md ?",
+          options: [
+            "Le plus possible pour converger plus vite",
+            "Exactement une mutation, puis re-exécution et KEEP ou DISCARD",
+            "Un par fixture d'eval",
+            "Aucun — seules les fixtures changent"
+          ],
+          answer: 1,
+          explanation:
+            "Une mutation à la fois est la seule façon de savoir ce qui a aidé. Arrêt à 95 %+ de réussite sur 3 expériences consécutives — 70–85 % étant le plafond réaliste de la plupart des skills."
+        },
+        {
+          prompt:
+            "Vous avez planifié avec un modèle de raisonnement profond et voulez implémenter avec un modèle plus léger. Quand le transfert Markdown (plan.md + nouvelle session) vaut-il mieux que le fork de conversation ?",
+          options: [
+            "Quand l'implémentation a besoin de chaque détail du raisonnement de planification",
+            "Quand le plan se résume proprement dans un document : la nouvelle session démarre avec un contexte minimal sans bruit",
+            "Quand on veut garder le préfixe de cache chaud",
+            "Jamais — le fork est toujours meilleur"
+          ],
+          answer: 1,
+          explanation:
+            "Le fork hérite de tout le contexte, bruit de planification compris ; un transfert plan.md démarre une session propre où seule la spec compte (au prix d'un cache froid)."
+        },
+        {
+          prompt:
+            "Dans le pattern Route & Assemble, sur quel niveau de modèle l'orchestrateur lui-même doit-il tourner ?",
+          options: [
+            "Le niveau premium de raisonnement — il prend les décisions les plus dures",
+            "Le niveau léger (p. ex. Haiku 4.5 / Gemini Flash) car il ne fait que router et assembler, sans raisonner profondément ni écrire de code",
+            "Le même niveau que l'implémenteur",
+            "Peu importe"
+          ],
+          answer: 1,
+          explanation:
+            "La valeur de l'orchestrateur est le routage : les sous-agents planificateurs reçoivent les modèles de raisonnement profond, les implémenteurs les modèles d'ingénierie courante, et le contexte de chaque sous-agent est jeté après usage."
+        },
+        {
+          prompt:
+            "Quelle action ne casse PAS le cache de prompt pendant une longue session ?",
+          options: [
+            "Modifier un message antérieur",
+            "Réinsérer un gros bloc en haut de la conversation",
+            "Ajouter le nouveau contexte à la fin de la conversation",
+            "Changer de modèle en cours de session"
+          ],
+          answer: 2,
+          explanation:
+            "Le cache réutilise le préfixe stable (système + outils + messages antérieurs). Ajouter à la fin le préserve — c'est ainsi qu'on atteint ~88 % de cache hit dans les Agent Debug Logs."
+        }
+      ]
+    }
+  ]
+};
+
+const academies = { en: copilotAcademyEn, fr: copilotAcademyFr };
+
 const ui = {
   en: {
     pageTitle: "Principal Engineer Learning Path",
@@ -1536,7 +2619,29 @@ const ui = {
     reviewNeeded: "Review needed",
     resetConfirm: "Reset all quiz scores and completion status?",
     importError: "Could not import progress: the file is not a valid progress export.",
-    languageSwitcherLabel: "Language"
+    languageSwitcherLabel: "Language",
+    academyEyebrow: "Copilot Academy",
+    academyTitle: "GitHub Copilot mastery quizzes",
+    academyCopy:
+      "Progressive quizzes built from the AxaFrance learning-path-copilot handbook. Pass each level to unlock the next.",
+    academySiteLink: "Open the handbook",
+    academyRepoLink: "Source repository (AxaFrance)",
+    academyLevelPill: (position, total) => `Level ${position} / ${total}`,
+    academyQuestionsPill: (count) => `${count} questions`,
+    academyPassPill: (threshold) => `Pass mark: ${threshold}%`,
+    academyModulesHeading: "Handbook modules covered",
+    academyLockedBadge: "🔒 Locked",
+    academyPassedBadge: "✓ Passed",
+    academyUnlockedBadge: "Unlocked",
+    academyLockedNote: (rank, threshold) =>
+      `Locked — score at least ${threshold}% on the ${rank} level to unlock this quiz.`,
+    academyBestScore: (score) => `Best score: ${score}%`,
+    academyNotAttempted: "Not attempted yet",
+    academyPassMessage: "Level passed! The next level is unlocked.",
+    academyFinalPassMessage: "All levels passed — you are a Copilot Master! 🏆",
+    academyFailMessage: (threshold) =>
+      `Below the ${threshold}% pass mark — review the resources and retry.`,
+    statAcademy: "Copilot Academy levels"
   },
   fr: {
     pageTitle: "Parcours d'apprentissage Ingénieur Principal",
@@ -1581,7 +2686,29 @@ const ui = {
     reviewNeeded: "À revoir",
     resetConfirm: "Réinitialiser tous les scores de quiz et les statuts de complétion ?",
     importError: "Impossible d'importer la progression : le fichier n'est pas un export de progression valide.",
-    languageSwitcherLabel: "Langue"
+    languageSwitcherLabel: "Langue",
+    academyEyebrow: "Académie Copilot",
+    academyTitle: "Quiz de maîtrise GitHub Copilot",
+    academyCopy:
+      "Des quiz progressifs construits à partir du handbook learning-path-copilot d'AXA France. Réussissez chaque niveau pour déverrouiller le suivant.",
+    academySiteLink: "Ouvrir le handbook",
+    academyRepoLink: "Dépôt source (AXA France)",
+    academyLevelPill: (position, total) => `Niveau ${position} / ${total}`,
+    academyQuestionsPill: (count) => `${count} questions`,
+    academyPassPill: (threshold) => `Seuil de réussite : ${threshold}%`,
+    academyModulesHeading: "Modules du handbook couverts",
+    academyLockedBadge: "🔒 Verrouillé",
+    academyPassedBadge: "✓ Réussi",
+    academyUnlockedBadge: "Déverrouillé",
+    academyLockedNote: (rank, threshold) =>
+      `Verrouillé — obtenez au moins ${threshold}% au niveau ${rank} pour déverrouiller ce quiz.`,
+    academyBestScore: (score) => `Meilleur score : ${score}%`,
+    academyNotAttempted: "Pas encore tenté",
+    academyPassMessage: "Niveau réussi ! Le niveau suivant est déverrouillé.",
+    academyFinalPassMessage: "Tous les niveaux réussis — vous êtes un Maître Copilot ! 🏆",
+    academyFailMessage: (threshold) =>
+      `Sous le seuil de ${threshold}% — révisez les ressources et réessayez.`,
+    statAcademy: "Niveaux de l'Académie Copilot"
   }
 };
 
@@ -1590,9 +2717,14 @@ const languageStorageKey = "principal-learning-path-language";
 
 const loadState = () => {
   try {
-    return JSON.parse(localStorage.getItem(storageKey)) || { completed: {}, scores: {} };
+    const stored = JSON.parse(localStorage.getItem(storageKey)) || {};
+    return {
+      completed: stored.completed && typeof stored.completed === "object" ? stored.completed : {},
+      scores: stored.scores && typeof stored.scores === "object" ? stored.scores : {},
+      academy: stored.academy && typeof stored.academy === "object" ? stored.academy : {}
+    };
   } catch (error) {
-    return { completed: {}, scores: {} };
+    return { completed: {}, scores: {}, academy: {} };
   }
 };
 
@@ -1614,12 +2746,14 @@ const loadLanguage = () => {
 let language = loadLanguage();
 let plan = plans[language];
 let t = ui[language];
+let academy = academies[language];
 
 const setLanguage = (nextLanguage) => {
   if (!plans[nextLanguage] || nextLanguage === language) return;
   language = nextLanguage;
   plan = plans[language];
   t = ui[language];
+  academy = academies[language];
   try {
     localStorage.setItem(languageStorageKey, language);
   } catch (error) {
@@ -1656,6 +2790,10 @@ const summarize = () => {
     ? Math.round(scoreValues.reduce((sum, value) => sum + value, 0) / scoreValues.length)
     : 0;
   const completionPercent = Math.round((completedCount / plan.modules.length) * 100);
+  const academyPassedCount = academy.levels.filter(
+    (level) => (state.academy[level.id] ?? -1) >= academySettings.passThreshold
+  ).length;
+  const academyPercent = Math.round((academyPassedCount / academy.levels.length) * 100);
 
   document.getElementById("overview").innerHTML = `
     <div class="stat">
@@ -1676,6 +2814,13 @@ const summarize = () => {
     <div class="stat">
       <strong>${t.statAverageScore}</strong>
       <span>${averageScore}%</span>
+    </div>
+    <div class="stat">
+      <strong>${t.statAcademy}</strong>
+      <span>${academyPassedCount} / ${academy.levels.length}</span>
+      <div class="progress-track" role="progressbar" aria-valuenow="${academyPercent}" aria-valuemin="0" aria-valuemax="100" aria-label="${t.statAcademy}">
+        <div class="progress-fill" style="width: ${academyPercent}%"></div>
+      </div>
     </div>
     <div class="stat">
       <strong>${t.statReadinessTarget}</strong>
@@ -1717,9 +2862,11 @@ const importProgress = () => {
         if (!imported || typeof imported !== "object") throw new Error("Invalid file");
         state.completed = imported.completed && typeof imported.completed === "object" ? imported.completed : {};
         state.scores = imported.scores && typeof imported.scores === "object" ? imported.scores : {};
+        state.academy = imported.academy && typeof imported.academy === "object" ? imported.academy : {};
         saveState(state);
         summarize();
         renderModules();
+        renderCopilotAcademy();
       } catch (error) {
         alert(t.importError);
       }
@@ -1733,9 +2880,11 @@ const resetProgress = () => {
   if (!confirm(t.resetConfirm)) return;
   state.completed = {};
   state.scores = {};
+  state.academy = {};
   saveState(state);
   summarize();
   renderModules();
+  renderCopilotAcademy();
 };
 
 const renderGoals = () => {
@@ -1863,6 +3012,175 @@ const renderModules = () => {
   });
 };
 
+const academyFeedback = {};
+
+const academyBestScore = (levelId) => {
+  const score = state.academy[levelId];
+  return Number.isFinite(score) ? score : null;
+};
+
+const isAcademyLevelPassed = (levelId) =>
+  (academyBestScore(levelId) ?? -1) >= academySettings.passThreshold;
+
+const isAcademyLevelUnlocked = (index) =>
+  index === 0 || isAcademyLevelPassed(academy.levels[index - 1].id);
+
+const renderAcademyResult = (level, feedback) => {
+  const passed = feedback.score >= academySettings.passThreshold;
+  const isLastLevel = academy.levels[academy.levels.length - 1].id === level.id;
+  const statusMessage = passed
+    ? isLastLevel
+      ? t.academyFinalPassMessage
+      : t.academyPassMessage
+    : t.academyFailMessage(academySettings.passThreshold);
+
+  return `
+    <div class="result ${passed ? "result--good" : "result--bad"}">
+      <p><strong>${t.scoreLabel}</strong> ${feedback.score}% — ${statusMessage}</p>
+      <ul>
+        ${level.quiz
+          .map(
+            (question, index) => `
+              <li>
+                <strong>Q${index + 1}:</strong> ${feedback.answers[index] === question.answer ? t.correct : t.reviewNeeded} —
+                ${question.explanation}
+              </li>
+            `
+          )
+          .join("")}
+      </ul>
+    </div>
+  `;
+};
+
+const renderCopilotAcademy = () => {
+  const totalLevels = academy.levels.length;
+  const currentIndex = academy.levels.findIndex((level) => !isAcademyLevelPassed(level.id));
+
+  document.getElementById("academy-progress").innerHTML = `
+    ${academy.levels
+      .map((level, index) => {
+        const passed = isAcademyLevelPassed(level.id);
+        const modifier = passed
+          ? " rank-step--passed"
+          : index === currentIndex
+            ? " rank-step--current"
+            : "";
+        return `<span class="rank-step${modifier}">${level.icon} ${level.rank}</span>`;
+      })
+      .join("")}
+    <a class="resource-link" href="${academySettings.siteUrl}" target="_blank" rel="noreferrer">${t.academySiteLink}</a>
+    <a class="resource-link" href="${academySettings.repoUrl}" target="_blank" rel="noreferrer">${t.academyRepoLink}</a>
+  `;
+
+  const academyElement = document.getElementById("copilot-academy");
+
+  academyElement.innerHTML = academy.levels
+    .map((level, index) => {
+      const unlocked = isAcademyLevelUnlocked(index);
+      const passed = isAcademyLevelPassed(level.id);
+      const bestScore = academyBestScore(level.id);
+      const badgeModifier = passed ? " rank-badge--passed" : unlocked ? "" : " rank-badge--locked";
+      const badgeState = passed
+        ? t.academyPassedBadge
+        : unlocked
+          ? t.academyUnlockedBadge
+          : t.academyLockedBadge;
+      const feedback = academyFeedback[level.id];
+
+      const body = unlocked
+        ? `
+          <h4>${t.resourcesHeading}</h4>
+          <div class="resource-list">
+            ${level.resources
+              .map(
+                (resource) =>
+                  `<a class="resource-link" href="${resource.url}" target="_blank" rel="noreferrer">${resource.name}</a>`
+              )
+              .join("")}
+          </div>
+
+          <div class="quiz">
+            <form data-level="${level.id}">
+              ${level.quiz
+                .map(
+                  (question, questionIndex) => `
+                    <fieldset>
+                      <legend>${questionIndex + 1}. ${question.prompt}</legend>
+                      ${question.options
+                        .map(
+                          (option, optionIndex) => `
+                            <label>
+                              <input type="radio" name="${level.id}-${questionIndex}" value="${optionIndex}" />
+                              ${option}
+                            </label>
+                          `
+                        )
+                        .join("")}
+                    </fieldset>
+                  `
+                )
+                .join("")}
+              <button type="submit">${t.scoreQuiz}</button>
+            </form>
+            <div class="module__footer">
+              <span class="badge">${bestScore !== null ? t.academyBestScore(bestScore) : t.academyNotAttempted}</span>
+            </div>
+            <div id="academy-result-${level.id}">${feedback ? renderAcademyResult(level, feedback) : ""}</div>
+          </div>
+        `
+        : `
+          <p class="locked-note">🔒 ${t.academyLockedNote(
+            academy.levels[index - 1].rank,
+            academySettings.passThreshold
+          )}</p>
+        `;
+
+      return `
+        <article class="level-card${unlocked ? "" : " level-card--locked"}">
+          <div class="level-card__header">
+            <div>
+              <p class="eyebrow">${t.academyLevelPill(index + 1, totalLevels)}</p>
+              <h3>${level.icon} ${level.rank} — ${level.title}</h3>
+              <p>${level.focus}</p>
+            </div>
+            <div class="meta-list">
+              <span class="rank-badge${badgeModifier}">${badgeState}</span>
+              <span class="meta-pill">${t.academyQuestionsPill(level.quiz.length)}</span>
+              <span class="meta-pill">${t.academyPassPill(academySettings.passThreshold)}</span>
+            </div>
+          </div>
+
+          <h4>${t.academyModulesHeading}</h4>
+          <ul>${level.modules.map((item) => `<li>${item}</li>`).join("")}</ul>
+
+          ${body}
+        </article>
+      `;
+    })
+    .join("");
+
+  academyElement.querySelectorAll("form").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const level = academy.levels.find((entry) => entry.id === form.dataset.level);
+
+      const answers = level.quiz.map((_, index) => {
+        const selected = form.querySelector(`input[name="${level.id}-${index}"]:checked`);
+        return selected ? Number(selected.value) : null;
+      });
+
+      const correct = answers.filter((answer, index) => answer === level.quiz[index].answer).length;
+      const score = Math.round((correct / level.quiz.length) * 100);
+      state.academy[level.id] = Math.max(academyBestScore(level.id) ?? 0, score);
+      saveState(state);
+      academyFeedback[level.id] = { score, answers };
+      summarize();
+      renderCopilotAcademy();
+    });
+  });
+};
+
 const renderFinalAssessment = () => {
   document.getElementById("global-assessment").innerHTML = plan.finalAssessment
     .map(
@@ -1896,6 +3214,7 @@ const renderAll = () => {
   summarize();
   renderGoals();
   renderModules();
+  renderCopilotAcademy();
   renderFinalAssessment();
   renderApplicationPlan();
 };
