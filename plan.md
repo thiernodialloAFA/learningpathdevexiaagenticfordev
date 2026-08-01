@@ -145,23 +145,23 @@ pour que les utilisateurs existants conservent leur progression.
 
 ### Phase 2 — Contenu hébergé, comptes et historique
 
-- [ ] API backend + base de données (progression, tentatives, utilisateurs).
-- [ ] Authentification OIDC et synchronisation multi-appareils.
-- [ ] Import de la progression existante depuis l'export local.
-- [ ] Espace auteur : édition de contenu validée par schéma, publication sans redéploiement.
-- [ ] Notation des quiz côté serveur.
+- [x] API backend + stockage (progression, tentatives, utilisateurs) — serveur Node sans dépendance (`server/`), stockage JSON fichier avec écritures atomiques ; montée en charge PostgreSQL documentée comme évolution.
+- [x] Comptes et synchronisation multi-appareils — clés de synchronisation générées (sans mot de passe ni e-mail, hachées scrypt) ; l'OIDC reste la cible de production documentée dans `server/auth.js`.
+- [x] Import de la progression existante depuis l'export local (`POST /api/progress/import` + fusion côté client).
+- [x] Espace auteur : édition de contenu validée par schéma, publication sans redéploiement (overlay de contenu côté serveur).
+- [x] Notation des quiz côté serveur (le contenu servi par l'API ne contient ni réponses ni explications).
 
 ### Phase 3 — Adaptativité et analytique
 
-- [ ] Recommandations adaptatives fondées sur les signaux faibles (scores, temps, récence).
-- [ ] Entretiens simulés (interviewer IA) avec grilles de feedback.
-- [ ] Tableau de bord analytique : confiance, progression, zones à risque.
+- [x] Recommandations adaptatives fondées sur les signaux faibles (scores, tentatives, récence) via `lib/engine.js`.
+- [x] Entretiens simulés avec grilles de feedback — simulateur déterministe (échantillonnage inter-modules + rubrique auto) ; l'interviewer IA optionnel du plan peut s'y brancher ultérieurement.
+- [x] Tableau de bord analytique : score de préparation, composantes, zones à risque, instantanés.
 
 ### Phase 4 — Collaboration et mentorat
 
-- [ ] Revues collaboratives des livrables et capstones.
-- [ ] Workflows de mentorat : assignation, feedback par grille, suivi.
-- [ ] Cohortes / groupes d'étude et comparaison anonymisée.
+- [x] Revues collaboratives des livrables et capstones (soumissions + revues par grille 4 dimensions).
+- [x] Workflows de mentorat : file d'attente mentor, feedback par grille, suivi des statuts.
+- [x] Cohortes / groupes d'étude et comparaison anonymisée (agrégats sans identités).
 
 ---
 
