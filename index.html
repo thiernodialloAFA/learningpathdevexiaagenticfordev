@@ -20,6 +20,7 @@
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="manifest" href="./manifest.webmanifest" />
   </head>
   <body>
     <header class="hero">
@@ -45,6 +46,80 @@
       <section class="panel">
         <h2 data-i18n="goalsTitle">Target outcomes</h2>
         <div id="goals" class="chips"></div>
+      </section>
+
+      <section class="panel" id="dashboard-panel">
+        <details class="accordion section-accordion" data-accordion="section-dashboard">
+          <summary class="accordion__summary">
+            <div class="section-heading accordion__title">
+              <div>
+                <p class="eyebrow" data-i18n="dashboardEyebrow">Analytics</p>
+                <h2 data-i18n="dashboardTitle">Readiness dashboard</h2>
+              </div>
+              <p class="section-copy" data-i18n="dashboardCopy">
+                Interview readiness score, weak-signal recommendations, and mock interviews with rubric feedback.
+              </p>
+            </div>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+            <div id="dashboard" class="dashboard-grid"></div>
+            <div id="interview-area"></div>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel" id="account-panel" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="accountEyebrow">Server mode</p>
+            <h2 data-i18n="accountTitle">Account &amp; sync</h2>
+          </div>
+          <p class="section-copy" data-i18n="accountCopy">
+            Progress is scored server-side and synchronized across devices while you are signed in.
+          </p>
+        </div>
+        <div id="account"></div>
+      </section>
+
+      <section class="panel" id="community-panel" hidden>
+        <details class="accordion section-accordion" data-accordion="section-community">
+          <summary class="accordion__summary">
+            <div class="section-heading accordion__title">
+              <div>
+                <p class="eyebrow" data-i18n="communityEyebrow">Collaboration</p>
+                <h2 data-i18n="communityTitle">Deliverables, mentoring &amp; cohorts</h2>
+              </div>
+              <p class="section-copy" data-i18n="communityCopy">
+                Submit deliverables for rubric review, mentor other learners, and compare anonymously with your cohort.
+              </p>
+            </div>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+            <div id="community"></div>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel" id="author-panel" hidden>
+        <details class="accordion section-accordion" data-accordion="section-author">
+          <summary class="accordion__summary">
+            <div class="section-heading accordion__title">
+              <div>
+                <p class="eyebrow" data-i18n="authorEyebrow">Authoring</p>
+                <h2 data-i18n="authorTitle">Content studio</h2>
+              </div>
+              <p class="section-copy" data-i18n="authorCopy">
+                Edit the versioned content, validate it against the schema, and publish without redeploying.
+              </p>
+            </div>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+            <div id="authoring"></div>
+          </div>
+        </details>
       </section>
 
       <section class="panel">
@@ -132,6 +207,7 @@
       </p>
     </footer>
 
+    <script src="./lib/engine.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

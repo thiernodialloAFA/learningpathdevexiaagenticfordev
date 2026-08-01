@@ -1,0 +1,19 @@
+{
+  "name": "Principal Engineer Learning Path",
+  "short_name": "Learning Path",
+  "description": "A 20-week interview-preparation system for Principal Software Engineer roles: DevEx, engineering excellence, GenAI, and agentic AI.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#09111f",
+  "theme_color": "#09111f",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -480,6 +480,206 @@ details[open] > .accordion__summary .accordion__chevron {
   color: #ffb4a8;
 }
 
+/* Readiness dashboard, recommendations, and mock interviews (Phase 3) */
+
+.dashboard-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.dashboard-card {
+  padding: 20px;
+  background: rgba(18, 29, 49, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.dashboard-card h3 {
+  margin-top: 0;
+}
+
+.readiness-score {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--accent-strong);
+}
+
+.dashboard-empty {
+  color: var(--muted);
+}
+
+.chip--risk {
+  border-color: rgba(255, 212, 121, 0.55);
+  color: var(--warning);
+}
+
+.recommendation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.recommendation-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-soft);
+}
+
+.recommendation-list li div {
+  display: grid;
+  gap: 2px;
+}
+
+.recommendation-list li span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.interview-card {
+  margin-top: 18px;
+  padding: 20px;
+  background: rgba(18, 29, 49, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.rubric-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.rubric-dimension {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-soft);
+  font-size: 0.9rem;
+}
+
+.rubric-dots {
+  color: var(--accent-strong);
+  letter-spacing: 2px;
+}
+
+.snapshot-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.snapshot-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-soft);
+  color: var(--muted);
+}
+
+/* Account, community, and authoring panels (Phases 2 and 4, server mode) */
+
+.account-grid,
+.community-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.account-form {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel-soft);
+  margin-bottom: 14px;
+}
+
+.account-form h3 {
+  margin: 0;
+}
+
+.account-form input,
+.account-form select,
+.account-form textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+
+.account-form label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.sync-key-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  word-break: break-all;
+}
+
+.sync-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sync-status--error {
+  color: var(--danger);
+}
+
+.button--danger {
+  border-color: rgba(255, 155, 155, 0.6);
+  color: var(--danger);
+}
+
+.submission-card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(18, 29, 49, 0.92);
+  margin-bottom: 14px;
+}
+
+.submission-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.author-editor {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  min-height: 280px;
+}
+
 @media (min-width: 920px) {
   .hero {
     grid-template-columns: 2fr 1fr;
@@ -492,5 +692,11 @@ details[open] > .accordion__summary .accordion__chevron {
   .assessment-grid,
   .application-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dashboard-grid,
+  .account-grid,
+  .community-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
