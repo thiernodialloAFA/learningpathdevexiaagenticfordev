@@ -1,0 +1,565 @@
+{
+  "levels": [
+    {
+      "id": "academy-beginner",
+      "icon": "🌱",
+      "rank": "Débutant",
+      "title": "Premiers pas avec Copilot",
+      "focus": "Les trois surfaces de Copilot, les instructions persistantes et les fichiers de prompt réutilisables — les fondations dont chaque développeur a besoin.",
+      "modules": [
+        "100 · Setup & posture",
+        "101 · Instructions personnalisées",
+        "102 · Prompts personnalisés"
+      ],
+      "resources": [
+        {
+          "name": "100 · Setup & posture",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/100-setup-posture.md"
+        },
+        {
+          "name": "101 · Instructions",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/101-instructions.md"
+        },
+        {
+          "name": "102 · Prompts",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/102-prompts.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Dans VS Code, quelle surface de Copilot peut lire votre espace de travail, créer plusieurs fichiers en un tour et proposer un diff global à accepter ou refuser ?",
+          "options": [
+            "La suggestion inline",
+            "Copilot Chat",
+            "Le mode agent",
+            "L'icône Copilot de la barre d'état"
+          ],
+          "answer": 2,
+          "explanation": "La suggestion inline ne voit que le fichier ouvert, le chat répond sans modifier de fichiers, et le mode agent est la surface qui lit l'arborescence et propose des diffs multi-fichiers."
+        },
+        {
+          "prompt": "« Utilise Vitest, jamais Jest » doit s'appliquer à chaque conversation du dépôt. De quoi s'agit-il ?",
+          "options": [
+            "D'un prompt — à répéter dans chaque requête",
+            "D'une instruction persistante, p. ex. dans .github/copilot-instructions.md",
+            "D'un skill déclenché par le routeur sémantique",
+            "D'un réglage de serveur MCP"
+          ],
+          "answer": 1,
+          "explanation": "Un prompt couvre l'intention ponctuelle du jour ; une règle permanente d'équipe se place dans un fichier d'instructions chargé à chaque interaction."
+        },
+        {
+          "prompt": "Quel fichier Copilot Chat et le mode agent chargent-ils automatiquement pour chaque conversation d'un dépôt, sans étape d'activation ?",
+          "options": [
+            ".vscode/copilot.json",
+            ".github/copilot-instructions.md",
+            "README.md",
+            ".agents/instructions.md"
+          ],
+          "answer": 1,
+          "explanation": ".github/copilot-instructions.md à la racine du dépôt est chargé automatiquement — c'est le fichier unique partagé par toute l'équipe."
+        },
+        {
+          "prompt": "Vous voulez des règles TypeScript chargées uniquement quand un fichier .ts est concerné. Que recommande le handbook ?",
+          "options": [
+            "Ajouter les règles au README.md",
+            "Créer .github/instructions/typescript.instructions.md avec un frontmatter applyTo: '**/*.ts'",
+            "Mettre toutes les règles de tous les langages dans copilot-instructions.md",
+            "Renommer le fichier en typescript.prompt.md"
+          ],
+          "answer": 1,
+          "explanation": "Les fichiers d'instructions ciblés de .github/instructions/ utilisent un glob applyTo pour ne se charger que lorsque des fichiers correspondants sont concernés, ce qui garde le contexte global léger."
+        },
+        {
+          "prompt": "Dans un fichier .prompt.md, quel mode choisir pour une commande qui explique du code mais ne doit jamais modifier de fichiers ?",
+          "options": [
+            "agent",
+            "edit",
+            "ask",
+            "chat"
+          ],
+          "answer": 2,
+          "explanation": "ask répond uniquement dans le chat ; edit modifie le fichier ouvert ; agent peut lire, écrire et exécuter des commandes. Utiliser agent partout ajoute latence et appels d'outils inutiles."
+        }
+      ]
+    },
+    {
+      "id": "academy-padawan",
+      "icon": "⚔️",
+      "rank": "Padawan",
+      "title": "Skills, agents et hooks",
+      "focus": "Apprenez des savoir-faire procéduraux à Copilot, créez des agents de conversation personnalisés et automatisez sur les événements de l'agent.",
+      "modules": [
+        "103 · Skills",
+        "104 · Agents (.agent.md)",
+        "105 · Hooks"
+      ],
+      "resources": [
+        {
+          "name": "103 · Skills",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/103-skills.md"
+        },
+        {
+          "name": "104 · Agents",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/104-agents.md"
+        },
+        {
+          "name": "105 · Hooks",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/105-hooks.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Qu'est-ce qui détermine si Copilot charge un skill stocké dans .agents/skills/<nom>/SKILL.md ?",
+          "options": [
+            "Le skill est chargé à chaque conversation, comme une instruction",
+            "Le routeur sémantique compare la description du skill à la requête de l'utilisateur",
+            "L'utilisateur doit taper le nom du skill dans le prompt",
+            "Le skill se charge dès que son dossier est ouvert dans l'éditeur"
+          ],
+          "answer": 1,
+          "explanation": "La description est un déclencheur sémantique, pas de la documentation : le routeur ne charge le skill que si la requête correspond. C'est pourquoi elle doit commencer par « Use when… »."
+        },
+        {
+          "prompt": "Une procédure ne sert que lorsqu'on demande un message de commit, mais une règle de style doit s'appliquer partout. Comment les répartir ?",
+          "options": [
+            "Les deux en skills",
+            "Les deux en instructions",
+            "La procédure de commit en skill, la règle de style en instruction",
+            "La procédure de commit en instruction, la règle de style en skill"
+          ],
+          "answer": 2,
+          "explanation": "Instruction = règle permanente chargée à chaque conversation ; skill = procédure conditionnelle chargée sur déclencheur sémantique. Dupliquer le même contenu dans les deux nourrit Copilot deux fois."
+        },
+        {
+          "prompt": "Comment construire un agent de revue (.agent.md) incapable de modifier des fichiers ou d'exécuter des commandes ?",
+          "options": [
+            "Ajouter « read-only » à sa description",
+            "Définir model: gpt-5-mini",
+            "Omettre editFiles et runInTerminal de sa liste tools",
+            "Définir mode: ask dans le frontmatter"
+          ],
+          "answer": 2,
+          "explanation": "La clé tools est le levier le plus puissant : ce qui n'est pas listé est interdit, donc un agent sans editFiles ni runInTerminal ne peut que lire et discuter."
+        },
+        {
+          "prompt": "L'agent A délègue à l'agent B via runSubagent. Quel contexte B reçoit-il ?",
+          "options": [
+            "Tout l'historique de conversation de A",
+            "B s'exécute isolé avec ses propres outils et modèle — seulement ce que A transmet explicitement",
+            "Tout le contexte de A plus l'espace de travail",
+            "B hérite automatiquement des permissions d'outils de A"
+          ],
+          "answer": 1,
+          "explanation": "Les sous-agents s'exécutent dans des sous-conversations isolées et héritent de leur propre configuration, pas du contexte de l'appelant — l'appelant doit transmettre ce qui compte."
+        },
+        {
+          "prompt": "Quel mécanisme de hook peut bloquer un appel d'outil dangereux avant son exécution ?",
+          "options": [
+            "PostToolUse avec decision: 'block'",
+            "SessionStart avec additionalContext",
+            "PreToolUse retournant permissionDecision: 'deny'",
+            "Stop avec une raison"
+          ],
+          "answer": 2,
+          "explanation": "PreToolUse se déclenche avant l'exécution d'un outil et sa permissionDecision (allow/deny/ask) est le seul mécanisme qui puisse stopper l'appel avant qu'il ne s'exécute. PostToolUse ne fait que réagir après coup."
+        }
+      ]
+    },
+    {
+      "id": "academy-intermediate",
+      "icon": "🛠️",
+      "rank": "Intermédiaire",
+      "title": "Outils et modèles",
+      "focus": "Étendez Copilot avec des serveurs MCP sans compromettre la sécurité, et choisissez le bon modèle pour chaque tâche.",
+      "modules": [
+        "106 · MCP",
+        "107 · Choix de modèles"
+      ],
+      "resources": [
+        {
+          "name": "106 · MCP",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/106-mcp.md"
+        },
+        {
+          "name": "107 · Choix de modèles",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/107-choix-de-modeles.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Pourquoi le handbook dit-il « ne connectez jamais un serveur MCP que vous n'avez pas audité » ?",
+          "options": [
+            "Les serveurs MCP ralentissent les complétions inline",
+            "Un serveur MCP est un processus exécutable qui tourne avec vos permissions — il peut lire des fichiers, exécuter des commandes ou exfiltrer des secrets",
+            "Les serveurs MCP écrasent copilot-instructions.md",
+            "Les serveurs MCP ne fonctionnent qu'avec une seule famille de modèles"
+          ],
+          "answer": 1,
+          "explanation": "Contrairement à un skill (texte seul), un serveur MCP est un vrai processus sur votre machine : il hérite de vos permissions et peut toucher fichiers, réseau et secrets d'environnement."
+        },
+        {
+          "prompt": "Quelle est la méthode recommandée pour fournir un token GitHub à un serveur MCP dans .vscode/mcp.json ?",
+          "options": [
+            "Coder le token en dur dans le bloc env",
+            "Utiliser ${input:github-token} pour que VS Code le demande",
+            "Committer le token dans .env",
+            "Coller le token dans le chat à chaque session"
+          ],
+          "answer": 1,
+          "explanation": "${input:} déclenche une invite VS Code : l'équipe partage la configuration du serveur sans jamais committer d'identifiants."
+        },
+        {
+          "prompt": "Vous gardez 5 serveurs MCP de 10 outils chacun connectés. Quel est le coût caché même sans jamais les utiliser ?",
+          "options": [
+            "Aucun — les outils inutilisés sont gratuits",
+            "50 descriptions d'outils sont injectées dans le prompt système à chaque requête",
+            "Chaque serveur facture à la minute",
+            "VS Code désactive les complétions inline"
+          ],
+          "answer": 1,
+          "explanation": "Chaque serveur connecté ajoute ses descriptions d'outils au contexte de Copilot à chaque tour ; d'où la règle : préférer une CLI existante (gh, az, git) quand elle existe."
+        },
+        {
+          "prompt": "Selon les catégories de tâches GitHub, quels modèles choisir pour le raisonnement profond et le débogage ?",
+          "options": [
+            "Raptor mini et GPT-5 mini",
+            "Claude Haiku 4.5",
+            "GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro ou Goldeneye",
+            "N'importe lequel — ils sont équivalents"
+          ],
+          "answer": 2,
+          "explanation": "Les tâches rapides et répétitives conviennent aux modèles type Haiku et le codage généraliste à GPT-5 mini ou Raptor mini, tandis que le raisonnement profond appelle les modèles premium."
+        },
+        {
+          "prompt": "Pourquoi « un modèle par session » est-elle la règle recommandée ?",
+          "options": [
+            "Changer de modèle est interdit par la licence",
+            "Changer de modèle invalide le préfixe du cache de prompt, produit des résultats incohérents et refacture les tokens plein tarif",
+            "Des modèles différents ne peuvent pas lire les mêmes fichiers",
+            "Les sessions plantent quand on change de modèle"
+          ],
+          "answer": 1,
+          "explanation": "Le cache de prompt réutilise les tokens d'entrée déjà traités ; un changement de modèle en cours de session invalide tout le préfixe mis en cache et gaspille des tokens."
+        }
+      ]
+    },
+    {
+      "id": "academy-confirmed",
+      "icon": "🚀",
+      "rank": "Confirmé",
+      "title": "Composition à l'échelle de l'équipe",
+      "focus": "Packagez, partagez et orchestrez les primitives avec APM, les workflows multi-agents, les plugins et la CLI Copilot.",
+      "modules": [
+        "207 · APM",
+        "208 · Workflows",
+        "209 · Plugins",
+        "210 · Copilot CLI"
+      ],
+      "resources": [
+        {
+          "name": "207 · APM",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/207-apm.md"
+        },
+        {
+          "name": "208 · Workflows",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/208-workflows.md"
+        },
+        {
+          "name": "209 · Plugins",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/209-plugins.md"
+        },
+        {
+          "name": "210 · Copilot CLI",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/210-copilot-cli.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Dans une configuration APM, où vit le SHA de commit exact résolu de chaque dépendance ?",
+          "options": [
+            "Dans apm.yml à côté de chaque dépendance",
+            "Dans apm.lock.yaml (resolved_commit + content_hash), généré automatiquement",
+            "Dans .github/copilot-instructions.md",
+            "Uniquement dans le tag Git"
+          ],
+          "answer": 1,
+          "explanation": "apm.yml déclare les dépendances (épinglables avec #tag) ; le lockfile stocke le commit résolu et le hash de contenu et doit être commité, comme package-lock.json."
+        },
+        {
+          "prompt": "Quelle commande rend les primitives installées par APM visibles pour VS Code / Copilot ?",
+          "options": [
+            "apm audit",
+            "apm run copilot",
+            "apm compile -t copilot",
+            "apm publish"
+          ],
+          "answer": 2,
+          "explanation": "apm compile -t copilot écrit la configuration compilée (p. ex. .github/copilot-instructions.md) pour que Copilot la prenne en compte sans configuration supplémentaire."
+        },
+        {
+          "prompt": "Dans un workflow Outside-In, pourquoi l'orchestrateur doit-il transmettre explicitement la sortie du sous-agent N au sous-agent N+1 ?",
+          "options": [
+            "Pour tenir un journal d'audit",
+            "Parce que les sous-agents s'exécutent dans des conversations isolées et ne voient jamais l'historique des étapes précédentes",
+            "Parce que les sous-agents n'acceptent que du JSON",
+            "Pour éviter de dépasser la limite de débit du modèle"
+          ],
+          "answer": 1,
+          "explanation": "Chaque sous-agent a son propre contexte isolé. L'orchestrateur est le relais : il collecte la sortie de l'étape N et la transmet en entrée de l'étape N+1 — et il ne fait jamais le travail lui-même."
+        },
+        {
+          "prompt": "Qu'est-ce qui définit un plugin Copilot, par rapport à l'installation de primitives individuelles via APM ?",
+          "options": [
+            "Un plugin est un binaire payant d'un store",
+            "Un plugin est un bundle de skills/agents (manifeste .github/plugin/plugin.json) installé en bloc, p. ex. depuis github/awesome-copilot",
+            "Un plugin ne fonctionne que dans les IDE JetBrains",
+            "Un plugin est un autre nom pour un serveur MCP"
+          ],
+          "answer": 1,
+          "explanation": "Les plugins livrent un kit cohérent de primitives sous forme d'un dépôt Git, avec portée user ou project ; APM gère des primitives individuelles par projet. Les deux se complètent."
+        },
+        {
+          "prompt": "Dans le terminal, quelle commande demande à Copilot d'expliquer une commande shell inconnue drapeau par drapeau ?",
+          "options": [
+            "gh copilot suggest -t shell",
+            "gh copilot explain",
+            "gh explain",
+            "copilot --help"
+          ],
+          "answer": 1,
+          "explanation": "gh copilot explain décompose une commande donnée ; gh copilot suggest propose une commande à partir d'une description (avec les types -t shell/gh/git et les alias ghcs/ghce)."
+        }
+      ]
+    },
+    {
+      "id": "academy-expert",
+      "icon": "🧠",
+      "rank": "Expert",
+      "title": "Pipelines, LSP et evals",
+      "focus": "Faites tourner des pipelines multi-agents rigoureux, branchez l'intelligence LSP de niveau compilateur et prouvez la valeur des skills avec des evals binaires et LLM-juge.",
+      "modules": [
+        "211 · Pipeline d'agents",
+        "212 · LSP",
+        "213 · APM vs plugins",
+        "310 · Evals binaires",
+        "315 · Evals LLM-juge"
+      ],
+      "resources": [
+        {
+          "name": "211 · Pipeline d'agents",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/211-pipeline-agents-handbook.md"
+        },
+        {
+          "name": "212 · LSP",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/212-lsp.md"
+        },
+        {
+          "name": "213 · APM vs plugins",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/213-apm-vs-plugins.md"
+        },
+        {
+          "name": "310 · Evals binaires",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/310-evals.md"
+        },
+        {
+          "name": "315 · Evals LLM-juge",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/315-evals-llm-juge.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Dans le pipeline de rédaction du handbook, pourquoi l'agent reviewer doit-il démarrer avec un CONTEXTE FRAIS (sans lire les rounds de review précédents) ?",
+          "options": [
+            "Pour économiser des tokens",
+            "Pour éviter d'hériter des biais du writer et re-vérifier chaque citation dans son vrai contexte source",
+            "Parce que les fichiers de review sont supprimés à chaque round",
+            "Parce que le reviewer utilise un modèle plus petit"
+          ],
+          "answer": 1,
+          "explanation": "Un reviewer en contexte chaud voit les citations dans le cadrage voulu par l'auteur. Contexte frais plus re-téléchargement de chaque URL citée : c'est la seule façon d'obtenir un vrai fact-checking contradictoire."
+        },
+        {
+          "prompt": "La boucle d'alignement writer–reviewer est bornée à 3 rounds. Que se passe-t-il si le round 3 se termine encore en REVISE ?",
+          "options": [
+            "Le chapitre est auto-publié",
+            "La boucle repart de zéro",
+            "Un checkpoint humain : le pipeline s'arrête et demande à un humain de décider",
+            "L'orchestrateur réécrit lui-même le chapitre"
+          ],
+          "answer": 2,
+          "explanation": "Toute boucle d'agents doit avoir une sortie humaine déterministe — une boucle non bornée est un agent qui s'auto-justifie indéfiniment."
+        },
+        {
+          "prompt": "Quel est le principal bénéfice de configurer des serveurs LSP pour Copilot CLI (.github/lsp.json) ?",
+          "options": [
+            "Cela active la coloration syntaxique dans le terminal",
+            "Des opérations de niveau compilateur comme find-references renvoient des résultats structurés compacts au lieu de charger des fichiers entiers dans le contexte",
+            "Cela remplace Git",
+            "Cela fait fonctionner Copilot hors ligne"
+          ],
+          "answer": 1,
+          "explanation": "LSP donne à Copilot une navigation de code précise (définitions, références, symboles) avec des résultats économes en tokens, et la CLI utilise automatiquement les serveurs configurés."
+        },
+        {
+          "prompt": "Quelle partie d'un skill installé est chargée dans le contexte à CHAQUE tour, même si le skill ne se déclenche jamais ?",
+          "options": [
+            "Tout le corps du SKILL.md",
+            "Rien tant qu'il ne se déclenche pas",
+            "Le frontmatter name + description (environ 35–300 tokens par skill)",
+            "Seulement le nom du dossier"
+          ],
+          "answer": 2,
+          "explanation": "Les descriptions sont toujours chargées pour que le routeur puisse les évaluer ; les corps se chargent à la demande. C'est pourquoi symlinker partout un dépôt de skills multi-stacks détruit le bénéfice du contexte ciblé."
+        },
+        {
+          "prompt": "Vous exécutez vos fixtures d'eval with_skill (9/10) et without_skill (8/10). Que conclut le handbook ?",
+          "options": [
+            "On publie — 9/10 est un super score",
+            "Le delta de +10 % est sous la barre des ~30 % : le skill ne justifie probablement pas sa place dans le contexte",
+            "Ajouter des assertions jusqu'à ce que le delta grossisse",
+            "Réécrire les fixtures pour faire échouer without_skill"
+          ],
+          "answer": 1,
+          "explanation": "Le delta with/without est la seule preuve objective de la valeur d'un skill. Un skill qui améliore de moins de ~30 % — ou un score without_skill déjà ≥ 80 % — est probablement inutile."
+        },
+        {
+          "prompt": "Dans les comparaisons pairwise en LLM-juge, comment neutraliser le biais de position ?",
+          "options": [
+            "Toujours mettre la réponse candidate en premier",
+            "Utiliser une rubrique plus longue",
+            "Appeler le juge deux fois en inversant l'ordre et ne déclarer un gagnant que si les deux appels concordent",
+            "Augmenter la température"
+          ],
+          "answer": 2,
+          "explanation": "Les juges favorisent la première réponse. Le protocole du double appel inversé (plus un juge d'une autre famille de modèles et une calibration sur golden set) rend les verdicts fiables."
+        }
+      ]
+    },
+    {
+      "id": "academy-master",
+      "icon": "🏆",
+      "rank": "Maître",
+      "title": "Maîtrise de l'ingénierie de contexte",
+      "focus": "Sobriété de tokens, outillage de réduction mécanique, boucles d'autoresearch et orchestration de modèles consciente du cache.",
+      "modules": [
+        "311 · Tokens & contexte",
+        "312 · Patterns de sobriété",
+        "313 · Outils de réduction",
+        "314 · Autoresearch",
+        "316 · Déplacer le contexte entre modèles",
+        "317 · Orchestrer des subagents",
+        "318 · Mesurer & optimiser sa consommation"
+      ],
+      "resources": [
+        {
+          "name": "311 · Tokens & contexte",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/311-tokens-contexte.md"
+        },
+        {
+          "name": "312 · Patterns de sobriété",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/312-patterns-sobriete.md"
+        },
+        {
+          "name": "313 · Outils de réduction",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/313-outils-reduction.md"
+        },
+        {
+          "name": "314 · Autoresearch",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/314-autoresearch.md"
+        },
+        {
+          "name": "316 · Déplacer le contexte",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/316-deplacer-contexte-modeles.md"
+        },
+        {
+          "name": "317 · Subagents",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/317-orchestrer-subagents.md"
+        },
+        {
+          "name": "318 · Mesurer sa consommation",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/318-mesurer-optimiser-consommation.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Pourquoi la qualité se dégrade-t-elle même sur des modèles à très grande fenêtre de contexte ?",
+          "options": [
+            "Les longs contextes sont tronqués silencieusement",
+            "Dilution du signal : le modèle prête attention à chaque token, donc plus de bruit signifie moins de focus sur l'essentiel",
+            "Les grandes fenêtres désactivent le cache de prompt",
+            "Les tokens au-delà de 100k sont gratuits mais ignorés"
+          ],
+          "answer": 1,
+          "explanation": "La dilution du signal est le plus insidieux des quatre coûts (coût, latence, saturation, dilution) : la qualité baisse quand le ratio signal/bruit baisse, quelle que soit la taille de la fenêtre."
+        },
+        {
+          "prompt": "Quelle pratique de structuration du code réduit le plus le contexte que Copilot doit charger ?",
+          "options": [
+            "Fusionner les services liés dans un gros fichier pour moins de lectures",
+            "SRP et noms métier : un fichier = une intention, p. ex. calculateShippingCost(order, policy): Money",
+            "Des fichiers de 5 lignes maximum",
+            "Des commentaires détaillés à chaque ligne"
+          ],
+          "answer": 1,
+          "explanation": "Le langage omniprésent et SOLID rendent le code auto-descriptif : seul le fichier pertinent est chargé ; la sur-fragmentation (fichiers de 5 lignes) ajoute du bruit de navigation — visez ~30–80 lignes."
+        },
+        {
+          "prompt": "Qu'est-ce qui distingue un sous-agent de synthèse réellement utile d'un faux ?",
+          "options": [
+            "Il utilise un modèle premium",
+            "Il lit 3 fichiers (~4000 tokens) et renvoie une conclusion d'environ 200 tokens au lieu de copier-coller les fichiers bruts",
+            "Il renvoie toujours du JSON",
+            "Il s'exécute en moins de 10 ms"
+          ],
+          "answer": 1,
+          "explanation": "Un sous-agent qui colle 500 lignes brutes déplace le coût au lieu de le réduire. SNIP/RTK et ast-grep/rg/jq appliquent le même principe mécaniquement (jusqu'à ~90–99 % d'économies)."
+        },
+        {
+          "prompt": "Dans une boucle d'autoresearch, combien de changements chaque expérience doit-elle apporter au SKILL.md ?",
+          "options": [
+            "Le plus possible pour converger plus vite",
+            "Exactement une mutation, puis re-exécution et KEEP ou DISCARD",
+            "Un par fixture d'eval",
+            "Aucun — seules les fixtures changent"
+          ],
+          "answer": 1,
+          "explanation": "Une mutation à la fois est la seule façon de savoir ce qui a aidé. Arrêt à 95 %+ de réussite sur 3 expériences consécutives — 70–85 % étant le plafond réaliste de la plupart des skills."
+        },
+        {
+          "prompt": "Vous avez planifié avec un modèle de raisonnement profond et voulez implémenter avec un modèle plus léger. Quand le transfert Markdown (plan.md + nouvelle session) vaut-il mieux que le fork de conversation ?",
+          "options": [
+            "Quand l'implémentation a besoin de chaque détail du raisonnement de planification",
+            "Quand le plan se résume proprement dans un document : la nouvelle session démarre avec un contexte minimal sans bruit",
+            "Quand on veut garder le préfixe de cache chaud",
+            "Jamais — le fork est toujours meilleur"
+          ],
+          "answer": 1,
+          "explanation": "Le fork hérite de tout le contexte, bruit de planification compris ; un transfert plan.md démarre une session propre où seule la spec compte (au prix d'un cache froid)."
+        },
+        {
+          "prompt": "Dans le pattern Route & Assemble, sur quel niveau de modèle l'orchestrateur lui-même doit-il tourner ?",
+          "options": [
+            "Le niveau premium de raisonnement — il prend les décisions les plus dures",
+            "Le niveau léger (p. ex. Haiku 4.5 / Gemini Flash) car il ne fait que router et assembler, sans raisonner profondément ni écrire de code",
+            "Le même niveau que l'implémenteur",
+            "Peu importe"
+          ],
+          "answer": 1,
+          "explanation": "La valeur de l'orchestrateur est le routage : les sous-agents planificateurs reçoivent les modèles de raisonnement profond, les implémenteurs les modèles d'ingénierie courante, et le contexte de chaque sous-agent est jeté après usage."
+        },
+        {
+          "prompt": "Quelle action ne casse PAS le cache de prompt pendant une longue session ?",
+          "options": [
+            "Modifier un message antérieur",
+            "Réinsérer un gros bloc en haut de la conversation",
+            "Ajouter le nouveau contexte à la fin de la conversation",
+            "Changer de modèle en cours de session"
+          ],
+          "answer": 2,
+          "explanation": "Le cache réutilise le préfixe stable (système + outils + messages antérieurs). Ajouter à la fin le préserve — c'est ainsi qu'on atteint ~88 % de cache hit dans les Agent Debug Logs."
+        }
+      ]
+    }
+  ]
+}

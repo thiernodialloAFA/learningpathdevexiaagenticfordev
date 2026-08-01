@@ -1,0 +1,565 @@
+{
+  "levels": [
+    {
+      "id": "academy-beginner",
+      "icon": "🌱",
+      "rank": "Beginner",
+      "title": "First steps with Copilot",
+      "focus": "The three Copilot surfaces, persistent instructions, and reusable prompt files — the foundations every developer needs.",
+      "modules": [
+        "100 · Setup & posture",
+        "101 · Custom instructions",
+        "102 · Custom prompts"
+      ],
+      "resources": [
+        {
+          "name": "100 · Setup & posture",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/100-setup-posture.md"
+        },
+        {
+          "name": "101 · Instructions",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/101-instructions.md"
+        },
+        {
+          "name": "102 · Prompts",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/102-prompts.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "In VS Code, which Copilot surface can read your workspace, create several files in one turn, and propose a global diff you accept or reject?",
+          "options": [
+            "Inline suggestion",
+            "Copilot Chat",
+            "Agent mode",
+            "The Copilot status bar icon"
+          ],
+          "answer": 2,
+          "explanation": "Inline suggestion only sees the open file, chat answers without modifying files, and agent mode is the surface that reads the file tree and proposes multi-file diffs."
+        },
+        {
+          "prompt": "\"Use Vitest, never Jest\" must apply to every conversation in your repo. What is it?",
+          "options": [
+            "A prompt — restate it in each request",
+            "A persistent instruction, e.g. in .github/copilot-instructions.md",
+            "A skill triggered by the semantic router",
+            "An MCP server setting"
+          ],
+          "answer": 1,
+          "explanation": "A prompt covers today's one-shot intent; a permanent team rule belongs in an instruction file that is loaded at every interaction."
+        },
+        {
+          "prompt": "Which file do Copilot Chat and agent mode load automatically for every conversation in a repository, with no activation step?",
+          "options": [
+            ".vscode/copilot.json",
+            ".github/copilot-instructions.md",
+            "README.md",
+            ".agents/instructions.md"
+          ],
+          "answer": 1,
+          "explanation": ".github/copilot-instructions.md at the repo root is loaded automatically — it is the single file the whole team shares."
+        },
+        {
+          "prompt": "You want TypeScript-only rules that load only when a .ts file is in scope. What does the handbook recommend?",
+          "options": [
+            "Add the rules to README.md",
+            "Create .github/instructions/typescript.instructions.md with an applyTo: '**/*.ts' frontmatter",
+            "Put every language's rules in one big copilot-instructions.md",
+            "Rename the file to typescript.prompt.md"
+          ],
+          "answer": 1,
+          "explanation": "Scoped instruction files in .github/instructions/ use an applyTo glob so they only load when matching files are in scope, keeping global context lean."
+        },
+        {
+          "prompt": "In a .prompt.md file, which mode should you pick for a command that explains code but must never modify files?",
+          "options": [
+            "agent",
+            "edit",
+            "ask",
+            "chat"
+          ],
+          "answer": 2,
+          "explanation": "ask responds in chat only; edit modifies the open file; agent can read, write, and run commands. Using agent for everything adds latency and unnecessary tool calls."
+        }
+      ]
+    },
+    {
+      "id": "academy-padawan",
+      "icon": "⚔️",
+      "rank": "Padawan",
+      "title": "Skills, agents, and hooks",
+      "focus": "Teach Copilot procedural know-how, build custom conversation agents, and automate on agent events.",
+      "modules": [
+        "103 · Skills",
+        "104 · Agents (.agent.md)",
+        "105 · Hooks"
+      ],
+      "resources": [
+        {
+          "name": "103 · Skills",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/103-skills.md"
+        },
+        {
+          "name": "104 · Agents",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/104-agents.md"
+        },
+        {
+          "name": "105 · Hooks",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/105-hooks.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "What determines whether Copilot loads a skill stored in .agents/skills/<name>/SKILL.md?",
+          "options": [
+            "The skill is loaded in every conversation, like an instruction",
+            "The semantic router matches the skill's description against the user's request",
+            "The user must type the skill name in the prompt",
+            "The skill loads whenever its folder is open in the editor"
+          ],
+          "answer": 1,
+          "explanation": "The description is a semantic trigger, not documentation: the router loads the skill only when the request matches it. That is why it should start with 'Use when…'."
+        },
+        {
+          "prompt": "A procedure is only needed when someone asks for a commit message, but a style rule must apply everywhere. How do you split them?",
+          "options": [
+            "Both as skills",
+            "Both as instructions",
+            "Commit procedure as a skill, style rule as an instruction",
+            "Commit procedure as an instruction, style rule as a skill"
+          ],
+          "answer": 2,
+          "explanation": "Instruction = permanent rule loaded in every conversation; skill = conditional procedure loaded on semantic trigger. Duplicating the same content in both feeds Copilot twice."
+        },
+        {
+          "prompt": "How do you build a review-only agent (.agent.md) that cannot modify files or run commands?",
+          "options": [
+            "Add 'read-only' to its description",
+            "Set model: gpt-5-mini",
+            "Omit editFiles and runInTerminal from its tools list",
+            "Set mode: ask in the frontmatter"
+          ],
+          "answer": 2,
+          "explanation": "The tools key is the strongest lever: anything not listed is forbidden, so an agent without editFiles and runInTerminal can only read and discuss."
+        },
+        {
+          "prompt": "Agent A delegates to agent B with runSubagent. What context does B receive?",
+          "options": [
+            "A's full conversation history",
+            "B runs isolated with its own tools and model — only what A explicitly passes",
+            "Everything in A's context window plus the workspace",
+            "B shares A's tool permissions automatically"
+          ],
+          "answer": 1,
+          "explanation": "Sub-agents run in isolated sub-conversations and inherit their own frontmatter configuration, not the caller's context — the caller must pass what matters."
+        },
+        {
+          "prompt": "Which hook mechanism can block a dangerous tool call before it executes?",
+          "options": [
+            "PostToolUse with decision: 'block'",
+            "SessionStart with additionalContext",
+            "PreToolUse returning permissionDecision: 'deny'",
+            "Stop with a reason"
+          ],
+          "answer": 2,
+          "explanation": "PreToolUse fires before a tool executes and its permissionDecision (allow/deny/ask) is the only mechanism that can stop the call before it runs. PostToolUse only reacts afterwards."
+        }
+      ]
+    },
+    {
+      "id": "academy-intermediate",
+      "icon": "🛠️",
+      "rank": "Intermediate",
+      "title": "Tools and models",
+      "focus": "Extend Copilot with MCP servers without compromising security, and pick the right model for each task.",
+      "modules": [
+        "106 · MCP",
+        "107 · Model choice"
+      ],
+      "resources": [
+        {
+          "name": "106 · MCP",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/106-mcp.md"
+        },
+        {
+          "name": "107 · Model choice",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/107-choix-de-modeles.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Why does the handbook say \"never connect an MCP server you haven't audited\"?",
+          "options": [
+            "MCP servers slow down inline completions",
+            "An MCP server is an executable process running with your permissions — it can read files, run commands, or exfiltrate secrets",
+            "MCP servers overwrite copilot-instructions.md",
+            "MCP servers only work with one model family"
+          ],
+          "answer": 1,
+          "explanation": "Unlike a skill (text only), an MCP server is a real process on your machine, so it inherits your permissions and can touch files, networks, and environment secrets."
+        },
+        {
+          "prompt": "What is the recommended way to give an MCP server a GitHub token in .vscode/mcp.json?",
+          "options": [
+            "Hard-code the token in the env block",
+            "Use ${input:github-token} so VS Code prompts for it",
+            "Commit the token in .env",
+            "Paste the token in the chat once per session"
+          ],
+          "answer": 1,
+          "explanation": "${input:} triggers a VS Code prompt so the team can share the server configuration without ever committing credentials."
+        },
+        {
+          "prompt": "You keep 5 MCP servers with 10 tools each connected. What is the hidden cost even when you never use them?",
+          "options": [
+            "Nothing — unused tools are free",
+            "50 tool descriptions are injected into the system prompt on every request",
+            "Each server charges a per-minute fee",
+            "VS Code disables inline completions"
+          ],
+          "answer": 1,
+          "explanation": "Every connected server adds its tool descriptions to Copilot's context each turn, which is why the handbook recommends preferring an existing CLI (gh, az, git) when one exists."
+        },
+        {
+          "prompt": "According to the GitHub task categories, which models should you pick for deep reasoning and debugging?",
+          "options": [
+            "Raptor mini and GPT-5 mini",
+            "Claude Haiku 4.5",
+            "GPT-5.5, Claude Opus 4.7, Gemini 3.1 Pro, or Goldeneye",
+            "Any model — they are equivalent"
+          ],
+          "answer": 2,
+          "explanation": "Fast repetitive tasks suit Haiku-class models and general coding suits GPT-5 mini or Raptor mini, while deep reasoning and debugging calls for premium reasoning models."
+        },
+        {
+          "prompt": "Why is \"one model per session\" the recommended rule?",
+          "options": [
+            "Model switching is not allowed by license",
+            "Switching invalidates the prompt cache prefix, producing inconsistent results and re-billing tokens at full price",
+            "Different models cannot read the same files",
+            "Sessions crash when models change"
+          ],
+          "answer": 1,
+          "explanation": "The prompt cache reuses already-processed input tokens; a mid-session model switch invalidates the whole cached prefix and wastes tokens."
+        }
+      ]
+    },
+    {
+      "id": "academy-confirmed",
+      "icon": "🚀",
+      "rank": "Confirmed",
+      "title": "Composition at team scale",
+      "focus": "Package, share, and orchestrate primitives with APM, multi-agent workflows, plugins, and the Copilot CLI.",
+      "modules": [
+        "207 · APM",
+        "208 · Workflows",
+        "209 · Plugins",
+        "210 · Copilot CLI"
+      ],
+      "resources": [
+        {
+          "name": "207 · APM",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/207-apm.md"
+        },
+        {
+          "name": "208 · Workflows",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/208-workflows.md"
+        },
+        {
+          "name": "209 · Plugins",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/209-plugins.md"
+        },
+        {
+          "name": "210 · Copilot CLI",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/210-copilot-cli.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "In an APM setup, where does the exact resolved commit SHA of each dependency live?",
+          "options": [
+            "In apm.yml next to each dependency",
+            "In apm.lock.yaml (resolved_commit + content_hash), generated automatically",
+            "In .github/copilot-instructions.md",
+            "Only in the Git tag"
+          ],
+          "answer": 1,
+          "explanation": "apm.yml declares dependencies (optionally pinned with #tag); the lockfile stores the resolved commit and content hash and should be committed, like package-lock.json."
+        },
+        {
+          "prompt": "Which command makes APM-installed primitives visible to VS Code / Copilot?",
+          "options": [
+            "apm audit",
+            "apm run copilot",
+            "apm compile -t copilot",
+            "apm publish"
+          ],
+          "answer": 2,
+          "explanation": "apm compile -t copilot writes the compiled configuration (e.g. .github/copilot-instructions.md) so Copilot picks it up with zero extra config."
+        },
+        {
+          "prompt": "In an Outside-In workflow, why must the orchestrator explicitly pass sub-agent N's output to sub-agent N+1?",
+          "options": [
+            "To keep an audit log",
+            "Because sub-agents run in isolated conversations and never see previous steps' history",
+            "Because sub-agents only accept JSON",
+            "To avoid exceeding the model's rate limit"
+          ],
+          "answer": 1,
+          "explanation": "Each sub-agent has its own isolated context. The orchestrator is the relay: it collects step N's output and transmits it as input to step N+1 — and it never does the work itself."
+        },
+        {
+          "prompt": "What defines a Copilot plugin, compared with installing individual primitives via APM?",
+          "options": [
+            "A plugin is a paid binary from a store",
+            "A plugin is a bundle of skills/agents (manifest .github/plugin/plugin.json) installed as a block, e.g. from github/awesome-copilot",
+            "A plugin only works in JetBrains IDEs",
+            "A plugin is another name for an MCP server"
+          ],
+          "answer": 1,
+          "explanation": "Plugins deliver a coherent kit of primitives as one Git repo, with user or project scope; APM manages individual primitives per project. They complement each other."
+        },
+        {
+          "prompt": "In the terminal, which command asks Copilot to explain an unfamiliar shell command flag by flag?",
+          "options": [
+            "gh copilot suggest -t shell",
+            "gh copilot explain",
+            "gh explain",
+            "copilot --help"
+          ],
+          "answer": 1,
+          "explanation": "gh copilot explain breaks down a given command; gh copilot suggest proposes a command from a description (with -t shell/gh/git types and the ghcs/ghce aliases)."
+        }
+      ]
+    },
+    {
+      "id": "academy-expert",
+      "icon": "🧠",
+      "rank": "Expert",
+      "title": "Pipelines, LSP, and evals",
+      "focus": "Run rigorous multi-agent pipelines, wire compiler-grade LSP intelligence, and prove skill value with binary and LLM-judge evals.",
+      "modules": [
+        "211 · Agent pipeline",
+        "212 · LSP",
+        "213 · APM vs plugins",
+        "310 · Binary evals",
+        "315 · LLM-judge evals"
+      ],
+      "resources": [
+        {
+          "name": "211 · Agent pipeline",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/211-pipeline-agents-handbook.md"
+        },
+        {
+          "name": "212 · LSP",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/212-lsp.md"
+        },
+        {
+          "name": "213 · APM vs plugins",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/213-apm-vs-plugins.md"
+        },
+        {
+          "name": "310 · Binary evals",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/310-evals.md"
+        },
+        {
+          "name": "315 · LLM-judge evals",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/315-evals-llm-juge.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "In the handbook's writing pipeline, why must the reviewer agent start with FRESH CONTEXT (never reading previous review rounds)?",
+          "options": [
+            "To save tokens",
+            "To avoid inheriting the writer's biases and to re-verify every citation in its real source context",
+            "Because review files are deleted after each round",
+            "Because the reviewer uses a smaller model"
+          ],
+          "answer": 1,
+          "explanation": "A warm-context reviewer sees quotes in the author's intended framing. Fresh context plus re-fetching every cited URL is the only way to get genuine adversarial fact-checking."
+        },
+        {
+          "prompt": "The writer–reviewer alignment loop is bounded at 3 rounds. What happens if round 3 still ends in REVISE?",
+          "options": [
+            "The chapter is auto-published",
+            "The loop restarts from zero",
+            "A human checkpoint: the pipeline stops and asks a human to decide",
+            "The orchestrator rewrites the chapter itself"
+          ],
+          "answer": 2,
+          "explanation": "Every agent loop must have a deterministic human exit — an unbounded loop is an agent that self-justifies indefinitely."
+        },
+        {
+          "prompt": "What is the main benefit of configuring LSP servers for Copilot CLI (.github/lsp.json)?",
+          "options": [
+            "It enables syntax highlighting in the terminal",
+            "Compiler-grade operations like find-references return compact structured results instead of loading whole files into context",
+            "It replaces the need for Git",
+            "It makes Copilot work offline"
+          ],
+          "answer": 1,
+          "explanation": "LSP gives Copilot precise code navigation (definitions, references, symbols) with token-efficient results, and the CLI uses configured servers automatically."
+        },
+        {
+          "prompt": "Which part of an installed skill is loaded into context at EVERY turn, even when the skill never triggers?",
+          "options": [
+            "The full SKILL.md body",
+            "Nothing until it triggers",
+            "The name + description frontmatter (roughly 35–300 tokens per skill)",
+            "Only the folder name"
+          ],
+          "answer": 2,
+          "explanation": "Descriptions are always loaded so the router can match them; bodies load on demand. That is why symlinking a whole multi-stack skill repo everywhere destroys the targeted-context benefit."
+        },
+        {
+          "prompt": "You run your eval fixtures with_skill (9/10) and without_skill (8/10). What does the handbook conclude?",
+          "options": [
+            "Ship it — 9/10 is a great score",
+            "The +10% delta is below the ~30% bar: the skill probably doesn't justify its place in context",
+            "Add more assertions until the delta grows",
+            "Rewrite the fixtures so without_skill fails"
+          ],
+          "answer": 1,
+          "explanation": "The with/without delta is the only objective proof of a skill's value. A skill improving results by less than ~30% — or a without_skill score already ≥80% — is probably unnecessary."
+        },
+        {
+          "prompt": "In pairwise LLM-judge comparisons, how do you neutralize position bias?",
+          "options": [
+            "Always put the candidate answer first",
+            "Use a longer rubric",
+            "Call the judge twice with the order inverted and only declare a winner if both calls agree",
+            "Raise the temperature"
+          ],
+          "answer": 2,
+          "explanation": "Judges favor the first answer. The double-call-with-inversion protocol (plus a judge from a different model family and calibration on a golden set) makes verdicts trustworthy."
+        }
+      ]
+    },
+    {
+      "id": "academy-master",
+      "icon": "🏆",
+      "rank": "Master",
+      "title": "Context engineering mastery",
+      "focus": "Token sobriety, mechanical reduction tooling, autoresearch loops, and cache-aware model orchestration.",
+      "modules": [
+        "311 · Tokens & context",
+        "312 · Sobriety patterns",
+        "313 · Reduction tools",
+        "314 · Autoresearch",
+        "316 · Moving context between models",
+        "317 · Orchestrating subagents",
+        "318 · Measuring consumption"
+      ],
+      "resources": [
+        {
+          "name": "311 · Tokens & context",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/311-tokens-contexte.md"
+        },
+        {
+          "name": "312 · Sobriety patterns",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/312-patterns-sobriete.md"
+        },
+        {
+          "name": "313 · Reduction tools",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/313-outils-reduction.md"
+        },
+        {
+          "name": "314 · Autoresearch",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/314-autoresearch.md"
+        },
+        {
+          "name": "316 · Moving context",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/316-deplacer-contexte-modeles.md"
+        },
+        {
+          "name": "317 · Subagents",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/317-orchestrer-subagents.md"
+        },
+        {
+          "name": "318 · Measuring usage",
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/318-mesurer-optimiser-consommation.md"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Why does output quality degrade even on models with huge context windows?",
+          "options": [
+            "Long contexts are truncated silently",
+            "Signal dilution: the model attends to every token, so more noise means less focus on what matters",
+            "Big windows disable the prompt cache",
+            "Tokens beyond 100k are free but ignored"
+          ],
+          "answer": 1,
+          "explanation": "Signal dilution is the most insidious of the four costs (cost, latency, saturation, dilution): quality drops as the signal-to-noise ratio drops, regardless of window size."
+        },
+        {
+          "prompt": "Which code-structuring practice most reduces the context Copilot needs to load?",
+          "options": [
+            "Merging related services into one big file for fewer reads",
+            "SRP with domain-driven names: one file = one intent, e.g. calculateShippingCost(order, policy): Money",
+            "Files of at most 5 lines",
+            "Adding detailed comments on every line"
+          ],
+          "answer": 1,
+          "explanation": "Ubiquitous language and SOLID make the code self-describing so only the relevant file gets loaded; over-fragmentation (5-line files) adds navigation noise — target ~30–80 lines."
+        },
+        {
+          "prompt": "What distinguishes a genuinely useful synthesis sub-agent from a fake one?",
+          "options": [
+            "It uses a premium model",
+            "It reads 3 files (~4000 tokens) and returns a ~200-token conclusion instead of copy-pasting raw file contents",
+            "It always returns JSON",
+            "It runs in under 10 ms"
+          ],
+          "answer": 1,
+          "explanation": "A sub-agent that pastes 500 raw lines shifts cost instead of reducing it. SNIP/RTK and ast-grep/rg/jq apply the same principle mechanically (up to ~90–99% savings)."
+        },
+        {
+          "prompt": "In an autoresearch loop, how many changes should each experiment make to SKILL.md?",
+          "options": [
+            "As many as possible to converge faster",
+            "Exactly one mutation, then re-run and KEEP or DISCARD",
+            "One per eval fixture",
+            "None — only the fixtures change"
+          ],
+          "answer": 1,
+          "explanation": "One mutation at a time is the only way to know what helped. Stop at a 95%+ pass rate on 3 consecutive experiments — with 70–85% being the realistic ceiling for most skills."
+        },
+        {
+          "prompt": "You planned with a deep-reasoning model and now want a lighter model to implement. When is the Markdown transfer (plan.md + new session) better than forking the conversation?",
+          "options": [
+            "When the implementation needs every detail of the planning reasoning",
+            "When the plan is cleanly summarizable in a document, so the new session starts with minimal, noise-free context",
+            "When you want to keep the warm cache prefix",
+            "Never — forking is always better"
+          ],
+          "answer": 1,
+          "explanation": "Fork inherits full context including planning noise; a plan.md transfer starts a clean session where only the spec matters (at the price of a cold cache)."
+        },
+        {
+          "prompt": "In the Route & Assemble subagent pattern, which model tier should the orchestrator itself run on?",
+          "options": [
+            "The premium reasoning tier — it makes the hardest decisions",
+            "The lightweight tier (e.g. Haiku 4.5 / Gemini Flash) because it only routes and assembles, never reasons deeply or writes code",
+            "The same tier as the implementer",
+            "It doesn't matter"
+          ],
+          "answer": 1,
+          "explanation": "The orchestrator's value is routing: planner sub-agents get deep-reasoning models, implementers get everyday engineering models, and each sub-agent's context is discarded after completion."
+        },
+        {
+          "prompt": "Which action does NOT break the prompt cache during a long session?",
+          "options": [
+            "Editing an earlier message",
+            "Reinserting a large block at the top of the conversation",
+            "Appending new context at the end of the conversation",
+            "Switching models mid-session"
+          ],
+          "answer": 2,
+          "explanation": "The cache reuses the stable prefix (system + tools + earlier messages). Adding to the end preserves it — that is how sessions reach ~88% cache hit rates in Agent Debug Logs."
+        }
+      ]
+    }
+  ]
+}
