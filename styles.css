@@ -458,6 +458,10 @@ details[open] > .accordion__summary .accordion__chevron {
   margin-top: 16px;
 }
 
+.section-accordion .accordion__summary .section-heading {
+  margin-bottom: 0;
+}
+
 .footer {
   max-width: 1240px;
   margin: 0 auto;
