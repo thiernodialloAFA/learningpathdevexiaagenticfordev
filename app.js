@@ -1,11 +1,13 @@
 const plan = {
-  duration: "16 weeks",
+  duration: "20 weeks",
   targetRole: "Principal Software Engineer — DevEx, Engineering Excellence, GenAI / Agentic AI",
   readinessTarget: "Interview-ready with strong architecture, strategy, delivery, and assessment discipline",
   goals: [
     "Become current on GenAI for software development and coding agents",
     "Develop strong practical judgment for agentic systems, evals, and security",
+    "Operate AI systems in production with LLMOps, cost, and reliability discipline",
     "Sharpen Principal-level DevEx and engineering excellence thinking",
+    "Lead through influence, mentorship, and organizational design",
     "Practice difficult knowledge checks and scenario-driven decision making",
     "Finish with a final assessment portfolio you can use in interviews"
   ],
@@ -28,7 +30,9 @@ const plan = {
       resources: [
         { name: "OpenAI developer guides", url: "https://platform.openai.com/docs/guides" },
         { name: "Anthropic documentation", url: "https://docs.anthropic.com/" },
-        { name: "Microsoft Learn: Generative AI", url: "https://learn.microsoft.com/en-us/ai/playbook/technology-guidance/generative-ai/" }
+        { name: "Microsoft Learn: Generative AI", url: "https://learn.microsoft.com/en-us/ai/playbook/technology-guidance/generative-ai/" },
+        { name: "Andrej Karpathy: Intro to LLMs", url: "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
+        { name: "Prompt Engineering Guide", url: "https://www.promptingguide.ai/" }
       ],
       quiz: [
         {
@@ -87,7 +91,9 @@ const plan = {
       resources: [
         { name: "Anthropic: Building effective agents", url: "https://www.anthropic.com/engineering/building-effective-agents" },
         { name: "Model Context Protocol introduction", url: "https://modelcontextprotocol.io/introduction" },
-        { name: "LangChain overview", url: "https://python.langchain.com/docs/introduction/" }
+        { name: "LangChain overview", url: "https://python.langchain.com/docs/introduction/" },
+        { name: "OpenAI: A practical guide to building agents", url: "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf" },
+        { name: "ReAct: Reasoning and acting in LLMs", url: "https://arxiv.org/abs/2210.03629" }
       ],
       quiz: [
         {
@@ -146,7 +152,9 @@ const plan = {
       resources: [
         { name: "OpenAI guides", url: "https://platform.openai.com/docs/guides" },
         { name: "LlamaIndex documentation", url: "https://docs.llamaindex.ai/" },
-        { name: "Google Cloud: 2025 DORA report announcement", url: "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report" }
+        { name: "Google Cloud: 2025 DORA report announcement", url: "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report" },
+        { name: "Hamel Husain: Your AI product needs evals", url: "https://hamel.dev/blog/posts/evals/" },
+        { name: "OpenAI Evals framework", url: "https://github.com/openai/evals" }
       ],
       quiz: [
         {
@@ -204,8 +212,10 @@ const plan = {
       ],
       resources: [
         { name: "OWASP GenAI Security Project", url: "https://genai.owasp.org/" },
-        { name: "OWASP GenAI resources", url: "https://genai.owasp.org/resources/" },
-        { name: "Model Context Protocol specification", url: "https://modelcontextprotocol.io/specification/2025-06-18" }
+        { name: "OWASP Top 10 for LLM Applications", url: "https://genai.owasp.org/llm-top-10/" },
+        { name: "Model Context Protocol specification", url: "https://modelcontextprotocol.io/specification/2025-06-18" },
+        { name: "NIST AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
+        { name: "Simon Willison on prompt injection", url: "https://simonwillison.net/series/prompt-injection/" }
       ],
       quiz: [
         {
@@ -247,8 +257,69 @@ const plan = {
       ]
     },
     {
-      id: "devex-platform",
+      id: "llmops-cost",
       weeks: "Weeks 9-10",
+      title: "LLMOps, production operations, and cost engineering",
+      objective:
+        "Learn to run GenAI systems in production: deployment patterns, model lifecycle, observability for LLM apps, latency engineering, capacity planning, and cost control at scale.",
+      outcomes: [
+        "Design deployment, versioning, and rollback strategies for models and prompts",
+        "Instrument LLM applications with traces, quality signals, and cost telemetry",
+        "Apply caching, routing, batching, and model-tiering to control latency and spend"
+      ],
+      deliverables: [
+        "An operations runbook for an LLM-powered service covering rollout, monitoring, and incident response",
+        "A cost model comparing model tiers, caching strategies, and routing policies for a target workload"
+      ],
+      resources: [
+        { name: "OpenAI: production best practices", url: "https://platform.openai.com/docs/guides/production-best-practices" },
+        { name: "Chip Huyen: AI engineering blog", url: "https://huyenchip.com/blog/" },
+        { name: "OpenTelemetry: GenAI semantic conventions", url: "https://opentelemetry.io/docs/specs/semconv/gen-ai/" },
+        { name: "Anthropic: prompt caching", url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" },
+        { name: "Databricks: The big book of MLOps", url: "https://www.databricks.com/resources/ebook/the-big-book-of-mlops" }
+      ],
+      quiz: [
+        {
+          prompt: "A production coding assistant sees p95 latency spikes and rising spend. Which lever usually delivers the largest immediate win without hurting quality?",
+          options: [
+            "Switch every request to the largest available model",
+            "Add prompt and response caching plus routing simple requests to a smaller model",
+            "Remove observability instrumentation to reduce overhead",
+            "Increase the context window on all requests"
+          ],
+          answer: 1,
+          explanation:
+            "Caching and model-tier routing cut both latency and cost for the high-volume simple cases while preserving the strong model for hard requests."
+        },
+        {
+          prompt: "Why should prompts and model versions be treated like code artifacts in production systems?",
+          options: [
+            "Because prompts compress better than code",
+            "Because behavior changes silently otherwise, making regressions impossible to trace, review, or roll back",
+            "Because model providers require it",
+            "Because it eliminates the need for evals"
+          ],
+          answer: 1,
+          explanation:
+            "Versioned prompts and pinned models make behavior changes reviewable, testable, and reversible — the same discipline applied to code releases."
+        },
+        {
+          prompt: "Which signal set gives the strongest production picture of an LLM feature's health?",
+          options: [
+            "Token counts alone",
+            "Uptime of the model provider",
+            "Latency, cost per request, quality evals on sampled traffic, and user feedback loops together",
+            "Number of deployed prompt variants"
+          ],
+          answer: 2,
+          explanation:
+            "LLM operations require combining classic SLO signals with sampled quality evaluation and feedback, because a fast, cheap, wrong answer is still a failure."
+        }
+      ]
+    },
+    {
+      id: "devex-platform",
+      weeks: "Weeks 11-12",
       title: "Developer Experience and platform engineering",
       objective:
         "Build strong product thinking around internal platforms, self-service systems, developer journeys, and measurable productivity improvement.",
@@ -264,7 +335,10 @@ const plan = {
       resources: [
         { name: "DORA insights", url: "https://dora.dev/insights/" },
         { name: "Platform Engineering", url: "https://platformengineering.org/" },
-        { name: "Puppet: State of platform engineering 2026", url: "https://www.puppet.com/resources/2026-state-of-platform-engineering" }
+        { name: "Puppet: State of platform engineering 2026", url: "https://www.puppet.com/resources/2026-state-of-platform-engineering" },
+        { name: "The SPACE of developer productivity", url: "https://queue.acm.org/detail.cfm?id=3454124" },
+        { name: "DevEx: what actually drives productivity", url: "https://queue.acm.org/detail.cfm?id=3595878" },
+        { name: "Backstage developer portal", url: "https://backstage.io/docs/overview/what-is-backstage/" }
       ],
       quiz: [
         {
@@ -307,7 +381,7 @@ const plan = {
     },
     {
       id: "excellence-reliability",
-      weeks: "Weeks 11-12",
+      weeks: "Weeks 13-14",
       title: "Engineering excellence, reliability, and operational maturity",
       objective:
         "Strengthen Principal-level knowledge in testing strategy, observability, release engineering, SRE, incident handling, and quality economics.",
@@ -323,7 +397,9 @@ const plan = {
       resources: [
         { name: "Google SRE book", url: "https://sre.google/sre-book/table-of-contents/" },
         { name: "OpenTelemetry documentation", url: "https://opentelemetry.io/docs/" },
-        { name: "Thoughtworks Technology Radar", url: "https://www.thoughtworks.com/radar" }
+        { name: "Thoughtworks Technology Radar", url: "https://www.thoughtworks.com/radar" },
+        { name: "Software Engineering at Google (free book)", url: "https://abseil.io/resources/swe-book" },
+        { name: "Google testing blog", url: "https://testing.googleblog.com/" }
       ],
       quiz: [
         {
@@ -366,7 +442,7 @@ const plan = {
     },
     {
       id: "principal-systems",
-      weeks: "Weeks 13-14",
+      weeks: "Weeks 15-16",
       title: "Principal-level architecture, influence, and strategy",
       objective:
         "Prepare to lead with architecture, decision frameworks, roadmaps, and cross-functional influence rather than only implementation depth.",
@@ -382,7 +458,9 @@ const plan = {
       resources: [
         { name: "DORA capabilities", url: "https://dora.dev/capabilities/" },
         { name: "Team Topologies", url: "https://teamtopologies.com/" },
-        { name: "Google Cloud architecture center", url: "https://cloud.google.com/architecture" }
+        { name: "Google Cloud architecture center", url: "https://cloud.google.com/architecture" },
+        { name: "Architecture decision records", url: "https://adr.github.io/" },
+        { name: "C4 model for architecture diagrams", url: "https://c4model.com/" }
       ],
       quiz: [
         {
@@ -424,8 +502,69 @@ const plan = {
       ]
     },
     {
+      id: "leadership-influence",
+      weeks: "Weeks 17-18",
+      title: "Technical leadership, mentorship, and organizational influence",
+      objective:
+        "Master the people dimension of the Principal role: staff-plus archetypes, leading without authority, mentorship and sponsorship, technical writing, and driving change across organizational boundaries.",
+      outcomes: [
+        "Choose the right staff-plus operating mode for a given organizational context",
+        "Build alignment across teams through writing, sponsorship, and coalition building",
+        "Scale your impact through mentoring, delegation, and growing other senior engineers"
+      ],
+      deliverables: [
+        "A written technical vision or strategy memo for an engineering organization",
+        "A mentorship and sponsorship plan identifying engineers to grow and concrete actions"
+      ],
+      resources: [
+        { name: "StaffEng: stories and guides for staff-plus engineers", url: "https://staffeng.com/" },
+        { name: "LeadDev: staff-plus engineering", url: "https://leaddev.com/staffplus" },
+        { name: "Will Larson: Staff engineer archetypes", url: "https://staffeng.com/guides/staff-archetypes/" },
+        { name: "The Pragmatic Engineer blog", url: "https://blog.pragmaticengineer.com/" },
+        { name: "Camille Fournier's blog", url: "https://skamille.medium.com/" }
+      ],
+      quiz: [
+        {
+          prompt: "You disagree with a direction chosen by another team that affects your platform. What is the strongest Principal-level first move?",
+          options: [
+            "Escalate immediately to their director",
+            "Publicly document why their choice is wrong",
+            "Understand their constraints directly, then work toward a shared decision with explicit tradeoffs",
+            "Build a competing solution to prove your point"
+          ],
+          answer: 2,
+          explanation:
+            "Principal influence starts from understanding context and constraints, then aligning through tradeoff-driven discussion — escalation is a later resort, not a first move."
+        },
+        {
+          prompt: "What most reliably scales a Principal engineer's impact beyond their own output?",
+          options: [
+            "Reviewing every significant pull request personally",
+            "Growing other engineers through mentorship, clear standards, and delegated ownership",
+            "Attending every architecture meeting",
+            "Owning all critical-path code"
+          ],
+          answer: 1,
+          explanation:
+            "At Principal scope, leverage comes from multiplying others — mentorship, standards, and delegation outperform personal throughput."
+        },
+        {
+          prompt: "Why is written communication disproportionately important at staff-plus levels?",
+          options: [
+            "Because meetings are always inefficient",
+            "Because durable, asynchronous artifacts align large groups, survive personnel changes, and scale decisions beyond rooms you are in",
+            "Because executives refuse verbal briefings",
+            "Because documents replace the need for relationships"
+          ],
+          answer: 1,
+          explanation:
+            "Writing scales influence: RFCs, strategy memos, and decision records reach people and time horizons that conversations cannot."
+        }
+      ]
+    },
+    {
       id: "interview-readiness",
-      weeks: "Weeks 15-16",
+      weeks: "Weeks 19-20",
       title: "Interview readiness and communication drills",
       objective:
         "Turn knowledge into repeatable interview performance across system design, leadership stories, technical strategy, and AI product judgment.",
@@ -441,7 +580,9 @@ const plan = {
       resources: [
         { name: "OpenAI guides", url: "https://platform.openai.com/docs/guides" },
         { name: "Anthropic docs", url: "https://docs.anthropic.com/" },
-        { name: "Thoughtworks Technology Radar", url: "https://www.thoughtworks.com/radar" }
+        { name: "Thoughtworks Technology Radar", url: "https://www.thoughtworks.com/radar" },
+        { name: "System design primer", url: "https://github.com/donnemartin/system-design-primer" },
+        { name: "Tech Interview Handbook", url: "https://www.techinterviewhandbook.org/" }
       ],
       quiz: [
         {
@@ -625,6 +766,7 @@ const summarize = () => {
   const averageScore = scoreValues.length
     ? Math.round(scoreValues.reduce((sum, value) => sum + value, 0) / scoreValues.length)
     : 0;
+  const completionPercent = Math.round((completedCount / plan.modules.length) * 100);
 
   document.getElementById("overview").innerHTML = `
     <div class="stat">
@@ -638,6 +780,9 @@ const summarize = () => {
     <div class="stat">
       <strong>Module completion</strong>
       <span>${completedCount} / ${plan.modules.length}</span>
+      <div class="progress-track" role="progressbar" aria-valuenow="${completionPercent}" aria-valuemin="0" aria-valuemax="100" aria-label="Module completion">
+        <div class="progress-fill" style="width: ${completionPercent}%"></div>
+      </div>
     </div>
     <div class="stat">
       <strong>Average quiz score</strong>
@@ -647,7 +792,61 @@ const summarize = () => {
       <strong>Readiness target</strong>
       <span>${plan.readinessTarget}</span>
     </div>
+    <div class="progress-tools">
+      <button type="button" class="button--ghost" id="export-progress">Export progress</button>
+      <button type="button" class="button--ghost" id="import-progress">Import progress</button>
+      <button type="button" class="button--ghost" id="reset-progress">Reset progress</button>
+    </div>
   `;
+
+  document.getElementById("export-progress").addEventListener("click", exportProgress);
+  document.getElementById("import-progress").addEventListener("click", importProgress);
+  document.getElementById("reset-progress").addEventListener("click", resetProgress);
+};
+
+const exportProgress = () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "learning-path-progress.json";
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+const importProgress = () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json";
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const imported = JSON.parse(reader.result);
+        if (!imported || typeof imported !== "object") throw new Error("Invalid file");
+        state.completed = imported.completed && typeof imported.completed === "object" ? imported.completed : {};
+        state.scores = imported.scores && typeof imported.scores === "object" ? imported.scores : {};
+        saveState(state);
+        summarize();
+        renderModules();
+      } catch (error) {
+        alert("Could not import progress: the file is not a valid progress export.");
+      }
+    };
+    reader.readAsText(file);
+  });
+  input.click();
+};
+
+const resetProgress = () => {
+  if (!confirm("Reset all quiz scores and completion status?")) return;
+  state.completed = {};
+  state.scores = {};
+  saveState(state);
+  summarize();
+  renderModules();
 };
 
 const renderGoals = () => {
@@ -742,7 +941,9 @@ const renderModules = () => {
       state.scores[module.id] = score;
       saveState(state);
       summarize();
-      renderModules();
+
+      const badge = form.closest(".quiz").querySelector(".badge");
+      badge.textContent = `Latest score: ${score}%`;
 
       const resultElement = document.getElementById(`result-${module.id}`);
       resultElement.className = `result ${score >= 80 ? "result--good" : "result--bad"}`;
@@ -769,7 +970,6 @@ const renderModules = () => {
       state.completed[event.target.dataset.complete] = event.target.checked;
       saveState(state);
       summarize();
-      renderModules();
     });
   });
 };
