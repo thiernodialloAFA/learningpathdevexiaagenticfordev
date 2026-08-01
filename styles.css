@@ -470,6 +470,16 @@ details[open] > .accordion__summary .accordion__chevron {
   font-size: 0.9rem;
 }
 
+.content-load-error {
+  margin: 20px auto;
+  max-width: 1080px;
+  padding: 14px 20px;
+  border: 1px solid #b3564d;
+  border-radius: 10px;
+  background: rgba(179, 86, 77, 0.15);
+  color: #ffb4a8;
+}
+
 @media (min-width: 920px) {
   .hero {
     grid-template-columns: 2fr 1fr;

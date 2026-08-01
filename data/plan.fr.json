@@ -1,0 +1,858 @@
+{
+  "duration": "20 semaines",
+  "targetRole": "Ingénieur logiciel principal — DevEx, excellence en ingénierie, GenAI / IA agentique",
+  "readinessTarget": "Prêt pour les entretiens avec une solide discipline d'architecture, de stratégie, de livraison et d'évaluation",
+  "goals": [
+    "Se mettre à jour sur la GenAI pour le développement logiciel et les agents de codage",
+    "Développer un solide jugement pratique sur les systèmes agentiques, les évaluations et la sécurité",
+    "Exploiter des systèmes d'IA en production avec une discipline LLMOps, de coûts et de fiabilité",
+    "Affûter une pensée DevEx et excellence en ingénierie de niveau Principal",
+    "Diriger par l'influence, le mentorat et le design organisationnel",
+    "S'exercer à des contrôles de connaissances difficiles et à la décision par scénarios",
+    "Terminer avec un portfolio d'évaluation finale utilisable en entretien"
+  ],
+  "modules": [
+    {
+      "id": "foundations",
+      "weeks": "Semaines 1-2",
+      "title": "Fondamentaux des LLM et de la GenAI pour développeurs",
+      "objective": "Construire un modèle mental solide des systèmes LLM modernes, des compromis d'inférence, des mécanismes de prompting, des embeddings, des limites du fine-tuning et des contraintes de production.",
+      "outcomes": [
+        "Expliquer où s'insèrent le prompting, la récupération, l'usage d'outils et le fine-tuning",
+        "Raisonner sur la latence, les fenêtres de contexte, l'ancrage, le risque d'hallucination et les coûts",
+        "Traduire les capacités des modèles en choix d'architecture logicielle"
+      ],
+      "deliverables": [
+        "Une note d'architecture d'une page comparant les conceptions prompt seul, RAG et usage d'outils",
+        "Un tableau de compromis latence, qualité et coût pour trois choix de modèles"
+      ],
+      "resources": [
+        {
+          "name": "OpenAI developer guides",
+          "url": "https://platform.openai.com/docs/guides"
+        },
+        {
+          "name": "Anthropic documentation",
+          "url": "https://docs.anthropic.com/"
+        },
+        {
+          "name": "Microsoft Learn: Generative AI",
+          "url": "https://learn.microsoft.com/en-us/ai/playbook/technology-guidance/generative-ai/"
+        },
+        {
+          "name": "Andrej Karpathy: Intro to LLMs",
+          "url": "https://www.youtube.com/watch?v=zjkBMFhNj_g"
+        },
+        {
+          "name": "Prompt Engineering Guide",
+          "url": "https://www.promptingguide.ai/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Vous avez besoin d'un comportement déterministe pour un assistant de migration de code avec des besoins de contexte modérés. Quel changement de conception apporte généralement la plus grande amélioration de qualité avant le fine-tuning ?",
+          "options": [
+            "Augmenter la température pour que le modèle explore plus d'options",
+            "Ajouter de la récupération, des exemples canoniques et des contraintes de sortie explicites",
+            "Passer immédiatement à un modèle d'embeddings plus grand",
+            "Supprimer les instructions système pour réduire la longueur du prompt"
+          ],
+          "answer": 1,
+          "explanation": "Pour la plupart des outils développeurs, l'ancrage et des contraintes claires améliorent la fiabilité plus vite que le fine-tuning. La température augmente l'exploration, pas le déterminisme."
+        },
+        {
+          "prompt": "Quelle affirmation décrit le mieux la frontière entre RAG et fine-tuning ?",
+          "options": [
+            "Le RAG modifie les poids du modèle, tandis que le fine-tuning modifie les gabarits de prompt",
+            "Le RAG fournit du contexte externe à l'exécution, tandis que le fine-tuning modifie le comportement du modèle par l'entraînement",
+            "Ils sont fonctionnellement identiques pour les assistants de codage",
+            "Le fine-tuning est préférable dès que les documents changent fréquemment"
+          ],
+          "answer": 1,
+          "explanation": "Le RAG est un ancrage à l'exécution ; le fine-tuning met à jour le comportement du modèle. Une connaissance qui change souvent favorise généralement la récupération."
+        },
+        {
+          "prompt": "Quelle est la meilleure raison d'éviter de résumer le code source trop tôt dans un pipeline d'assistant de codage ?",
+          "options": [
+            "Les résumés réduisent toujours l'usage de tokens mais cassent le cache",
+            "Un résumé précoce peut supprimer les détails exacts nécessaires à un raisonnement correct sur le code",
+            "Les résumés rendent les embeddings impossibles",
+            "Les résumés empêchent l'appel de fonctions"
+          ],
+          "answer": 1,
+          "explanation": "Le travail de codage agentique dépend souvent de la préservation des signatures exactes, des sites d'appel et des cas limites qui peuvent être perdus par un résumé prématuré."
+        }
+      ]
+    },
+    {
+      "id": "agentic-systems",
+      "weeks": "Semaines 3-4",
+      "title": "Ingénierie des agents et systèmes utilisant des outils",
+      "objective": "Comprendre les patterns mono-agent et multi-agents, la mémoire, la planification, le routage d'outils, l'orchestration et les modes de défaillance dans les workflows de développement logiciel.",
+      "outcomes": [
+        "Choisir l'architecture d'agent viable la plus simple pour une tâche donnée",
+        "Expliquer quand les boucles, planificateurs, critiques ou la décomposition multi-agents se justifient",
+        "Identifier les risques d'usage incontrôlé d'outils, de dérive de contexte et d'autonomie non bornée"
+      ],
+      "deliverables": [
+        "Un document de conception pour un agent d'analyse de dépôt avec autonomie bornée",
+        "Un catalogue des modes de défaillance pour les erreurs d'outils, la mémoire obsolète et les actions dangereuses"
+      ],
+      "resources": [
+        {
+          "name": "Anthropic: Building effective agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        },
+        {
+          "name": "Model Context Protocol introduction",
+          "url": "https://modelcontextprotocol.io/introduction"
+        },
+        {
+          "name": "LangChain overview",
+          "url": "https://python.langchain.com/docs/introduction/"
+        },
+        {
+          "name": "OpenAI: A practical guide to building agents",
+          "url": "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf"
+        },
+        {
+          "name": "ReAct: Reasoning and acting in LLMs",
+          "url": "https://arxiv.org/abs/2210.03629"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Quand une architecture multi-agents est-elle généralement justifiée ?",
+          "options": [
+            "Chaque fois que l'équipe veut une architecture moderne",
+            "Quand des sous-problèmes indépendants nécessitent des outils différents ou un contexte isolé de longue durée",
+            "Chaque fois que la latence est la priorité absolue",
+            "Uniquement avec MCP"
+          ],
+          "answer": 1,
+          "explanation": "Les conceptions multi-agents sont pertinentes quand la décomposition apporte une vraie valeur, pas comme choix par défaut."
+        },
+        {
+          "prompt": "Quelle est la meilleure protection contre un agent exécutant une séquence d'actions d'outils dangereuse ?",
+          "options": [
+            "Augmenter la limite de tokens pour que l'agent raisonne plus longtemps",
+            "Autoriser un accès shell libre mais ajouter plus d'avertissements dans le prompt",
+            "Restreindre les permissions des outils, exiger des points de contrôle explicites et réviser les actions critiques",
+            "Stocker plus de mémoire à long terme"
+          ],
+          "answer": 2,
+          "explanation": "La sécurité vient des permissions, de l'exécution bornée, des points de contrôle et des actions révisables, plus que du prompting seul."
+        },
+        {
+          "prompt": "Quel signal suggère le plus fortement que votre boucle de planification est sur-conçue ?",
+          "options": [
+            "L'agent résout la tâche en une passe avec un appel d'outil direct",
+            "L'agent a toujours besoin d'une base vectorielle",
+            "Le système utilise des sorties JSON",
+            "L'interface affiche les étapes de raisonnement"
+          ],
+          "answer": 0,
+          "explanation": "Si un chemin direct fonctionne de manière fiable, ajouter des planificateurs et des critiques augmente généralement le coût et la complexité sans améliorer les résultats."
+        }
+      ]
+    },
+    {
+      "id": "retrieval-evals",
+      "weeks": "Semaines 5-6",
+      "title": "Récupération, ancrage et systèmes d'évaluation",
+      "objective": "Concevoir des workflows de récupération et d'évaluation à haut signal pour les outils développeurs internes, les systèmes de connaissances et les assistants de support.",
+      "outcomes": [
+        "Définir des évaluations hors ligne et en ligne reflétant de vraies tâches d'ingénierie",
+        "Concevoir des stratégies de récupération qui préservent la confiance et la provenance",
+        "Utiliser des taxonomies d'échec plutôt que de simples scores agrégés"
+      ],
+      "deliverables": [
+        "Un jeu de données de référence de 25 questions d'ingénierie avec les sources de preuve attendues",
+        "Une grille d'évaluation pour l'exactitude, la qualité des citations, la latence et la qualité des refus"
+      ],
+      "resources": [
+        {
+          "name": "OpenAI guides",
+          "url": "https://platform.openai.com/docs/guides"
+        },
+        {
+          "name": "LlamaIndex documentation",
+          "url": "https://docs.llamaindex.ai/"
+        },
+        {
+          "name": "Google Cloud: 2025 DORA report announcement",
+          "url": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report"
+        },
+        {
+          "name": "Hamel Husain: Your AI product needs evals",
+          "url": "https://hamel.dev/blog/posts/evals/"
+        },
+        {
+          "name": "OpenAI Evals framework",
+          "url": "https://github.com/openai/evals"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Quelle paire de métriques est la plus dangereuse à optimiser isolément pour un assistant RAG ?",
+          "options": [
+            "Latence et profondeur de récupération",
+            "Longueur des réponses et usage de tokens",
+            "Score moyen de benchmark et confiance des utilisateurs",
+            "Précision@k et taux d'hallucination"
+          ],
+          "answer": 2,
+          "explanation": "Les scores moyennés peuvent masquer des échecs de confiance catastrophiques. Une évaluation de niveau Principal doit préserver la visibilité des échecs, pas l'aplatir."
+        },
+        {
+          "prompt": "Pourquoi préserver les citations ou traces de sources dans un assistant d'ingénierie interne ?",
+          "options": [
+            "Pour réduire le coût du modèle",
+            "Pour permettre à l'utilisateur de valider la réponse et d'accélérer une investigation plus poussée",
+            "Parce que les citations empêchent automatiquement les hallucinations",
+            "Parce que les embeddings l'exigent"
+          ],
+          "answer": 1,
+          "explanation": "La visibilité des sources est essentielle pour la confiance, le débogage et l'adoption, même si elle n'élimine pas automatiquement les hallucinations."
+        },
+        {
+          "prompt": "Quelle est la meilleure raison de créer des jeux d'évaluation spécifiques aux tâches plutôt que de se fier uniquement aux benchmarks publics ?",
+          "options": [
+            "Les benchmarks publics sont toujours obsolètes",
+            "Les workflows internes ont des exigences de risque, de contexte et de qualité différentes",
+            "Les évaluations spécifiques aux tâches n'ont pas besoin d'étiquettes",
+            "Elles rendent les expérimentations en ligne inutiles"
+          ],
+          "answer": 1,
+          "explanation": "Les outils développeurs réussissent ou échouent sur des workflows, attentes et contraintes locaux que les benchmarks génériques capturent rarement."
+        }
+      ]
+    },
+    {
+      "id": "security-governance",
+      "weeks": "Semaines 7-8",
+      "title": "Sécurité GenAI, gouvernance et livraison responsable",
+      "objective": "Se préparer à discuter d'injection de prompt, de fuite de données, d'autorisation, d'auditabilité, de gouvernance des modèles et de patterns de déploiement sécurisés pour les produits d'IA.",
+      "outcomes": [
+        "Identifier les modes de défaillance courants de sécurité des LLM et systèmes agentiques",
+        "Concevoir des frontières de politique pour les outils, la mémoire et les données sensibles",
+        "Intégrer la sécurité et la conformité dans la livraison au lieu de les traiter comme une revue tardive"
+      ],
+      "deliverables": [
+        "Un modèle de menaces pour un assistant de codage interne",
+        "Une checklist sécurisée par défaut pour les prompts, les politiques d'outils et la journalisation"
+      ],
+      "resources": [
+        {
+          "name": "OWASP GenAI Security Project",
+          "url": "https://genai.owasp.org/"
+        },
+        {
+          "name": "OWASP Top 10 for LLM Applications",
+          "url": "https://genai.owasp.org/llm-top-10/"
+        },
+        {
+          "name": "Model Context Protocol specification",
+          "url": "https://modelcontextprotocol.io/specification/2025-06-18"
+        },
+        {
+          "name": "NIST AI Risk Management Framework",
+          "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+        },
+        {
+          "name": "Simon Willison on prompt injection",
+          "url": "https://simonwillison.net/series/prompt-injection/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Un assistant de dépôt lit du markdown non fiable provenant d'une pull request puis appelle des outils de déploiement. Quel est le risque principal ?",
+          "options": [
+            "Surapprentissage du modèle",
+            "Injection de prompt franchissant une frontière de confiance vers des actions privilégiées",
+            "Incompatibilité de dimension des embeddings",
+            "Sous-utilisation des tokens"
+          ],
+          "answer": 1,
+          "explanation": "Le vrai danger est qu'un contenu non fiable influence un comportement privilégié via les outils ou les instructions."
+        },
+        {
+          "prompt": "Quelle mitigation est la plus solide par défaut pour des agents utilisant des outils avec accès à des systèmes sensibles ?",
+          "options": [
+            "Utiliser un échantillonnage top-p plus élevé",
+            "Séparer les outils en lecture seule et en écriture, et exiger des approbations explicites pour les effets de bord",
+            "Stocker définitivement tous les prompts utilisateurs pour le débogage",
+            "Laisser l'agent auto-approuver ses relances"
+          ],
+          "answer": 1,
+          "explanation": "La séparation des permissions et les portes d'approbation explicites réduisent le rayon d'impact de l'injection de prompt, du mauvais routage et des actions hallucinées."
+        },
+        {
+          "prompt": "Pourquoi l'auditabilité est-elle particulièrement importante pour les workflows développeurs augmentés par l'IA ?",
+          "options": [
+            "Parce qu'elle réduit le coût de calcul",
+            "Parce qu'elle permet de reconstituer les décisions, preuves et actions lors d'incidents ou de revues de politique",
+            "Parce qu'elle empêche la dérive du modèle",
+            "Parce qu'elle remplace la revue de code"
+          ],
+          "answer": 1,
+          "explanation": "La gouvernance de niveau Principal exige la traçabilité des actions, décisions et preuves, surtout quand l'automatisation touche des systèmes de production."
+        }
+      ]
+    },
+    {
+      "id": "llmops-cost",
+      "weeks": "Semaines 9-10",
+      "title": "LLMOps, opérations en production et ingénierie des coûts",
+      "objective": "Apprendre à exploiter des systèmes GenAI en production : patterns de déploiement, cycle de vie des modèles, observabilité des applications LLM, ingénierie de la latence, planification de capacité et maîtrise des coûts à l'échelle.",
+      "outcomes": [
+        "Concevoir des stratégies de déploiement, de versionnage et de rollback pour les modèles et les prompts",
+        "Instrumenter les applications LLM avec des traces, des signaux de qualité et une télémétrie des coûts",
+        "Appliquer le cache, le routage, le batching et la hiérarchisation de modèles pour maîtriser latence et dépenses"
+      ],
+      "deliverables": [
+        "Un runbook d'exploitation pour un service propulsé par LLM couvrant déploiement, supervision et réponse aux incidents",
+        "Un modèle de coûts comparant niveaux de modèles, stratégies de cache et politiques de routage pour une charge cible"
+      ],
+      "resources": [
+        {
+          "name": "OpenAI: production best practices",
+          "url": "https://platform.openai.com/docs/guides/production-best-practices"
+        },
+        {
+          "name": "Chip Huyen: AI engineering blog",
+          "url": "https://huyenchip.com/blog/"
+        },
+        {
+          "name": "OpenTelemetry: GenAI semantic conventions",
+          "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/"
+        },
+        {
+          "name": "Anthropic: prompt caching",
+          "url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching"
+        },
+        {
+          "name": "Databricks: The big book of MLOps",
+          "url": "https://www.databricks.com/resources/ebook/the-big-book-of-mlops"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Un assistant de codage en production subit des pics de latence p95 et des dépenses croissantes. Quel levier apporte généralement le plus grand gain immédiat sans nuire à la qualité ?",
+          "options": [
+            "Basculer chaque requête vers le plus grand modèle disponible",
+            "Ajouter un cache de prompts et de réponses et router les requêtes simples vers un modèle plus petit",
+            "Supprimer l'instrumentation d'observabilité pour réduire la surcharge",
+            "Augmenter la fenêtre de contexte sur toutes les requêtes"
+          ],
+          "answer": 1,
+          "explanation": "Le cache et le routage par niveau de modèle réduisent à la fois la latence et le coût pour les cas simples à fort volume, tout en réservant le modèle puissant aux requêtes difficiles."
+        },
+        {
+          "prompt": "Pourquoi les prompts et versions de modèles doivent-ils être traités comme des artefacts de code en production ?",
+          "options": [
+            "Parce que les prompts se compressent mieux que le code",
+            "Parce que sinon le comportement change silencieusement, rendant les régressions impossibles à tracer, réviser ou annuler",
+            "Parce que les fournisseurs de modèles l'exigent",
+            "Parce que cela élimine le besoin d'évaluations"
+          ],
+          "answer": 1,
+          "explanation": "Des prompts versionnés et des modèles épinglés rendent les changements de comportement révisables, testables et réversibles — la même discipline que pour les releases de code."
+        },
+        {
+          "prompt": "Quel ensemble de signaux donne la vision la plus solide de la santé d'une fonctionnalité LLM en production ?",
+          "options": [
+            "Le nombre de tokens seul",
+            "La disponibilité du fournisseur de modèle",
+            "Latence, coût par requête, évaluations de qualité sur trafic échantillonné et boucles de retour utilisateurs ensemble",
+            "Le nombre de variantes de prompts déployées"
+          ],
+          "answer": 2,
+          "explanation": "L'exploitation des LLM exige de combiner les signaux SLO classiques avec l'évaluation de qualité échantillonnée et le feedback, car une réponse rapide, bon marché et fausse reste un échec."
+        }
+      ]
+    },
+    {
+      "id": "devex-platform",
+      "weeks": "Semaines 11-12",
+      "title": "Developer Experience et ingénierie de plateforme",
+      "objective": "Développer une solide pensée produit autour des plateformes internes, des systèmes en libre-service, des parcours développeurs et de l'amélioration mesurable de la productivité.",
+      "outcomes": [
+        "Relier le travail DevEx à des résultats métier et d'ingénierie mesurables",
+        "Utiliser DORA, SPACE et des signaux qualitatifs sans abus de métriques",
+        "Concevoir les plateformes internes comme des produits plutôt que des surfaces de contrôle"
+      ],
+      "deliverables": [
+        "Un tableau de bord DevEx pour une organisation d'ingénierie",
+        "Un brief produit pour une capacité de plateforme interne avec des métriques d'adoption"
+      ],
+      "resources": [
+        {
+          "name": "DORA insights",
+          "url": "https://dora.dev/insights/"
+        },
+        {
+          "name": "Platform Engineering",
+          "url": "https://platformengineering.org/"
+        },
+        {
+          "name": "Puppet: State of platform engineering 2026",
+          "url": "https://www.puppet.com/resources/2026-state-of-platform-engineering"
+        },
+        {
+          "name": "The SPACE of developer productivity",
+          "url": "https://queue.acm.org/detail.cfm?id=3454124"
+        },
+        {
+          "name": "DevEx: what actually drives productivity",
+          "url": "https://queue.acm.org/detail.cfm?id=3595878"
+        },
+        {
+          "name": "Backstage developer portal",
+          "url": "https://backstage.io/docs/overview/what-is-backstage/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Quel est le mode d'échec le plus courant quand les équipes adoptent les métriques DORA pour le travail DevEx ?",
+          "options": [
+            "Elles collectent trop de feedback qualitatif",
+            "Elles utilisent les métriques comme cibles d'optimisation locale sans comprendre le contexte ni les compromis",
+            "Elles refusent de comparer les équipes",
+            "Elles se concentrent trop sur l'apprentissage des incidents"
+          ],
+          "answer": 1,
+          "explanation": "Les métriques deviennent nuisibles quand elles servent de tableau de scores plutôt que de signaux liés aux résultats des développeurs et de la livraison."
+        },
+        {
+          "prompt": "Qu'est-ce qui démontre le mieux un état d'esprit produit en ingénierie de plateforme ?",
+          "options": [
+            "Imposer l'usage des outils sans boucles de feedback",
+            "Optimiser uniquement pour la standardisation",
+            "Traiter les ingénieurs internes comme des clients, mesurer l'adoption et itérer sur les frictions",
+            "Construire plus de templates que les équipes n'en demandent"
+          ],
+          "answer": 2,
+          "explanation": "Les plateformes internes réussissent quand elles réduisent la friction et gagnent la confiance par une itération et des preuves dignes d'un produit."
+        },
+        {
+          "prompt": "Quelle combinaison donne la compréhension DevEx la plus solide ?",
+          "options": [
+            "Uniquement les données d'enquêtes",
+            "Uniquement les métriques de déploiement",
+            "Métriques de livraison, feedback qualitatif, traces de workflows et contexte métier",
+            "Uniquement le nombre de tickets"
+          ],
+          "answer": 2,
+          "explanation": "L'expérience développeur est multidimensionnelle et nécessite des signaux quantitatifs et qualitatifs ensemble."
+        }
+      ]
+    },
+    {
+      "id": "excellence-reliability",
+      "weeks": "Semaines 13-14",
+      "title": "Excellence en ingénierie, fiabilité et maturité opérationnelle",
+      "objective": "Renforcer les connaissances de niveau Principal en stratégie de test, observabilité, ingénierie de release, SRE, gestion d'incidents et économie de la qualité.",
+      "outcomes": [
+        "Définir des stratégies de qualité en couches : tests unitaires, d'intégration, de bout en bout et contrôles en production",
+        "Relier la conception de l'observabilité à un diagnostic plus rapide et à des changements plus sûrs",
+        "Aborder les incidents comme des systèmes d'apprentissage plutôt que des exercices de blâme"
+      ],
+      "deliverables": [
+        "Une stratégie de test pour une équipe plateforme de taille moyenne",
+        "Un modèle de revue d'incident avec des actions correctives systémiques"
+      ],
+      "resources": [
+        {
+          "name": "Google SRE book",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        },
+        {
+          "name": "OpenTelemetry documentation",
+          "url": "https://opentelemetry.io/docs/"
+        },
+        {
+          "name": "Thoughtworks Technology Radar",
+          "url": "https://www.thoughtworks.com/radar"
+        },
+        {
+          "name": "Software Engineering at Google (free book)",
+          "url": "https://abseil.io/resources/swe-book"
+        },
+        {
+          "name": "Google testing blog",
+          "url": "https://testing.googleblog.com/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Quelle est la meilleure raison d'investir dans une télémétrie de haute qualité pour les plateformes développeurs ?",
+          "options": [
+            "Elle réduit le besoin de gestion de produit",
+            "Elle rend les tableaux de bord plus modernes",
+            "Elle raccourcit les boucles de détection et de diagnostic des pannes et régressions visibles par les développeurs",
+            "Elle remplace la réponse aux incidents"
+          ],
+          "answer": 2,
+          "explanation": "La télémétrie est précieuse parce qu'elle améliore la détection, le diagnostic et la vitesse de décision quand les outils internes cassent."
+        },
+        {
+          "prompt": "Quelle affirmation correspond le mieux à un état d'esprit d'excellence en ingénierie ?",
+          "options": [
+            "La qualité appartient surtout à la QA",
+            "Le travail de fiabilité ralentit le produit et doit être différé",
+            "La qualité, l'observabilité, la sécurité des releases et l'apprentissage des incidents sont des capacités systémiques partagées",
+            "Les post-mortems doivent se concentrer sur la personne qui a mergé le changement"
+          ],
+          "answer": 2,
+          "explanation": "L'excellence en ingénierie est systémique. Elle traite la fiabilité et la qualité comme des capacités partagées dans toute l'organisation."
+        },
+        {
+          "prompt": "Quelle est la principale faiblesse de s'appuyer uniquement sur des tests de bout en bout pour une plateforme d'ingénierie complexe ?",
+          "options": [
+            "Ils sont trop déterministes",
+            "Ils sont coûteux, lents et localisent mal les pannes sans couches de tests de plus bas niveau",
+            "Ils ne peuvent pas couvrir les parcours utilisateurs",
+            "Ils accélèrent la CI"
+          ],
+          "answer": 1,
+          "explanation": "Une pyramide de tests équilibrée ou un portefeuille de tests est nécessaire parce que les vérifications de bout en bout seules sont lentes et faibles en diagnostic."
+        }
+      ]
+    },
+    {
+      "id": "principal-systems",
+      "weeks": "Semaines 15-16",
+      "title": "Architecture, influence et stratégie de niveau Principal",
+      "objective": "Se préparer à diriger par l'architecture, les cadres de décision, les feuilles de route et l'influence transverse plutôt que par la seule profondeur d'implémentation.",
+      "outcomes": [
+        "Cadrer les grandes décisions techniques avec compromis, contraintes et résultats mesurables",
+        "Conduire le changement organisationnel via les RFC, les standards et la communication exécutive",
+        "Équilibrer innovation, risque et adoption dans les stratégies de plateformes augmentées par l'IA"
+      ],
+      "deliverables": [
+        "Une RFC pour introduire une capacité de plateforme d'IA interne",
+        "Une cartographie des parties prenantes et un plan d'adoption pour la RFC"
+      ],
+      "resources": [
+        {
+          "name": "DORA capabilities",
+          "url": "https://dora.dev/capabilities/"
+        },
+        {
+          "name": "Team Topologies",
+          "url": "https://teamtopologies.com/"
+        },
+        {
+          "name": "Google Cloud architecture center",
+          "url": "https://cloud.google.com/architecture"
+        },
+        {
+          "name": "Architecture decision records",
+          "url": "https://adr.github.io/"
+        },
+        {
+          "name": "C4 model for architecture diagrams",
+          "url": "https://c4model.com/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Quel comportement distingue le plus clairement un ingénieur Principal d'un ingénieur senior en entretien ?",
+          "options": [
+            "Retenir plus de syntaxe de mémoire",
+            "Piloter des décisions à l'échelle de l'organisation par des compromis clairs, de l'alignement et une direction technique de long terme",
+            "Écrire le code le plus rapide dans une épreuve de codage",
+            "Éviter les discussions non techniques"
+          ],
+          "answer": 1,
+          "explanation": "Le périmètre Principal se définit par la stratégie, le levier organisationnel, la qualité des décisions et la pensée systémique de long terme."
+        },
+        {
+          "prompt": "Une plateforme d'IA interne proposée accélérerait certaines équipes mais ajoute de la friction de gouvernance. Quelle est la meilleure étape suivante ?",
+          "options": [
+            "La lancer immédiatement dans toute l'organisation",
+            "La rejeter parce que la gouvernance ralentit toujours l'innovation",
+            "La piloter avec des équipes cibles, définir des métriques de résultats et itérer sur les garde-fous et l'UX",
+            "La transformer en projet de hackathon"
+          ],
+          "answer": 2,
+          "explanation": "Une approche Principal utilise un déploiement ciblé, un apprentissage mesurable et une conception itérative des garde-fous."
+        },
+        {
+          "prompt": "Quel est le meilleur indicateur de la santé de votre processus de revue d'architecture ?",
+          "options": [
+            "Chaque proposition est approuvée",
+            "Les documents sont longs et exhaustifs",
+            "Les compromis importants émergent tôt et les équipes avancent ensuite avec clarté",
+            "Seuls les ingénieurs staff-plus parlent pendant la revue"
+          ],
+          "answer": 2,
+          "explanation": "L'objectif de la revue d'architecture est de meilleures décisions et de l'alignement, pas de la cérémonie."
+        }
+      ]
+    },
+    {
+      "id": "leadership-influence",
+      "weeks": "Semaines 17-18",
+      "title": "Leadership technique, mentorat et influence organisationnelle",
+      "objective": "Maîtriser la dimension humaine du rôle Principal : archétypes staff-plus, diriger sans autorité, mentorat et sponsoring, écriture technique et conduite du changement au-delà des frontières organisationnelles.",
+      "outcomes": [
+        "Choisir le bon mode opératoire staff-plus pour un contexte organisationnel donné",
+        "Construire l'alignement entre équipes par l'écriture, le sponsoring et la construction de coalitions",
+        "Démultiplier son impact par le mentorat, la délégation et la croissance d'autres ingénieurs seniors"
+      ],
+      "deliverables": [
+        "Une vision technique écrite ou un mémo de stratégie pour une organisation d'ingénierie",
+        "Un plan de mentorat et de sponsoring identifiant les ingénieurs à faire grandir et des actions concrètes"
+      ],
+      "resources": [
+        {
+          "name": "StaffEng: stories and guides for staff-plus engineers",
+          "url": "https://staffeng.com/"
+        },
+        {
+          "name": "LeadDev: staff-plus engineering",
+          "url": "https://leaddev.com/staffplus"
+        },
+        {
+          "name": "Will Larson: Staff engineer archetypes",
+          "url": "https://staffeng.com/guides/staff-archetypes/"
+        },
+        {
+          "name": "The Pragmatic Engineer blog",
+          "url": "https://blog.pragmaticengineer.com/"
+        },
+        {
+          "name": "Camille Fournier's blog",
+          "url": "https://skamille.medium.com/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Vous êtes en désaccord avec une direction prise par une autre équipe qui affecte votre plateforme. Quel est le meilleur premier geste de niveau Principal ?",
+          "options": [
+            "Escalader immédiatement vers leur directeur",
+            "Documenter publiquement pourquoi leur choix est mauvais",
+            "Comprendre directement leurs contraintes, puis travailler vers une décision partagée avec des compromis explicites",
+            "Construire une solution concurrente pour prouver votre point"
+          ],
+          "answer": 2,
+          "explanation": "L'influence Principal commence par la compréhension du contexte et des contraintes, puis l'alignement par la discussion des compromis — l'escalade est un recours ultérieur, pas un premier geste."
+        },
+        {
+          "prompt": "Qu'est-ce qui démultiplie le plus sûrement l'impact d'un ingénieur Principal au-delà de sa propre production ?",
+          "options": [
+            "Réviser personnellement chaque pull request significative",
+            "Faire grandir d'autres ingénieurs par le mentorat, des standards clairs et une propriété déléguée",
+            "Assister à chaque réunion d'architecture",
+            "Posséder tout le code du chemin critique"
+          ],
+          "answer": 1,
+          "explanation": "Au niveau Principal, le levier vient de la multiplication des autres — mentorat, standards et délégation surpassent le débit personnel."
+        },
+        {
+          "prompt": "Pourquoi la communication écrite est-elle disproportionnément importante aux niveaux staff-plus ?",
+          "options": [
+            "Parce que les réunions sont toujours inefficaces",
+            "Parce que des artefacts durables et asynchrones alignent de grands groupes, survivent aux changements de personnel et étendent les décisions au-delà des salles où vous êtes",
+            "Parce que les dirigeants refusent les briefings oraux",
+            "Parce que les documents remplacent le besoin de relations"
+          ],
+          "answer": 1,
+          "explanation": "L'écriture démultiplie l'influence : RFC, mémos de stratégie et registres de décisions atteignent des personnes et des horizons temporels que les conversations ne peuvent pas atteindre."
+        }
+      ]
+    },
+    {
+      "id": "interview-readiness",
+      "weeks": "Semaines 19-20",
+      "title": "Préparation aux entretiens et exercices de communication",
+      "objective": "Transformer les connaissances en performance d'entretien reproductible : conception de systèmes, récits de leadership, stratégie technique et jugement produit IA.",
+      "outcomes": [
+        "Donner des réponses concises de niveau exécutif avec de la profondeur technique en dessous",
+        "Présenter des récits cohérents sur la DevEx, l'excellence en ingénierie et l'adoption de l'IA",
+        "Défendre des choix d'architecture et de feuille de route sous pression"
+      ],
+      "deliverables": [
+        "Une banque de 15 récits STAR avec métriques et leçons apprises",
+        "Trois conceptions de systèmes prêtes pour le tableau blanc : assistant de codage, plateforme d'IA interne et système d'insights d'ingénierie"
+      ],
+      "resources": [
+        {
+          "name": "OpenAI guides",
+          "url": "https://platform.openai.com/docs/guides"
+        },
+        {
+          "name": "Anthropic docs",
+          "url": "https://docs.anthropic.com/"
+        },
+        {
+          "name": "Thoughtworks Technology Radar",
+          "url": "https://www.thoughtworks.com/radar"
+        },
+        {
+          "name": "System design primer",
+          "url": "https://github.com/donnemartin/system-design-primer"
+        },
+        {
+          "name": "Tech Interview Handbook",
+          "url": "https://www.techinterviewhandbook.org/"
+        }
+      ],
+      "quiz": [
+        {
+          "prompt": "Qu'est-ce qui rend généralement une réponse de niveau Principal faible même quand l'idée technique est correcte ?",
+          "options": [
+            "Utiliser des diagrammes",
+            "Ne pas relier la décision à l'impact organisationnel, à l'adoption et aux compromis",
+            "Mentionner des risques",
+            "Fournir des métriques"
+          ],
+          "answer": 1,
+          "explanation": "À ce niveau, les réponses solides relient le détail d'implémentation à la valeur organisationnelle, à la conduite du changement et aux preuves."
+        },
+        {
+          "prompt": "Lors d'un entretien de conception de système, que faire en premier après avoir clarifié les exigences ?",
+          "options": [
+            "Se lancer directement dans la conception du schéma de base de données",
+            "Énoncer les critères de succès, les contraintes et le contexte opérationnel avant la conception détaillée",
+            "Discuter immédiatement de chaque cas limite possible",
+            "Commencer à coder l'API"
+          ],
+          "answer": 1,
+          "explanation": "Un candidat Principal doit cadrer le problème, les critères de succès et les contraintes avant de s'engager dans des choix de conception."
+        },
+        {
+          "prompt": "Quel artefact de préparation est le plus réutilisable dans les entretiens de haut niveau ?",
+          "options": [
+            "Une liste de buzzwords mémorisée",
+            "Un cadre de décision personnel reliant objectifs métier, risques, métriques et choix d'architecture",
+            "Une liste d'anecdotes sur les langages",
+            "Une bibliothèque d'icônes UML génériques"
+          ],
+          "answer": 1,
+          "explanation": "Des cadres réutilisables aident à répondre avec cohérence dans les entretiens de leadership, d'architecture et de stratégie IA."
+        }
+      ]
+    }
+  ],
+  "finalAssessment": [
+    {
+      "title": "Étude de cas d'architecture",
+      "summary": "Concevoir un assistant de codage IA interne pour une organisation de 600 ingénieurs.",
+      "criteria": [
+        "Énoncer les objectifs, les utilisateurs et les contraintes opérationnelles",
+        "Décrire les frontières de modèle, de récupération, d'outils et de politiques",
+        "Couvrir la fiabilité, l'observabilité et la stratégie de déploiement",
+        "Défendre les compromis face aux questions"
+      ]
+    },
+    {
+      "title": "Stratégie d'excellence en ingénierie",
+      "summary": "Créer une feuille de route DevEx et plateforme sur 12 mois avec des métriques de succès.",
+      "criteria": [
+        "Utiliser ensemble DORA, le feedback qualitatif et les métriques d'adoption",
+        "Prioriser la feuille de route avec des compromis explicites",
+        "Montrer une gouvernance sans créer de friction excessive",
+        "Expliquer comment gagner l'adoption"
+      ]
+    },
+    {
+      "title": "Revue de sécurité et de gouvernance",
+      "summary": "Auditer un système agentique contre l'injection de prompt, la fuite de données et l'usage dangereux d'outils.",
+      "criteria": [
+        "Identifier les frontières de confiance et les actions privilégiées",
+        "Proposer des mitigations contre l'injection de prompt et l'usage abusif de la mémoire",
+        "Spécifier les mécanismes d'approbation, d'audit et d'incident",
+        "Signaler les risques résiduels et les compromis acceptables"
+      ]
+    },
+    {
+      "title": "Exercice d'incident et de fiabilité",
+      "summary": "Mener une analyse post-incident pour une panne de plateforme développeur propulsée par l'IA.",
+      "criteria": [
+        "Reconstituer la détection, l'impact et la chronologie",
+        "Séparer les causes, les facteurs contributifs et les signaux manqués",
+        "Recommander des actions correctives systémiques",
+        "Relier les correctifs à l'observabilité et aux pratiques de release"
+      ]
+    },
+    {
+      "title": "Panel de communication exécutive",
+      "summary": "Présenter la stratégie à la direction de l'ingénierie et défendre l'investissement.",
+      "criteria": [
+        "Communiquer clairement à l'altitude exécutive",
+        "Traduire les détails techniques profonds en valeur métier",
+        "Gérer les objections sur le coût, la sécurité et l'adoption",
+        "Conclure avec des résultats mesurables et les prochaines étapes"
+      ]
+    },
+    {
+      "title": "Seuil de préparation",
+      "summary": "Ne valider que lorsque la profondeur technique et la communication de niveau Principal sont solides.",
+      "criteria": [
+        "Moyenne des quiz de modules supérieure ou égale à 80 %",
+        "Tous les livrables terminés et revus",
+        "Capstone noté fort dans au moins quatre dimensions sur cinq",
+        "Capable d'expliquer les compromis sans approximation"
+      ]
+    }
+  ],
+  "applicationPlan": [
+    {
+      "title": "Périmètre produit",
+      "bullets": [
+        "Parcours structurés pour la GenAI, les systèmes d'agents, la DevEx, l'excellence en ingénierie et les entretiens",
+        "Curation de ressources avec métadonnées de fraîcheur et revue périodique",
+        "Quiz difficiles, notation par scénarios et évaluations capstone",
+        "Suivi de progression, recommandations et score de préparation aux entretiens"
+      ]
+    },
+    {
+      "title": "Capacités clés",
+      "bullets": [
+        "Moteur de parcours d'apprentissage avec des curricula par rôle",
+        "Moteur d'évaluation avec notation objective et par grille",
+        "Ingestion de ressources pour la documentation officielle, les rapports et une sélection de livres",
+        "Tableau de bord analytique pour la confiance, la progression et les signaux faibles"
+      ]
+    },
+    {
+      "title": "Architecture suggérée",
+      "bullets": [
+        "Frontend : interface web statique d'abord, puis application componentisée si la croissance le justifie",
+        "Couche de contenu : définitions de modules en JSON versionné ou via un CMS",
+        "Services d'évaluation : notation des quiz, workflows de grilles et revue des soumissions",
+        "Couche IA optionnelle : interviewer simulé, assistant de feedback et recommandations d'étude adaptatives"
+      ]
+    },
+    {
+      "title": "Modèle de données",
+      "bullets": [
+        "Parcours, modules, leçons, ressources, quiz, dimensions de grilles et capstones",
+        "Événements de progression utilisateur et tentatives d'évaluation",
+        "Dates de fraîcheur des ressources, étiquettes et niveau de preuve",
+        "Instantanés de préparation liés aux rôles cibles"
+      ]
+    },
+    {
+      "title": "Feuille de route",
+      "bullets": [
+        "Phase 1 : MVP statique avec contenu organisé et progression locale",
+        "Phase 2 : gestion de contenu hébergée, comptes utilisateurs et historique",
+        "Phase 3 : recommandations adaptatives, entretiens simulés et analyses plus riches",
+        "Phase 4 : revues collaboratives et workflows de mentorat"
+      ]
+    },
+    {
+      "title": "Niveau d'exigence",
+      "bullets": [
+        "Privilégier les sources officielles ou primaires autant que possible",
+        "Réviser les ressources chaque trimestre pour l'obsolescence et les liens cassés",
+        "Utiliser des évaluations qui testent le raisonnement, pas seulement la mémorisation",
+        "Mesurer le succès par la préparation aux entretiens et la qualité réelle des décisions"
+      ]
+    }
+  ]
+}

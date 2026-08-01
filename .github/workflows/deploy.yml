@@ -24,6 +24,12 @@ jobs:
       - name: Check JavaScript syntax
         run: node --check app.js
 
+      - name: Validate content files
+        run: node scripts/validate-content.js
+
+      - name: Run tests
+        run: node --test tests/*.test.js
+
   deploy:
     needs: validate
     runs-on: ubuntu-latest

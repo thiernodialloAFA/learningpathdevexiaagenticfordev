@@ -140,8 +140,8 @@ pour que les utilisateurs existants conservent leur progression.
 - [x] Contenu organisé (10 modules, 20 semaines, EN/FR), quiz, Copilot Academy, évaluation globale.
 - [x] Progression locale avec export / import / réinitialisation.
 - [x] CI de validation (`node --check app.js`) et déploiement GitHub Pages.
-- [ ] Extraire le contenu de `app.js` vers des fichiers JSON dédiés (préparation de la couche de contenu).
-- [ ] Ajouter des tests automatisés de base (validation du schéma de contenu, tests de rendu).
+- [x] Extraire le contenu de `app.js` vers des fichiers JSON dédiés (préparation de la couche de contenu).
+- [x] Ajouter des tests automatisés de base (validation du schéma de contenu, tests de rendu).
 
 ### Phase 2 — Contenu hébergé, comptes et historique
 

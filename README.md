@@ -27,13 +27,21 @@ Once GitHub Pages is enabled (see below), the app is available at:
 
 ## Run locally
 
-Open `index.html` directly in a browser, or serve the folder:
+Because the content is loaded from JSON files with `fetch`, serve the folder over HTTP (opening `index.html` directly from disk will not load the content):
 
 ```bash
 python3 -m http.server 8000
 ```
 
 Then visit `http://localhost:8000`.
+
+## Validate and test
+
+```bash
+node --check app.js                 # JavaScript syntax check
+node scripts/validate-content.js    # Content schema validation
+node --test tests/*.test.js         # Automated tests
+```
 
 ## Deploy to GitHub Pages
 
@@ -45,15 +53,19 @@ One-time setup:
 2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
 3. Push to `main` (or run the **Deploy to GitHub Pages** workflow manually from the **Actions** tab).
 
-The workflow checks JavaScript syntax, uploads the static files as a Pages artifact, and publishes them. The deployed URL appears on the workflow run and in **Settings → Pages**.
+The workflow checks JavaScript syntax, validates the content files, runs the automated tests, uploads the static files as a Pages artifact, and publishes them. The deployed URL appears on the workflow run and in **Settings → Pages**.
 
 ## Project structure
 
 | File | Purpose |
 | --- | --- |
 | `index.html` | Page shell and section containers |
-| `app.js` | Curriculum data in English and French (modules, quizzes, assessments), Copilot Academy level quizzes, UI translations, and rendering logic |
+| `app.js` | Content loading, UI translations, and rendering logic |
+| `data/*.json` | Versioned content: learning plans (EN/FR), Copilot Academy levels (EN/FR), and academy settings |
+| `scripts/validate-content.js` | Dependency-free schema validation for the content files |
+| `tests/content.test.js` | Automated tests (content schema, EN/FR parity, quiz integrity) |
 | `styles.css` | Styling for the dark, responsive layout |
+| `plan.md` | Application plan and roadmap |
 | `.github/workflows/deploy.yml` | CI validation and GitHub Pages deployment |
 | `.nojekyll` | Disables Jekyll processing on GitHub Pages |
 
@@ -61,4 +73,4 @@ The workflow checks JavaScript syntax, uploads the static files as a Pages artif
 
 - The app is dependency-free and uses browser `localStorage` to persist quiz scores, completion status, and the selected language. Progress is per-browser; use **Export progress** / **Import progress** in the overview panel to move it between devices. Quiz scores are shared across languages, so switching between English and French keeps your progress.
 - Copilot Academy progress (best score per level) is stored in the same state and included in exports/imports/reset. Level unlocking is derived from best scores, so passed levels stay unlocked across sessions and languages.
-- There is no test framework; validation is done through `node --check app.js` (run in CI) and direct browser verification.
+- Content lives in versioned JSON files under `data/` and is validated in CI by `scripts/validate-content.js` and `node --test tests/*.test.js`, in addition to `node --check app.js`.
