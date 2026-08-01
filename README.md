@@ -20,6 +20,7 @@ Once GitHub Pages is enabled (see below), the app is available at:
 - A 20-week structured learning path across 10 modules
 - Curated, authoritative resources for GenAI, agent systems, LLMOps, DevEx, engineering excellence, and staff-plus leadership
 - Hard module quizzes with scoring and explanations
+- **Copilot Academy**: a separate quiz track built from the [AxaFrance learning-path-copilot](https://github.com/AxaFrance/learning-path-copilot) handbook ([site](https://axafrance.github.io/learning-path-copilot/)), with six progressively unlocked levels (Beginner → Padawan → Intermediate → Confirmed → Expert → Master). Score at least 80% on a level to unlock the next; each level links the handbook modules it covers
 - A global assessment aligned to Principal-level expectations
 - An application plan describing the product, architecture, and roadmap for scaling this into a fuller training platform
 - Local progress tracking with export, import, and reset tools
@@ -51,7 +52,7 @@ The workflow checks JavaScript syntax, uploads the static files as a Pages artif
 | File | Purpose |
 | --- | --- |
 | `index.html` | Page shell and section containers |
-| `app.js` | Curriculum data in English and French (modules, quizzes, assessments), UI translations, and rendering logic |
+| `app.js` | Curriculum data in English and French (modules, quizzes, assessments), Copilot Academy level quizzes, UI translations, and rendering logic |
 | `styles.css` | Styling for the dark, responsive layout |
 | `.github/workflows/deploy.yml` | CI validation and GitHub Pages deployment |
 | `.nojekyll` | Disables Jekyll processing on GitHub Pages |
@@ -59,4 +60,5 @@ The workflow checks JavaScript syntax, uploads the static files as a Pages artif
 ## Notes
 
 - The app is dependency-free and uses browser `localStorage` to persist quiz scores, completion status, and the selected language. Progress is per-browser; use **Export progress** / **Import progress** in the overview panel to move it between devices. Quiz scores are shared across languages, so switching between English and French keeps your progress.
+- Copilot Academy progress (best score per level) is stored in the same state and included in exports/imports/reset. Level unlocking is derived from best scores, so passed levels stay unlocked across sessions and languages.
 - There is no test framework; validation is done through `node --check app.js` (run in CI) and direct browser verification.
