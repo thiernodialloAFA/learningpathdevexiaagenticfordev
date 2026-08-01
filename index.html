@@ -48,31 +48,45 @@
       </section>
 
       <section class="panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow" data-i18n="curriculumEyebrow">Curriculum</p>
-            <h2 data-i18n="curriculumTitle">Learning path</h2>
+        <details class="accordion section-accordion" data-accordion="section-curriculum">
+          <summary class="accordion__summary">
+            <div class="section-heading accordion__title">
+              <div>
+                <p class="eyebrow" data-i18n="curriculumEyebrow">Curriculum</p>
+                <h2 data-i18n="curriculumTitle">Learning path</h2>
+              </div>
+              <p class="section-copy" data-i18n="curriculumCopy">
+                Each module combines study, implementation, and a difficult checkpoint quiz.
+              </p>
+            </div>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+            <div id="modules" class="modules"></div>
           </div>
-          <p class="section-copy" data-i18n="curriculumCopy">
-            Each module combines study, implementation, and a difficult checkpoint quiz.
-          </p>
-        </div>
-        <div id="modules" class="modules"></div>
+        </details>
       </section>
 
       <section class="panel" id="copilot-academy-panel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow" data-i18n="academyEyebrow">Copilot Academy</p>
-            <h2 data-i18n="academyTitle">GitHub Copilot mastery quizzes</h2>
+        <details class="accordion section-accordion" data-accordion="section-academy">
+          <summary class="accordion__summary">
+            <div class="section-heading accordion__title">
+              <div>
+                <p class="eyebrow" data-i18n="academyEyebrow">Copilot Academy</p>
+                <h2 data-i18n="academyTitle">GitHub Copilot mastery quizzes</h2>
+              </div>
+              <p class="section-copy" data-i18n="academyCopy">
+                Progressive quizzes built from the AxaFrance learning-path-copilot handbook. Pass each
+                level to unlock the next.
+              </p>
+            </div>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+            <div id="academy-progress" class="academy-progress"></div>
+            <div id="copilot-academy" class="academy-grid"></div>
           </div>
-          <p class="section-copy" data-i18n="academyCopy">
-            Progressive quizzes built from the AxaFrance learning-path-copilot handbook. Pass each
-            level to unlock the next.
-          </p>
-        </div>
-        <div id="academy-progress" class="academy-progress"></div>
-        <div id="copilot-academy" class="academy-grid"></div>
+        </details>
       </section>
 
       <section class="panel">
