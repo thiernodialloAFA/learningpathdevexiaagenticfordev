@@ -415,6 +415,49 @@ button:hover {
   padding-left: 20px;
 }
 
+.accordion__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion__summary:hover .accordion__chevron {
+  color: var(--accent-strong);
+}
+
+.accordion__title {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.accordion__title h3 {
+  margin: 6px 0 0;
+  color: var(--text);
+}
+
+.accordion__chevron {
+  color: var(--accent);
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+details[open] > .accordion__summary .accordion__chevron {
+  transform: rotate(180deg);
+}
+
+.accordion__body {
+  margin-top: 16px;
+}
+
 .footer {
   max-width: 1240px;
   margin: 0 auto;
