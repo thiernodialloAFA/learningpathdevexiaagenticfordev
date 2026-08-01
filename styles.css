@@ -1,0 +1,261 @@
+:root {
+  color-scheme: dark;
+  --bg: #09111f;
+  --panel: #121d31;
+  --panel-soft: #16243d;
+  --border: #29456d;
+  --accent: #77b6ff;
+  --accent-strong: #9bd0ff;
+  --text: #ecf3ff;
+  --muted: #adc2df;
+  --success: #66d1a7;
+  --warning: #ffd479;
+  --danger: #ff9b9b;
+  --shadow: 0 18px 45px rgba(3, 9, 20, 0.32);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #08111f 0%, #0d172a 100%);
+  color: var(--text);
+}
+
+a {
+  color: var(--accent-strong);
+}
+
+.hero,
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.hero {
+  display: grid;
+  gap: 20px;
+  align-items: start;
+}
+
+.hero__content,
+.hero__panel,
+.panel,
+.module,
+.assessment-card,
+.application-card {
+  background: rgba(18, 29, 49, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.hero__content {
+  padding: 32px;
+}
+
+.hero__panel {
+  padding: 24px;
+}
+
+.hero h1 {
+  margin: 8px 0 16px;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1.05;
+}
+
+.hero__summary,
+.section-copy,
+li,
+p {
+  color: var(--muted);
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.layout {
+  display: grid;
+  gap: 20px;
+  padding-top: 0;
+  padding-bottom: 48px;
+}
+
+.panel {
+  padding: 24px;
+}
+
+.section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.chips,
+.meta-list,
+.resource-list,
+.score-line,
+.module__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip,
+.meta-pill,
+.resource-link,
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.modules,
+.assessment-grid,
+.application-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.module,
+.assessment-card,
+.application-card {
+  padding: 20px;
+}
+
+.module__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.module h3,
+.assessment-card h3,
+.application-card h3 {
+  margin: 0 0 10px;
+}
+
+.module ul,
+.assessment-card ul,
+.application-card ul {
+  padding-left: 20px;
+}
+
+.quiz {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(8, 17, 31, 0.75);
+  border: 1px solid var(--border);
+}
+
+.quiz fieldset {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+}
+
+.quiz legend {
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.quiz label {
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: rgba(18, 29, 49, 0.7);
+}
+
+.quiz label:hover {
+  border-color: var(--border);
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #5f9df4, #8ec8ff);
+  color: #06111f;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.05);
+}
+
+.result {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(18, 29, 49, 0.7);
+  border: 1px solid var(--border);
+}
+
+.result--good {
+  border-color: rgba(102, 209, 167, 0.65);
+}
+
+.result--bad {
+  border-color: rgba(255, 155, 155, 0.65);
+}
+
+.stat {
+  margin-bottom: 14px;
+}
+
+.stat strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-row input {
+  width: 18px;
+  height: 18px;
+}
+
+@media (min-width: 920px) {
+  .hero {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .modules {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .assessment-grid,
+  .application-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
