@@ -16,6 +16,7 @@ Once GitHub Pages is enabled (see below), the app is available at:
 
 ## What is included
 
+- English and French versions of the full app and quizzes, selectable with the EN / FR switcher (choice is remembered per browser)
 - A 20-week structured learning path across 10 modules
 - Curated, authoritative resources for GenAI, agent systems, LLMOps, DevEx, engineering excellence, and staff-plus leadership
 - Hard module quizzes with scoring and explanations
@@ -50,12 +51,12 @@ The workflow checks JavaScript syntax, uploads the static files as a Pages artif
 | File | Purpose |
 | --- | --- |
 | `index.html` | Page shell and section containers |
-| `app.js` | Curriculum data (modules, quizzes, assessments) and rendering logic |
+| `app.js` | Curriculum data in English and French (modules, quizzes, assessments), UI translations, and rendering logic |
 | `styles.css` | Styling for the dark, responsive layout |
 | `.github/workflows/deploy.yml` | CI validation and GitHub Pages deployment |
 | `.nojekyll` | Disables Jekyll processing on GitHub Pages |
 
 ## Notes
 
-- The app is dependency-free and uses browser `localStorage` to persist quiz scores and completion status. Progress is per-browser; use **Export progress** / **Import progress** in the overview panel to move it between devices.
+- The app is dependency-free and uses browser `localStorage` to persist quiz scores, completion status, and the selected language. Progress is per-browser; use **Export progress** / **Import progress** in the overview panel to move it between devices. Quiz scores are shared across languages, so switching between English and French keeps your progress.
 - There is no test framework; validation is done through `node --check app.js` (run in CI) and direct browser verification.

@@ -24,9 +24,15 @@
   <body>
     <header class="hero">
       <div class="hero__content">
-        <p class="eyebrow">Principal interview preparation system</p>
-        <h1>Learning Path for DevEx, Engineering Excellence, GenAI, and Agentic AI</h1>
-        <p class="hero__summary">
+        <div class="hero__topbar">
+          <div class="language-switcher" id="language-switcher" role="group" aria-label="Language">
+            <button type="button" class="lang-button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="lang-button" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+          </div>
+        </div>
+        <p class="eyebrow" data-i18n="heroEyebrow">Principal interview preparation system</p>
+        <h1 data-i18n="heroTitle">Learning Path for DevEx, Engineering Excellence, GenAI, and Agentic AI</h1>
+        <p class="hero__summary" data-i18n="heroSummary">
           A complete 20-week plan with current resources, hard assessments, and a final
           readiness review for Principal Software Engineer roles centered on Developer
           Experience, Engineering Excellence, and AI-powered development.
@@ -37,17 +43,17 @@
 
     <main class="layout">
       <section class="panel">
-        <h2>Target outcomes</h2>
+        <h2 data-i18n="goalsTitle">Target outcomes</h2>
         <div id="goals" class="chips"></div>
       </section>
 
       <section class="panel">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Curriculum</p>
-            <h2>Learning path</h2>
+            <p class="eyebrow" data-i18n="curriculumEyebrow">Curriculum</p>
+            <h2 data-i18n="curriculumTitle">Learning path</h2>
           </div>
-          <p class="section-copy">
+          <p class="section-copy" data-i18n="curriculumCopy">
             Each module combines study, implementation, and a difficult checkpoint quiz.
           </p>
         </div>
@@ -57,10 +63,10 @@
       <section class="panel">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Final validation</p>
-            <h2>Global assessment</h2>
+            <p class="eyebrow" data-i18n="assessmentEyebrow">Final validation</p>
+            <h2 data-i18n="assessmentTitle">Global assessment</h2>
           </div>
-          <p class="section-copy">
+          <p class="section-copy" data-i18n="assessmentCopy">
             Use this as the final Principal-level readiness gate before interviews.
           </p>
         </div>
@@ -70,10 +76,10 @@
       <section class="panel">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Product direction</p>
-            <h2>Application plan</h2>
+            <p class="eyebrow" data-i18n="planEyebrow">Product direction</p>
+            <h2 data-i18n="planTitle">Application plan</h2>
           </div>
-          <p class="section-copy">
+          <p class="section-copy" data-i18n="planCopy">
             A practical blueprint for evolving this content into a broader learning product.
           </p>
         </div>
@@ -83,12 +89,15 @@
 
     <footer class="footer">
       <p>
-        Progress is stored locally in your browser. Use the export and import tools to move it
-        between devices.
+        <span data-i18n="footerNote"
+          >Progress is stored locally in your browser. Use the export and import tools to move it
+          between devices.</span
+        >
         <a
           href="https://github.com/thiernodialloAFA/learningpathdevexiaagenticfordev"
           target="_blank"
           rel="noreferrer"
+          data-i18n="footerLink"
           >View source on GitHub</a
         >
       </p>
