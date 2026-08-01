@@ -2893,21 +2893,40 @@ const renderGoals = () => {
     .join("");
 };
 
+const openAccordions = new Set();
+
+const trackAccordions = (rootElement) => {
+  rootElement.querySelectorAll("details[data-accordion]").forEach((detailsElement) => {
+    detailsElement.addEventListener("toggle", () => {
+      if (detailsElement.open) {
+        openAccordions.add(detailsElement.dataset.accordion);
+      } else {
+        openAccordions.delete(detailsElement.dataset.accordion);
+      }
+    });
+  });
+};
+
 const renderModules = () => {
   const modulesElement = document.getElementById("modules");
 
   modulesElement.innerHTML = plan.modules
     .map((module) => {
       const score = state.scores[module.id];
+      const accordionId = `module-${module.id}`;
 
       return `
-        <article class="module">
-          <div class="module__header">
-            <div>
+        <details class="module accordion" data-accordion="${accordionId}"${openAccordions.has(accordionId) ? " open" : ""}>
+          <summary class="accordion__summary">
+            <div class="accordion__title">
               <p class="eyebrow">${module.weeks}</p>
               <h3>${module.title}</h3>
-              <p>${module.objective}</p>
             </div>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+          <div class="module__header">
+            <p>${module.objective}</p>
             <div class="meta-list">
               <span class="meta-pill">${t.quizQuestionsPill(module.quiz.length)}</span>
               <span class="meta-pill">${t.deliverablesPill(module.deliverables.length)}</span>
@@ -2959,10 +2978,13 @@ const renderModules = () => {
             </div>
             <div id="result-${module.id}"></div>
           </div>
-        </article>
+          </div>
+        </details>
       `;
     })
     .join("");
+
+  trackAccordions(modulesElement);
 
   modulesElement.querySelectorAll("form").forEach((form) => {
     form.addEventListener("submit", (event) => {
@@ -3087,6 +3109,7 @@ const renderCopilotAcademy = () => {
           ? t.academyUnlockedBadge
           : t.academyLockedBadge;
       const feedback = academyFeedback[level.id];
+      const accordionId = `level-${level.id}`;
 
       const body = unlocked
         ? `
@@ -3137,15 +3160,19 @@ const renderCopilotAcademy = () => {
         `;
 
       return `
-        <article class="level-card${unlocked ? "" : " level-card--locked"}">
-          <div class="level-card__header">
-            <div>
+        <details class="level-card accordion${unlocked ? "" : " level-card--locked"}" data-accordion="${accordionId}"${openAccordions.has(accordionId) ? " open" : ""}>
+          <summary class="accordion__summary">
+            <div class="accordion__title">
               <p class="eyebrow">${t.academyLevelPill(index + 1, totalLevels)}</p>
               <h3>${level.icon} ${level.rank} — ${level.title}</h3>
-              <p>${level.focus}</p>
             </div>
+            <span class="rank-badge${badgeModifier}">${badgeState}</span>
+            <span class="accordion__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="accordion__body">
+          <div class="level-card__header">
+            <p>${level.focus}</p>
             <div class="meta-list">
-              <span class="rank-badge${badgeModifier}">${badgeState}</span>
               <span class="meta-pill">${t.academyQuestionsPill(level.quiz.length)}</span>
               <span class="meta-pill">${t.academyPassPill(academySettings.passThreshold)}</span>
             </div>
@@ -3155,10 +3182,13 @@ const renderCopilotAcademy = () => {
           <ul>${level.modules.map((item) => `<li>${item}</li>`).join("")}</ul>
 
           ${body}
-        </article>
+          </div>
+        </details>
       `;
     })
     .join("");
+
+  trackAccordions(academyElement);
 
   academyElement.querySelectorAll("form").forEach((form) => {
     form.addEventListener("submit", (event) => {
