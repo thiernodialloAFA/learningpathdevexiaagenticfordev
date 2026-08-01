@@ -59,6 +59,40 @@ a {
   padding: 32px;
 }
 
+.hero__topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.language-switcher {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+}
+
+.lang-button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.lang-button:hover {
+  color: var(--text);
+  filter: none;
+}
+
+.lang-button--active {
+  background: linear-gradient(90deg, #5f9df4, #8ec8ff);
+  color: #06111f;
+}
+
 .hero__panel {
   padding: 24px;
 }
