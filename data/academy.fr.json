@@ -35,7 +35,7 @@
             "L'icône Copilot de la barre d'état"
           ],
           "answer": 2,
-          "explanation": "La suggestion inline ne voit que le fichier ouvert, le chat répond sans modifier de fichiers, et le mode agent est la surface qui lit l'arborescence et propose des diffs multi-fichiers."
+          "explanation": "L'option 2 est correcte car le mode agent peut inspecter le workspace, créer ou modifier plusieurs fichiers, puis présenter un diff global à relire. L'option 0 est incorrecte car la suggestion inline complète surtout le fichier ouvert et n'orchestre pas des changements multi-fichiers. L'option 1 est incorrecte car Copilot Chat peut expliquer ou proposer du code, mais n'applique pas à lui seul un diff global. L'option 3 est incorrecte car l'icône de barre d'état indique le statut ou la connexion, ce n'est pas une surface de génération de code."
         },
         {
           "prompt": "« Utilise Vitest, jamais Jest » doit s'appliquer à chaque conversation du dépôt. De quoi s'agit-il ?",
@@ -46,7 +46,7 @@
             "D'un réglage de serveur MCP"
           ],
           "answer": 1,
-          "explanation": "Un prompt couvre l'intention ponctuelle du jour ; une règle permanente d'équipe se place dans un fichier d'instructions chargé à chaque interaction."
+          "explanation": "L'option 1 est correcte car une règle valable pour tout le dépôt doit vivre dans un fichier d'instructions persistantes chargé à chaque interaction chat ou agent. L'option 0 est incorrecte car un prompt est ponctuel et devrait être répété. L'option 2 est incorrecte car un skill est une procédure conditionnelle, pas une convention toujours active. L'option 3 est incorrecte car MCP configure des outils exécutables externes, pas les préférences de style de l'équipe."
         },
         {
           "prompt": "Quel fichier Copilot Chat et le mode agent chargent-ils automatiquement pour chaque conversation d'un dépôt, sans étape d'activation ?",
@@ -57,7 +57,7 @@
             ".agents/instructions.md"
           ],
           "answer": 1,
-          "explanation": ".github/copilot-instructions.md à la racine du dépôt est chargé automatiquement — c'est le fichier unique partagé par toute l'équipe."
+          "explanation": "L'option 1 est correcte car .github/copilot-instructions.md à la racine du dépôt est le fichier d'instructions partagé chargé automatiquement par Copilot Chat et le mode agent. L'option 0 est incorrecte car .vscode/copilot.json n'est pas le fichier d'instructions de dépôt documenté. L'option 2 est incorrecte car README.md peut documenter le projet, mais n'est pas automatiquement traité comme instructions Copilot. L'option 3 est incorrecte car .agents/ sert aux agents et aux skills, pas au fichier d'instructions global."
         },
         {
           "prompt": "Vous voulez des règles TypeScript chargées uniquement quand un fichier .ts est concerné. Que recommande le handbook ?",
@@ -68,7 +68,7 @@
             "Renommer le fichier en typescript.prompt.md"
           ],
           "answer": 1,
-          "explanation": "Les fichiers d'instructions ciblés de .github/instructions/ utilisent un glob applyTo pour ne se charger que lorsque des fichiers correspondants sont concernés, ce qui garde le contexte global léger."
+          "explanation": "L'option 1 est correcte car les instructions scopées sous .github/instructions/ utilisent des globs applyTo pour ne se charger que sur les fichiers correspondants. L'option 0 est incorrecte car README.md n'est pas le mécanisme des instructions scopées. L'option 2 est incorrecte car un gros fichier global gonfle le contexte même quand TypeScript n'est pas concerné. L'option 3 est incorrecte car un fichier .prompt.md est une commande lancée manuellement, pas une instruction chargée automatiquement selon un périmètre."
         },
         {
           "prompt": "Dans un fichier .prompt.md, quel mode choisir pour une commande qui explique du code mais ne doit jamais modifier de fichiers ?",
@@ -79,7 +79,117 @@
             "chat"
           ],
           "answer": 2,
-          "explanation": "ask répond uniquement dans le chat ; edit modifie le fichier ouvert ; agent peut lire, écrire et exécuter des commandes. Utiliser agent partout ajoute latence et appels d'outils inutiles."
+          "explanation": "L'option 2 est correcte car le mode ask répond dans le chat sans modifier les fichiers, ce qui convient à une explication. L'option 0 est incorrecte car le mode agent peut lire, écrire et exécuter des commandes, donc il est trop permissif. L'option 1 est incorrecte car le mode edit sert à modifier le fichier ouvert. L'option 3 est incorrecte car chat ne fait pas partie des valeurs de mode documentées pour .prompt.md."
+        },
+        {
+          "prompt": "Quelles recommandations d'extensions VS Code le module de setup ajoute-t-il pour inciter les développeurs du dépôt à installer Copilot ?",
+          "options": [
+            "GitHub.copilot et GitHub.copilot-chat",
+            "ms-python.python et GitHub.copilot",
+            "GitHub.vscode-pull-request-github et dbaeumer.vscode-eslint",
+            "Seulement GitHub.copilot-chat"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le module recommande GitHub.copilot et GitHub.copilot-chat dans .vscode/extensions.json. L'option 1 est incorrecte car l'extension Python n'est pas liée au setup Copilot présenté. L'option 2 est incorrecte car les extensions Pull Request et ESLint ne fournissent pas les trois surfaces Copilot. L'option 3 est incorrecte car Copilot Chat seul omet l'extension Copilot principale."
+        },
+        {
+          "prompt": "Quel est le meilleur cas d'usage d'une suggestion inline selon le module de setup ?",
+          "options": [
+            "Créer toute une suite de tests sur plusieurs fichiers",
+            "Appeler un serveur MCP pour lister des issues GitHub",
+            "Écrire des instructions valables pour tout le dépôt",
+            "Compléter du code local et trivial dans le fichier ouvert, puis accepter avec Tab"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car la suggestion inline vise les complétions locales dans le fichier ouvert, souvent acceptées avec Tab. L'option 0 est incorrecte car la génération multi-fichiers de tests convient mieux au mode agent. L'option 1 est incorrecte car les appels d'outils MCP relèvent de workflows agent/outils, pas de la complétion inline. L'option 2 est incorrecte car les instructions de dépôt s'écrivent dans des fichiers dédiés, elles ne sont pas produites par la surface inline."
+        },
+        {
+          "prompt": "Vous avez répété la même convention dans plusieurs conversations Copilot. Quelle règle pratique du module Instructions s'applique ?",
+          "options": [
+            "La déplacer dans une instruction si vous la répétez plus de deux fois",
+            "La garder pour toujours comme prompt",
+            "La convertir en serveur MCP",
+            "La mettre seulement dans OBSERVATIONS.md"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le handbook indique qu'une règle répétée entre conversations mérite une instruction persistante. L'option 1 est incorrecte car répéter le prompt gaspille de l'effort et crée de l'incohérence. L'option 2 est incorrecte car MCP sert aux outils exécutables et aux données externes, pas aux règles statiques. L'option 3 est incorrecte car OBSERVATIONS.md est un artefact d'exercice, pas un mécanisme automatique de contexte Copilot."
+        },
+        {
+          "prompt": "Où placer les fichiers .prompt.md réutilisables pour que l'équipe les lance depuis la palette de commandes VS Code ?",
+          "options": [
+            ".github/instructions/",
+            ".agents/skills/",
+            ".github/prompts/",
+            ".vscode/extensions.json"
+          ],
+          "answer": 2,
+          "explanation": "L'option 2 est correcte car les prompt files réutilisables vivent dans .github/prompts/ et apparaissent comme commandes dans VS Code. L'option 0 est incorrecte car .github/instructions/ contient des fichiers .instructions.md scopés. L'option 1 est incorrecte car .agents/skills/ contient des procédures SKILL.md, pas des prompt files. L'option 3 est incorrecte car extensions.json recommande des extensions et ne définit pas de commandes Copilot."
+        },
+        {
+          "prompt": "Quelles clés de frontmatter sont décrites comme contrôlant le comportement d'un fichier .prompt.md ?",
+          "options": [
+            "name, trigger, model",
+            "applyTo, severity, timeout",
+            "servers, command, env",
+            "mode, description et éventuellement tools"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car le frontmatter d'un prompt documente mode, description et une liste tools optionnelle. L'option 0 est incorrecte car name et trigger ne sont pas les clés de prompt file décrites. L'option 1 est incorrecte car applyTo appartient aux instructions scopées et timeout aux hooks. L'option 2 est incorrecte car servers, command et env sont des champs de configuration MCP."
+        },
+        {
+          "prompt": "Quelle variable .prompt.md demande une valeur à l'utilisateur au lancement du prompt ?",
+          "options": [
+            "${file}",
+            "${input:name}",
+            "${selection}",
+            "#file:path/to/file"
+          ],
+          "answer": 1,
+          "explanation": "L'option 1 est correcte car ${input:name} ouvre une invite VS Code et injecte la réponse de l'utilisateur. L'option 0 est incorrecte car ${file} se résout en contenu du fichier actif sans poser de question. L'option 2 est incorrecte car ${selection} injecte le texte sélectionné dans l'éditeur. L'option 3 est incorrecte car #file:path/to/file référence un fichier précis, ce n'est pas une saisie interactive."
+        },
+        {
+          "prompt": "Quel mode .prompt.md convient le mieux quand Copilot doit refactorer en place une portion ciblée du fichier actuellement ouvert ?",
+          "options": [
+            "edit",
+            "ask",
+            "agent",
+            "manual"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le mode edit est conçu pour modifier en place le fichier ouvert lors de changements ciblés. L'option 1 est incorrecte car ask répond seulement dans le chat et ne modifie rien. L'option 2 est incorrecte car agent est plus large que nécessaire pour un refactor local ciblé. L'option 3 est incorrecte car manual n'est pas un mode .prompt.md documenté."
+        },
+        {
+          "prompt": "Que fait #file:path/to/file dans le corps d'un prompt réutilisable ?",
+          "options": [
+            "Il crée un nouveau fichier à ce chemin",
+            "Il limite le prompt aux fichiers correspondant à un glob",
+            "Il injecte dans le contexte le contenu du fichier référencé",
+            "Il définit le mode d'exécution du prompt"
+          ],
+          "answer": 2,
+          "explanation": "L'option 2 est correcte car #file:path/to/file référence un fichier précis et fournit son contenu comme contexte. L'option 0 est incorrecte car créer un fichier nécessite un mode et un outil adaptés, pas une référence #file. L'option 1 est incorrecte car les globs de chargement sont gérés par applyTo dans les instructions. L'option 3 est incorrecte car le mode d'exécution se définit dans le frontmatter avec mode."
+        },
+        {
+          "prompt": "Pourquoi utiliser le mode agent pour tous les prompts réutilisables est-il un anti-pattern ?",
+          "options": [
+            "Cela empêche les prompts d'apparaître dans la palette de commandes",
+            "Cela transforme tous les prompts en instructions",
+            "Cela désactive les variables comme ${selection}",
+            "Cela ajoute une latence et des appels d'outils inutiles quand aucune modification de fichier n'est nécessaire"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car le mode agent est puissant mais plus lent et riche en outils ; un prompt explicatif devrait utiliser ask. L'option 0 est incorrecte car un prompt valide peut toujours apparaître dans la palette. L'option 1 est incorrecte car le choix du mode ne convertit pas un prompt en instruction. L'option 2 est incorrecte car les variables restent une fonctionnalité des prompts et ne sont pas désactivées par le mode agent."
+        },
+        {
+          "prompt": "Comment le module Instructions recommande-t-il de prouver qu'une nouvelle instruction est réellement active ?",
+          "options": [
+            "Lancer le même prompt avant et après l'instruction, puis comparer le comportement observable",
+            "Supposer que cela fonctionne dès que le fichier existe",
+            "Redémarrer GitHub.com",
+            "Renommer l'instruction en README.md"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le module recommande de comparer le même prompt avant/après pour observer un delta concret, par exemple Vitest au lieu de Jest. L'option 1 est incorrecte car la simple présence du fichier ne prouve pas son effet sur une réponse. L'option 2 est incorrecte car GitHub.com n'est pas la session Chat VS Code qui charge l'instruction. L'option 3 est incorrecte car README.md n'est pas le nom de fichier d'instructions chargé automatiquement par Copilot."
         }
       ]
     },
@@ -118,7 +228,7 @@
             "Le skill se charge dès que son dossier est ouvert dans l'éditeur"
           ],
           "answer": 1,
-          "explanation": "La description est un déclencheur sémantique, pas de la documentation : le routeur ne charge le skill que si la requête correspond. C'est pourquoi elle doit commencer par « Use when… »."
+          "explanation": "L'option 1 est correcte car la description du skill est le déclencheur sémantique que Copilot compare à la demande de l'utilisateur. L'option 0 est incorrecte car les instructions se chargent à chaque conversation, alors que les skills sont conditionnels. L'option 2 est incorrecte car l'utilisateur n'a pas besoin de taper le nom du dossier ou du skill pour un skill invoqué par le modèle. L'option 3 est incorrecte car ouvrir le dossier dans l'éditeur n'est pas le mécanisme d'activation."
         },
         {
           "prompt": "Une procédure ne sert que lorsqu'on demande un message de commit, mais une règle de style doit s'appliquer partout. Comment les répartir ?",
@@ -129,7 +239,7 @@
             "La procédure de commit en instruction, la règle de style en skill"
           ],
           "answer": 2,
-          "explanation": "Instruction = règle permanente chargée à chaque conversation ; skill = procédure conditionnelle chargée sur déclencheur sémantique. Dupliquer le même contenu dans les deux nourrit Copilot deux fois."
+          "explanation": "L'option 2 est correcte car rédiger un message de commit est une procédure conditionnelle, tandis qu'une règle de style est un contexte persistant. L'option 0 est incorrecte car une règle de style ne devrait pas dépendre d'un déclencheur sémantique. L'option 1 est incorrecte car charger la procédure de commit dans toutes les conversations gaspille du contexte. L'option 3 est incorrecte car elle inverse la distinction du handbook entre règles toujours actives et procédures à la demande."
         },
         {
           "prompt": "Comment construire un agent de revue (.agent.md) incapable de modifier des fichiers ou d'exécuter des commandes ?",
@@ -140,7 +250,7 @@
             "Définir mode: ask dans le frontmatter"
           ],
           "answer": 2,
-          "explanation": "La clé tools est le levier le plus puissant : ce qui n'est pas listé est interdit, donc un agent sans editFiles ni runInTerminal ne peut que lire et discuter."
+          "explanation": "L'option 2 est correcte car la liste tools est le levier d'application : les outils non listés sont indisponibles pour l'agent. L'option 0 est incorrecte car une description guide le comportement, mais ne constitue pas une frontière de capacité stricte. L'option 1 est incorrecte car changer de modèle ne retire pas les outils d'édition ou de terminal. L'option 3 est incorrecte car .agent.md utilise des tools et un persona, pas un champ mode de prompt file."
         },
         {
           "prompt": "L'agent A délègue à l'agent B via runSubagent. Quel contexte B reçoit-il ?",
@@ -151,7 +261,7 @@
             "B hérite automatiquement des permissions d'outils de A"
           ],
           "answer": 1,
-          "explanation": "Les sous-agents s'exécutent dans des sous-conversations isolées et héritent de leur propre configuration, pas du contexte de l'appelant — l'appelant doit transmettre ce qui compte."
+          "explanation": "L'option 1 est correcte car un sous-agent s'exécute dans une sous-conversation isolée avec sa propre configuration frontmatter et seulement le contexte transmis. L'option 0 est incorrecte car l'agent délégué ne voit pas automatiquement tout l'historique de l'appelant. L'option 2 est incorrecte car la fenêtre de contexte n'est pas copiée telle quelle dans le sous-agent. L'option 3 est incorrecte car le sous-agent conserve ses propres permissions d'outils au lieu d'hériter de celles de l'appelant."
         },
         {
           "prompt": "Quel mécanisme de hook peut bloquer un appel d'outil dangereux avant son exécution ?",
@@ -162,7 +272,117 @@
             "Stop avec une raison"
           ],
           "answer": 2,
-          "explanation": "PreToolUse se déclenche avant l'exécution d'un outil et sa permissionDecision (allow/deny/ask) est le seul mécanisme qui puisse stopper l'appel avant qu'il ne s'exécute. PostToolUse ne fait que réagir après coup."
+          "explanation": "L'option 2 est correcte car PreToolUse se déclenche avant l'exécution et peut retourner des permissionDecision comme deny. L'option 0 est incorrecte car PostToolUse se déclenche après la fin de l'outil et ne peut donc pas empêcher son exécution. L'option 1 est incorrecte car SessionStart ajoute du contexte initial mais n'est pas lié à un appel d'outil imminent. L'option 3 est incorrecte car Stop peut demander à l'agent de continuer après une réponse, pas bloquer un outil en amont."
+        },
+        {
+          "prompt": "Quelles sont les trois parties du mécanisme de skill mises en avant par le handbook ?",
+          "options": [
+            "Quand, quoi et comment",
+            "Modèle, budget de tokens et température",
+            "Prompt, complétion et cache",
+            "Serveur, outil et transport"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car un skill définit quand il se déclenche, ce qu'il est, et comment Copilot doit procéder. L'option 1 est incorrecte car ce sont des préoccupations de configuration de modèle, pas l'anatomie d'un skill. L'option 2 est incorrecte car prompt, complétion et cache décrivent la mécanique LLM plutôt que la structure d'un skill. L'option 3 est incorrecte car serveur, outil et transport sont des concepts MCP."
+        },
+        {
+          "prompt": "Quel est l'emplacement canonique d'un skill nommé writing-commit-message ?",
+          "options": [
+            ".github/prompts/writing-commit-message.prompt.md",
+            ".github/instructions/writing-commit-message.instructions.md",
+            ".agents/writing-commit-message.agent.md",
+            ".agents/skills/writing-commit-message/SKILL.md"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car chaque skill vit dans son propre dossier sous .agents/skills/ avec un fichier SKILL.md. L'option 0 est incorrecte car .github/prompts/ stocke des prompts réutilisables, pas des skills. L'option 1 est incorrecte car .github/instructions/ stocke des fichiers d'instructions scopées. L'option 2 est incorrecte car les fichiers .agent.md définissent des agents personnalisés, pas des skills conditionnels."
+        },
+        {
+          "prompt": "Pourquoi beaucoup de skills vagues posent-ils problème même s'ils ne sont pas sélectionnés pour une conversation ?",
+          "options": [
+            "Le routeur sémantique doit les évaluer et les descriptions vagues polluent le signal de routage",
+            "Ils écrasent automatiquement .github/copilot-instructions.md",
+            "Ils désactivent tous les agents du workspace",
+            "Ils forcent Copilot à utiliser MCP"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le routeur évalue les descriptions des skills et trop de déclencheurs vagues créent du bruit. L'option 1 est incorrecte car les skills n'écrasent pas le fichier d'instructions du dépôt. L'option 2 est incorrecte car la présence de skills ne désactive pas les agents personnalisés. L'option 3 est incorrecte car les skills sont des procédures textuelles et ne forcent pas l'usage de MCP."
+        },
+        {
+          "prompt": "Quels champs de frontmatter sont obligatoires pour un .agent.md de base selon le module Agents ?",
+          "options": [
+            "applyTo et mode",
+            "name et description",
+            "servers et env",
+            "hook_event_name et timeout"
+          ],
+          "answer": 1,
+          "explanation": "L'option 1 est correcte car un agent a besoin d'un name et d'une description pour apparaître et être compris dans le sélecteur de mode. L'option 0 est incorrecte car applyTo sert aux instructions scopées et mode aux prompt files. L'option 2 est incorrecte car servers et env appartiennent à la configuration MCP. L'option 3 est incorrecte car hook_event_name et timeout appartiennent aux payloads ou définitions de hooks."
+        },
+        {
+          "prompt": "Dans un fichier .agent.md, quelle est la différence entre omettre tools et définir tools: [] ?",
+          "options": [
+            "Les deux rendent l'agent read-only",
+            "Les deux ne donnent aucun outil à l'agent",
+            "Omettre tools ne donne aucun outil ; tools: [] donne tous les outils",
+            "Omettre tools donne tous les outils disponibles ; tools: [] ne donne aucun outil"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car l'absence de clé tools laisse tous les outils disponibles à l'agent, alors qu'une liste vide explicite n'en accorde aucun. L'option 0 est incorrecte car omettre tools ne rend pas l'agent read-only. L'option 1 est incorrecte car seul tools: [] retire tous les outils. L'option 2 est incorrecte car elle inverse le comportement documenté."
+        },
+        {
+          "prompt": "Que faire d'une ancienne personnalisation .chatmode.md dans ce parcours ?",
+          "options": [
+            "La migrer en la renommant en .agent.md et en vérifiant le frontmatter",
+            "Créer de nouveaux fichiers .chatmode.md pour chaque rôle",
+            "La déplacer dans .vscode/mcp.json",
+            "La convertir en script de hook"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le module Agents considère .chatmode.md comme obsolète et recommande de migrer vers .agent.md. L'option 1 est incorrecte car le module dit de ne pas créer de nouveaux fichiers .chatmode.md. L'option 2 est incorrecte car mcp.json configure des serveurs MCP exécutables, pas des personas de chat. L'option 3 est incorrecte car les hooks sont des scripts événementiels, pas des modes de conversation."
+        },
+        {
+          "prompt": "Quel événement de hook peut inspecter et enrichir le message d'un utilisateur avant que l'agent le traite ?",
+          "options": [
+            "PostToolUse",
+            "SubagentStop",
+            "PreCompact",
+            "UserPromptSubmit"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car UserPromptSubmit se déclenche quand l'utilisateur soumet un prompt, avant son traitement par l'agent. L'option 0 est incorrecte car PostToolUse se produit après un appel d'outil, pas avant le traitement du prompt. L'option 1 est incorrecte car SubagentStop se déclenche à la fin d'un sous-agent. L'option 2 est incorrecte car PreCompact concerne la compaction de l'historique, pas le filtrage du prompt."
+        },
+        {
+          "prompt": "Que doit contenir à sa racine un JSON de configuration de hook, et comment les noms d'événements s'écrivent-ils ?",
+          "options": [
+            "Un tableau prompts et des événements en snake_case",
+            "Un objet hooks et des noms d'événements en PascalCase",
+            "Un objet servers et des événements en minuscules",
+            "Une liste tools et des événements en kebab-case"
+          ],
+          "answer": 1,
+          "explanation": "L'option 1 est correcte car les fichiers de hooks contiennent un objet racine hooks et des événements comme PreToolUse écrits en PascalCase. L'option 0 est incorrecte car les tableaux prompts ne sont pas le schéma des hooks et les noms en snake_case ne sont pas documentés. L'option 2 est incorrecte car servers est la clé racine utilisée par la configuration MCP. L'option 3 est incorrecte car les listes tools concernent les agents ou prompts, pas le schéma racine des hooks."
+        },
+        {
+          "prompt": "Comment un hook de commande peut-il signaler un échec bloquant via son résultat de processus ?",
+          "options": [
+            "Sortir avec le code 2 et envoyer le message bloquant sur stderr",
+            "Sortir avec le code 0 et ne rien afficher",
+            "Sortir avec n'importe quel code non nul et laisser VS Code deviner",
+            "Retourner uniquement du YAML sur stdout"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le module Hooks spécifie le code de sortie 2 comme bloquant, avec stderr renvoyé au modèle. L'option 1 est incorrecte car le code 0 signifie succès et ne bloque pas à lui seul. L'option 2 est incorrecte car les autres codes non nuls sont des avertissements, pas le chemin bloquant documenté. L'option 3 est incorrecte car les hooks communiquent des données structurées en JSON, pas en YAML."
+        },
+        {
+          "prompt": "Quand plusieurs hooks répondent au même événement, quel contrôle l'emporte ?",
+          "options": [
+            "Le hook le plus rapide",
+            "Le hook machine gagne toujours",
+            "Le contrôle le plus restrictif",
+            "Le hook dont le nom de fichier est le plus court"
+          ],
+          "answer": 2,
+          "explanation": "L'option 2 est correcte car le handbook indique que lorsque plusieurs hooks répondent, le contrôle le plus restrictif prévaut. L'option 0 est incorrecte car la vitesse n'est pas la règle de priorité. L'option 1 est incorrecte car les hooks workspace ont une priorité de chargement, mais la résolution des réponses dépend de la restrictivité. L'option 3 est incorrecte car les noms de fichiers ne déterminent pas les décisions de hook."
         }
       ]
     },
@@ -196,7 +416,7 @@
             "Les serveurs MCP ne fonctionnent qu'avec une seule famille de modèles"
           ],
           "answer": 1,
-          "explanation": "Contrairement à un skill (texte seul), un serveur MCP est un vrai processus sur votre machine : il hérite de vos permissions et peut toucher fichiers, réseau et secrets d'environnement."
+          "explanation": "L'option 1 est correcte car un serveur MCP est un vrai processus exécutable avec les permissions et secrets que vous lui donnez. L'option 0 est incorrecte car l'avertissement principal concerne la sécurité, pas la vitesse des complétions inline. L'option 2 est incorrecte car les serveurs MCP n'écrasent pas intrinsèquement les fichiers d'instructions Copilot. L'option 3 est incorrecte car MCP est un protocole d'outils et n'est pas limité à une famille de modèles."
         },
         {
           "prompt": "Quelle est la méthode recommandée pour fournir un token GitHub à un serveur MCP dans .vscode/mcp.json ?",
@@ -207,7 +427,7 @@
             "Coller le token dans le chat à chaque session"
           ],
           "answer": 1,
-          "explanation": "${input:} déclenche une invite VS Code : l'équipe partage la configuration du serveur sans jamais committer d'identifiants."
+          "explanation": "L'option 1 est correcte car ${input:github-token} déclenche une saisie locale dans VS Code et garde la configuration partagée sans secret. L'option 0 est incorrecte car les tokens codés en dur peuvent être commités et fuiter. L'option 2 est incorrecte car committer un token dans .env reste une fuite de secret. L'option 3 est incorrecte car coller des secrets dans le chat n'est pas un mécanisme MCP sûr ni réutilisable."
         },
         {
           "prompt": "Vous gardez 5 serveurs MCP de 10 outils chacun connectés. Quel est le coût caché même sans jamais les utiliser ?",
@@ -218,7 +438,7 @@
             "VS Code désactive les complétions inline"
           ],
           "answer": 1,
-          "explanation": "Chaque serveur connecté ajoute ses descriptions d'outils au contexte de Copilot à chaque tour ; d'où la règle : préférer une CLI existante (gh, az, git) quand elle existe."
+          "explanation": "L'option 1 est correcte car les outils MCP connectés ajoutent leurs descriptions au contexte de Copilot à chaque tour, ce qui consomme des tokens et ajoute du bruit. L'option 0 est incorrecte car les outils connectés mais inutilisés ont quand même un coût de contexte. L'option 2 est incorrecte car le handbook parle de coût en tokens et contexte, pas de facturation serveur à la minute. L'option 3 est incorrecte car les connexions MCP ne désactivent pas les complétions inline."
         },
         {
           "prompt": "Selon les catégories de tâches GitHub, quels modèles choisir pour le raisonnement profond et le débogage ?",
@@ -229,7 +449,7 @@
             "N'importe lequel — ils sont équivalents"
           ],
           "answer": 2,
-          "explanation": "Les tâches rapides et répétitives conviennent aux modèles type Haiku et le codage généraliste à GPT-5 mini ou Raptor mini, tandis que le raisonnement profond appelle les modèles premium."
+          "explanation": "L'option 2 est correcte car le module Choix de modèles place ces modèles premium dans la catégorie raisonnement profond et debugging. L'option 0 est incorrecte car Raptor mini et GPT-5 mini sont plutôt présentés comme des choix généraux ou légers, pas comme l'ensemble premium principal de debugging. L'option 1 est incorrecte car Claude Haiku 4.5 est recommandé pour les tâches simples et rapides. L'option 3 est incorrecte car le module distingue explicitement les modèles par catégorie de tâche, qualité, vitesse et coût."
         },
         {
           "prompt": "Pourquoi « un modèle par session » est-elle la règle recommandée ?",
@@ -240,7 +460,117 @@
             "Les sessions plantent quand on change de modèle"
           ],
           "answer": 1,
-          "explanation": "Le cache de prompt réutilise les tokens d'entrée déjà traités ; un changement de modèle en cours de session invalide tout le préfixe mis en cache et gaspille des tokens."
+          "explanation": "L'option 1 est correcte car changer de modèle casse le préfixe du prompt cache et peut rendre les résultats moins cohérents tout en augmentant le coût en tokens. L'option 0 est incorrecte car la règle porte sur l'efficacité et la cohérence, pas sur la licence. L'option 2 est incorrecte car différents modèles peuvent accéder au même contexte et aux mêmes fichiers fournis via Copilot. L'option 3 est incorrecte car le handbook avertit sur le cache et la cohérence, pas sur des plantages garantis."
+        },
+        {
+          "prompt": "Quand faut-il préférer MCP à un skill ?",
+          "options": [
+            "Quand Copilot doit exécuter un outil externe ou appeler une API pour obtenir des données réelles",
+            "Quand vous voulez une règle de style permanente",
+            "Quand vous avez besoin d'une courte procédure pour des messages de commit",
+            "Quand vous voulez seulement réduire le texte du prompt"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car MCP donne à Copilot des outils exécutables capables de récupérer de vraies données depuis des API, des fichiers ou le réseau. L'option 1 est incorrecte car les règles de style permanentes relèvent des instructions. L'option 2 est incorrecte car la procédure de message de commit est l'exemple classique de skill dans le handbook. L'option 3 est incorrecte car réduire le texte d'un prompt se traite plutôt par prompts réutilisables ou skills, pas nécessairement par serveurs MCP exécutables."
+        },
+        {
+          "prompt": "Quels champs décrivent la commande minimale d'un serveur MCP GitHub en stdio dans .vscode/mcp.json ?",
+          "options": [
+            "applyTo, mode, description",
+            "name, tools, model",
+            "hooks, command, timeout",
+            "type: stdio, command, args et env"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car l'exemple MCP déclare un serveur stdio avec une commande, des arguments et des variables d'environnement pour le token. L'option 0 est incorrecte car applyTo, mode et description appartiennent aux instructions ou aux prompt files. L'option 1 est incorrecte car name, tools et model sont des concepts de frontmatter .agent.md. L'option 2 est incorrecte car hooks, command et timeout décrivent une configuration de hook plutôt que le démarrage d'un serveur MCP."
+        },
+        {
+          "prompt": "Si une CLI officielle peut effectuer la même action qu'un outil MCP, que recommande généralement le handbook ?",
+          "options": [
+            "Utiliser la CLI native via le terminal",
+            "Installer quand même toujours le serveur MCP",
+            "Écrire le résultat à la main",
+            "Désactiver le mode agent"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le handbook indique que les CLI natives comme gh, az, git ou kubectl ont souvent un coût en tokens plus faible, moins de latence et une surface d'attaque réduite. L'option 1 est incorrecte car les serveurs MCP inutiles ajoutent du contexte et un risque de processus tiers. L'option 2 est incorrecte car fabriquer les résultats manuellement va à l'encontre d'un outillage fiable. L'option 3 est incorrecte car le mode agent peut exécuter des commandes terminal et n'a pas besoin d'être désactivé."
+        },
+        {
+          "prompt": "Quelle valeur de paramètre demande une confirmation VS Code avant chaque appel d'outil MCP ?",
+          "options": [
+            "once",
+            "never",
+            "always",
+            "auto"
+          ],
+          "answer": 2,
+          "explanation": "L'option 2 est correcte car chat.mcp.toolCallConfirmation défini à always demande une confirmation pour chaque appel d'outil. L'option 0 est incorrecte car once confirme seulement une fois par outil et par session. L'option 1 est incorrecte car never désactive la confirmation et se réserve aux serveurs de confiance. L'option 3 est incorrecte car auto ne fait pas partie des valeurs documentées pour ce paramètre."
+        },
+        {
+          "prompt": "Quelle pratique de token correspond le mieux aux conseils de sécurité MCP ?",
+          "options": [
+            "Utiliser par défaut un token admin:org",
+            "Committer un token d'équipe partagé dans un dépôt privé",
+            "Donner à chaque serveur le même token très large",
+            "Utiliser les scopes minimaux nécessaires et éviter de stocker le secret dans le dépôt"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car le moindre privilège et l'absence de secrets commités sont au cœur des pratiques de sécurité MCP. L'option 0 est incorrecte car admin:org est beaucoup trop large pour la plupart des tâches. L'option 1 est incorrecte car les dépôts privés peuvent aussi fuiter et les tokens commités sont difficiles à révoquer proprement. L'option 2 est incorrecte car des tokens larges et partagés augmentent le rayon d'impact si un serveur est malveillant ou compromis."
+        },
+        {
+          "prompt": "Que fait le mode Auto dans le model picker de VS Code ?",
+          "options": [
+            "Il route chaque requête selon la complexité de la tâche et la disponibilité des modèles",
+            "Il force le modèle le moins cher pour toutes les tâches",
+            "Il désactive le choix de modèle dans les agents personnalisés",
+            "Il utilise uniquement des modèles capables de traiter des visuels"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car Auto évalue la requête et la disponibilité en temps réel pour choisir un modèle approprié. L'option 1 est incorrecte car Auto n'est pas défini comme un routage vers le moins cher uniquement. L'option 2 est incorrecte car les agents personnalisés peuvent toujours préciser un modèle dans le frontmatter. L'option 3 est incorrecte car Auto n'est pas limité aux tâches avec entrée visuelle."
+        },
+        {
+          "prompt": "Comment forcer un modèle spécifique pour un agent personnalisé ?",
+          "options": [
+            "Mettre le nom du modèle dans .vscode/extensions.json",
+            "Ajouter le modèle à la description du skill",
+            "Définir la clé model dans le frontmatter .agent.md",
+            "Utiliser applyTo dans .github/instructions/"
+          ],
+          "answer": 2,
+          "explanation": "L'option 2 est correcte car le frontmatter .agent.md accepte une clé model optionnelle pour les rôles nécessitant un modèle particulier. L'option 0 est incorrecte car extensions.json recommande des extensions et ne configure pas les modèles d'agents. L'option 1 est incorrecte car les descriptions de skills sont des déclencheurs sémantiques, pas des sélecteurs de modèle. L'option 3 est incorrecte car applyTo scope des instructions à des fichiers et ne choisit pas de modèles."
+        },
+        {
+          "prompt": "Qu'est-ce que le thinking effort dans le module Choix de modèles ?",
+          "options": [
+            "Une façon de compter combien de fichiers un agent a édités",
+            "Un remplacement de la confirmation des outils MCP",
+            "Un paramètre disponible sur tous les modèles non-raisonneurs",
+            "Une quantité configurable de raisonnement appliquée par les modèles de raisonnement compatibles"
+          ],
+          "answer": 3,
+          "explanation": "L'option 3 est correcte car le thinking effort contrôle la quantité de raisonnement appliquée par les modèles compatibles à une requête. L'option 0 est incorrecte car ce n'est pas une métrique de nombre d'éditions. L'option 1 est incorrecte car la confirmation d'outils est un paramètre de sécurité MCP distinct. L'option 2 est incorrecte car les modèles non-raisonneurs comme GPT-4.1 n'affichent pas le sous-menu thinking effort."
+        },
+        {
+          "prompt": "Quel est le lien entre le choix du modèle de chat et celui du modèle de complétion inline dans VS Code ?",
+          "options": [
+            "Ils sont indépendants et se changent dans des chemins d'interface différents",
+            "Ils doivent toujours être le même modèle",
+            "Les complétions inline sont facturées exactement comme les tokens de chat",
+            "Changer le modèle de chat désactive les complétions"
+          ],
+          "answer": 0,
+          "explanation": "L'option 0 est correcte car le module explique que les modèles de chat et de suggestion inline se configurent séparément. L'option 1 est incorrecte car ils n'ont pas l'obligation de correspondre. L'option 2 est incorrecte car les complétions de code et next edit suggestions ne sont pas facturées en crédits AI pour les plans payants. L'option 3 est incorrecte car changer le modèle de chat ne désactive pas les complétions inline."
+        },
+        {
+          "prompt": "Dans la tarification à l'usage 2026 décrite par le module Modèles, qu'est-ce qui détermine le coût d'une interaction Copilot ?",
+          "options": [
+            "Uniquement le nombre de requêtes",
+            "Uniquement le fait que le dépôt soit public ou privé",
+            "Le modèle utilisé et le nombre de tokens d'entrée, de sortie et de cache",
+            "Le nombre d'extensions VS Code installées"
+          ],
+          "answer": 2,
+          "explanation": "L'option 2 est correcte car le module indique que le coût dépend du modèle choisi et des tokens consommés, dont l'entrée, la sortie et le cache. L'option 0 est incorrecte car le module décrit justement un passage hors de la facturation par requête. L'option 1 est incorrecte car la visibilité du dépôt n'est pas le facteur de prix présenté. L'option 3 est incorrecte car les extensions installées ne déterminent pas la consommation de crédits AI."
         }
       ]
     },
@@ -284,7 +614,7 @@
             "Uniquement dans le tag Git"
           ],
           "answer": 1,
-          "explanation": "apm.yml déclare les dépendances (épinglables avec #tag) ; le lockfile stocke le commit résolu et le hash de contenu et doit être commité, comme package-lock.json."
+          "explanation": "L’option 1 est correcte, car APM résout les dépendances dans apm.lock.yaml avec resolved_commit et content_hash pour rendre l'installation reproductible. L’option 0 est fausse, car apm.yml est le manifeste déclaratif et peut épingler un tag, mais ne stocke pas le SHA résolu. L’option 2 est fausse, car .github/copilot-instructions.md est une sortie compilée pour Copilot, pas l'état verrouillé des dépendances. L’option 3 est fausse, car un tag Git peut bouger ou manquer, alors que le lockfile enregistre le commit réellement installé."
         },
         {
           "prompt": "Quelle commande rend les primitives installées par APM visibles pour VS Code / Copilot ?",
@@ -295,7 +625,7 @@
             "apm publish"
           ],
           "answer": 2,
-          "explanation": "apm compile -t copilot écrit la configuration compilée (p. ex. .github/copilot-instructions.md) pour que Copilot la prenne en compte sans configuration supplémentaire."
+          "explanation": "L’option 2 est correcte, car apm compile -t copilot écrit la configuration compilée, comme .github/copilot-instructions.md, que VS Code lit automatiquement. L’option 0 est fausse, car apm audit vérifie le contenu installé et la dérive, mais ne génère pas les instructions destinées à Copilot. L’option 1 est fausse, car apm run exécute seulement un script défini et ce n'est pas la commande standard de compilation. L’option 3 est fausse, car publier rend des primitives consommables par d'autres, sans les rendre visibles au client Copilot local."
         },
         {
           "prompt": "Dans un workflow Outside-In, pourquoi l'orchestrateur doit-il transmettre explicitement la sortie du sous-agent N au sous-agent N+1 ?",
@@ -306,7 +636,7 @@
             "Pour éviter de dépasser la limite de débit du modèle"
           ],
           "answer": 1,
-          "explanation": "Chaque sous-agent a son propre contexte isolé. L'orchestrateur est le relais : il collecte la sortie de l'étape N et la transmet en entrée de l'étape N+1 — et il ne fait jamais le travail lui-même."
+          "explanation": "L’option 1 est correcte, car chaque sous-agent possède son propre contexte isolé et l'orchestrateur doit relayer uniquement le résultat nécessaire à l'étape suivante. L’option 0 est fausse, car un journal d'audit peut être utile, mais ce n'est pas la raison de la transmission du contexte. L’option 2 est fausse, car les sous-agents peuvent recevoir du langage naturel ou des données structurées ; JSON n'est pas une contrainte. L’option 3 est fausse, car les limites de débit n'expliquent pas le passage d'information entre conversations isolées."
         },
         {
           "prompt": "Qu'est-ce qui définit un plugin Copilot, par rapport à l'installation de primitives individuelles via APM ?",
@@ -317,7 +647,7 @@
             "Un plugin est un autre nom pour un serveur MCP"
           ],
           "answer": 1,
-          "explanation": "Les plugins livrent un kit cohérent de primitives sous forme d'un dépôt Git, avec portée user ou project ; APM gère des primitives individuelles par projet. Les deux se complètent."
+          "explanation": "L’option 1 est correcte, car un plugin Copilot empaquette un ensemble cohérent de primitives avec un manifeste .github/plugin/plugin.json et s'installe en bloc. L’option 0 est fausse, car les plugins sont des bundles distribués via Git, pas forcément des binaires payants. L’option 2 est fausse, car le module décrit l'installation dans VS Code / Copilot, pas un fonctionnement limité à JetBrains. L’option 3 est fausse, car un serveur MCP est un processus d'outil externe, tandis qu'un plugin peut contenir skills, agents, hooks et éventuellement de la configuration MCP."
         },
         {
           "prompt": "Dans le terminal, quelle commande demande à Copilot d'expliquer une commande shell inconnue drapeau par drapeau ?",
@@ -328,7 +658,117 @@
             "copilot --help"
           ],
           "answer": 1,
-          "explanation": "gh copilot explain décompose une commande donnée ; gh copilot suggest propose une commande à partir d'une description (avec les types -t shell/gh/git et les alias ghcs/ghce)."
+          "explanation": "L’option 1 est correcte, car gh copilot explain prend une commande existante et détaille son programme et ses flags en langage naturel. L’option 0 est fausse, car suggest génère une commande à partir d'une intention au lieu d'expliquer une commande déjà connue. L’option 2 est fausse, car gh explain n'est pas la sous-commande Copilot CLI enseignée dans le module. L’option 3 est fausse, car une aide liste l'usage général, sans expliquer flag par flag une commande shell arbitraire."
+        },
+        {
+          "prompt": "Quelle est la meilleure raison de commiter apm.lock.yaml avec apm.yml dans un dépôt d'équipe ?",
+          "options": [
+            "Il stocke le binaire APM pour une installation hors ligne",
+            "Il garantit que chaque clone résout les mêmes commits de dépendances et les mêmes content hashes",
+            "Il remplace le besoin de dossiers .agents/",
+            "Il fait ignorer les primitives locales par Copilot"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car le lockfile enregistre les commits résolus, les content hashes et les fichiers déployés, ce qui donne à chaque développeur une configuration reproductible. L’option 0 est fausse, car le lockfile ne contient pas de binaire et n'installe pas APM lui-même. L’option 2 est fausse, car APM déploie des primitives dans des dossiers d'agents ; le lockfile indique seulement quoi déployer. L’option 3 est fausse, car la visibilité dans Copilot dépend de la configuration compilée et des primitives installées, pas d'une exclusion du contenu local."
+        },
+        {
+          "prompt": "Quelle chaîne de dépendance correspond à la forme canonique du handbook pour une primitive APM individuelle ?",
+          "options": [
+            "owner/repo/kind/name",
+            "kind:name@owner/repo",
+            "https://github.com/owner/repo#kind=name",
+            "owner.repo.kind.name"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car les dépendances APM utilisent la forme owner/repo/kind/name, par exemple anthropics/skills/skills/frontend-design. L’option 1 est fausse, car la notation avec deux-points et arobase n'est pas le format de manifeste montré dans le handbook. L’option 2 est fausse, car les URL complètes ne sont pas la chaîne canonique pour référencer une primitive, même si GitHub héberge les dépôts. L’option 3 est fausse, car APM ne localise pas les primitives dans un dépôt avec des noms de packages séparés par des points."
+        },
+        {
+          "prompt": "Quand le pattern de workflow handoff est-il préférable à un orchestrateur Outside-In ?",
+          "options": [
+            "Quand le workflow est une chaîne linéaire simple sans branchement ni boucle de feedback",
+            "Quand chaque agent doit voir tout l'historique de conversation",
+            "Quand l'agent racine doit inspecter chaque token intermédiaire",
+            "Quand les sous-agents ont besoin d'outils non restreints à chaque étape"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car le handbook présente le handoff comme plus léger pour les chaînes linéaires A → B → C où chaque agent transmet son résultat au suivant. L’option 1 est fausse, car le handoff transmet toujours le résultat utile, pas l'historique complet. L’option 2 est fausse, car l'inspection centralisée de chaque étape correspond plutôt à l'orchestration centrale. L’option 3 est fausse, car un workflow doit continuer à restreindre les outils de chaque agent à sa responsabilité."
+        },
+        {
+          "prompt": "Dans l'exemple de workflow issue-to-code, pourquoi spec-writer ne reçoit-il pas editFiles ?",
+          "options": [
+            "Parce que les issues GitHub ne peuvent pas être lues par des agents",
+            "Parce que l'orchestrateur écrit directement les specs",
+            "Parce que sa responsabilité est de retourner le texte de spécification, pas de modifier le workspace",
+            "Parce que editFiles ne fonctionne qu'après le passage des tests"
+          ],
+          "answer": 2,
+          "explanation": "L’option 2 est correcte, car spec-writer a une responsabilité unique : lire le contexte d'issue et produire une spec structurée sans effet de bord. L’option 0 est fausse, car l'exemple donne justement à spec-writer l'accès GitHub pour lire l'issue. L’option 1 est fausse, car l'orchestrateur a explicitement interdiction de faire le travail lui-même. L’option 3 est fausse, car editFiles est un choix de capacité, pas un outil activé seulement après les tests."
+        },
+        {
+          "prompt": "Quel fichier manifeste un plugin Copilot utilise-t-il pour déclarer son nom, sa version, ses keywords, ses agents et ses skills ?",
+          "options": [
+            ".agents/plugin.yml",
+            ".github/plugin/plugin.json",
+            "apm.lock.yaml",
+            "installed.json"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car l'anatomie d'un plugin dans le handbook repose sur .github/plugin/plugin.json pour les métadonnées et les chemins vers agents et skills. L’option 0 est fausse, car .agents/plugin.yml n'est pas le chemin de manifeste décrit pour les plugins Copilot. L’option 2 est fausse, car apm.lock.yaml concerne la résolution de dépendances APM, pas les métadonnées de plugin. L’option 3 est fausse, car installed.json enregistre les plugins installés localement après installation au lieu de définir le plugin lui-même."
+        },
+        {
+          "prompt": "Pourquoi le scope project est-il souvent plus sûr que le scope user pour un plugin Copilot spécifique à une stack ?",
+          "options": [
+            "Le scope project donne au plugin plus de permissions sur le système de fichiers",
+            "Le scope project désactive les skills du plugin jusqu'au redémarrage de VS Code",
+            "Le scope project évite que des descriptions spécifiques à une stack polluent des workspaces sans rapport",
+            "Le scope project convertit le plugin en package APM"
+          ],
+          "answer": 2,
+          "explanation": "L’option 2 est correcte, car un plugin en scope project n'est actif que dans le workspace courant, ce qui réduit les candidats inutiles dans le routeur ailleurs. L’option 0 est fausse, car le scope règle la disponibilité, pas une élévation automatique de permissions. L’option 1 est fausse, car le handbook ne présente pas le scope project comme un mécanisme de désactivation jusqu'au redémarrage. L’option 3 est fausse, car le choix de scope ne transforme pas un plugin en dépendance APM."
+        },
+        {
+          "prompt": "Avant d'installer un plugin tiers, quelle vérification de sécurité correspond le mieux aux recommandations du handbook ?",
+          "options": [
+            "Lui faire confiance si le plugin a beaucoup de keywords",
+            "Installer d'abord, puis auditer seulement si Copilot se comporte bizarrement",
+            "Lire les fichiers SKILL.md et .agent.md et vérifier que les outils demandés correspondent à la fonction annoncée",
+            "Préférer les plugins sans tags de version, car main est toujours plus frais"
+          ],
+          "answer": 2,
+          "explanation": "L’option 2 est correcte, car le contenu du plugin s'exécute dans le contexte de l'agent ; la revue du source et du périmètre d'outils est donc indispensable avant installation. L’option 0 est fausse, car les keywords aident à la découverte, pas à la confiance. L’option 1 est fausse, car le handbook recommande d'auditer avant d'exposer l'agent à des instructions potentiellement dangereuses. L’option 3 est fausse, car les versions taguées sont plus sûres qu'une branche main mutable pour la reproductibilité."
+        },
+        {
+          "prompt": "Quel flag de Copilot CLI limite gh copilot suggest aux commandes Git ?",
+          "options": [
+            "--mode git",
+            "-t git",
+            "--git-only",
+            "-x git"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car le module CLI documente -t git comme sélecteur de type pour les suggestions de commandes Git. L’option 0 est fausse, car --mode git n'est pas le flag montré pour gh copilot suggest. L’option 2 est fausse, car --git-only n'est pas le sélecteur documenté. L’option 3 est fausse, car -x git ne fait pas partie de la syntaxe Copilot CLI enseignée."
+        },
+        {
+          "prompt": "Quel est le principal défaut d'un agent monolithique do-everything dans le chapitre sur les workflows ?",
+          "options": [
+            "Il ne peut pas appeler les API GitHub",
+            "Il sature un seul contexte avec des instructions sans rapport et des outils trop larges",
+            "Il force tous les sous-agents à retourner du XML",
+            "Il empêche toute commande de test de s'exécuter"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car l'agent monolithique mélange specs, planification, code et outils larges dans une seule conversation, ce qui rend le contexte bruyant et le debug difficile. L’option 0 est fausse, car l'exemple de super-agent peut inclure l'accès githubRepo. L’option 2 est fausse, car aucun format XML n'est requis par le pattern de workflow. L’option 3 est fausse, car l'exemple monolithique peut lancer des tests ; le problème est le scope et le contexte, pas l'impossibilité d'exécuter des commandes."
+        },
+        {
+          "prompt": "À quoi ressemble le plus installed.json dans le modèle d'installation des plugins Copilot ?",
+          "options": [
+            "Un enregistrement de type package-lock des plugins installés et de leurs sources",
+            "Le manifeste source que les auteurs de plugins commitent",
+            "Le fichier qui stocke les valeurs resolved_commit d'APM",
+            "Une transcription de chaque invocation de skill"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car installed.json enregistre les plugins installés avec leur pluginUri et leur source marketplace, ce qui aide à reproduire l'environnement. L’option 1 est fausse, car les auteurs commitent plugin.json, pas installed.json, comme manifeste du plugin. L’option 2 est fausse, car les valeurs resolved_commit appartiennent au lockfile APM, pas à l'enregistrement d'installation Copilot. L’option 3 est fausse, car installed.json suit les installations, pas les activations de skills à l'exécution."
         }
       ]
     },
@@ -377,7 +817,7 @@
             "Parce que le reviewer utilise un modèle plus petit"
           ],
           "answer": 1,
-          "explanation": "Un reviewer en contexte chaud voit les citations dans le cadrage voulu par l'auteur. Contexte frais plus re-téléchargement de chaque URL citée : c'est la seule façon d'obtenir un vrai fact-checking contradictoire."
+          "explanation": "L’option 1 est correcte, car un reviewer en contexte frais peut fact-checker de façon contradictoire en rechargeant les sources citées au lieu d'hériter du cadrage du writer. L’option 0 est fausse, car le contexte frais peut coûter davantage de tokens et n'a pas pour but premier d'en économiser. L’option 2 est fausse, car les artefacts de review persistent dans l'état du pipeline ; leur suppression n'est pas la raison. L’option 3 est fausse, car l'exigence concerne l'indépendance et la vérification des sources, pas la taille du modèle."
         },
         {
           "prompt": "La boucle d'alignement writer–reviewer est bornée à 3 rounds. Que se passe-t-il si le round 3 se termine encore en REVISE ?",
@@ -388,7 +828,7 @@
             "L'orchestrateur réécrit lui-même le chapitre"
           ],
           "answer": 2,
-          "explanation": "Toute boucle d'agents doit avoir une sortie humaine déterministe — une boucle non bornée est un agent qui s'auto-justifie indéfiniment."
+          "explanation": "L’option 2 est correcte, car la boucle bornée sort vers un checkpoint humain lorsque REVISE persiste au round 3. L’option 0 est fausse, car REVISE signifie que le chapitre n'est pas certifié pour publication. L’option 1 est fausse, car redémarrer créerait une boucle non bornée d'auto-justification. L’option 3 est fausse, car l'orchestrateur coordonne l'état et les agents ; il ne reprend pas le travail du writer."
         },
         {
           "prompt": "Quel est le principal bénéfice de configurer des serveurs LSP pour Copilot CLI (.github/lsp.json) ?",
@@ -399,7 +839,7 @@
             "Cela fait fonctionner Copilot hors ligne"
           ],
           "answer": 1,
-          "explanation": "LSP donne à Copilot une navigation de code précise (définitions, références, symboles) avec des résultats économes en tokens, et la CLI utilise automatiquement les serveurs configurés."
+          "explanation": "L’option 1 est correcte, car les opérations LSP comme définitions, références, symboles et appels renvoient des données précises et structurées avec moins de tokens. L’option 0 est fausse, car la coloration syntaxique est une fonction d'affichage de l'éditeur, pas l'objectif de la configuration LSP CLI. L’option 2 est fausse, car LSP améliore la navigation dans le code sans remplacer le contrôle de version. L’option 3 est fausse, car les serveurs LSP ne font pas tourner le service de modèle Copilot hors ligne."
         },
         {
           "prompt": "Quelle partie d'un skill installé est chargée dans le contexte à CHAQUE tour, même si le skill ne se déclenche jamais ?",
@@ -410,7 +850,7 @@
             "Seulement le nom du dossier"
           ],
           "answer": 2,
-          "explanation": "Les descriptions sont toujours chargées pour que le routeur puisse les évaluer ; les corps se chargent à la demande. C'est pourquoi symlinker partout un dépôt de skills multi-stacks détruit le bénéfice du contexte ciblé."
+          "explanation": "L’option 2 est correcte, car le routeur doit voir le nom et la description de chaque skill installé à chaque tour pour décider s'il correspond. L’option 0 est fausse, car le corps complet ne se charge à la demande qu'après déclenchement. L’option 1 est fausse, car au moins les métadonnées de routage sont toujours présentes. L’option 3 est fausse, car le seul nom de dossier ne donne pas assez d'information sémantique au routeur."
         },
         {
           "prompt": "Vous exécutez vos fixtures d'eval with_skill (9/10) et without_skill (8/10). Que conclut le handbook ?",
@@ -421,7 +861,7 @@
             "Réécrire les fixtures pour faire échouer without_skill"
           ],
           "answer": 1,
-          "explanation": "Le delta with/without est la seule preuve objective de la valeur d'un skill. Un skill qui améliore de moins de ~30 % — ou un score without_skill déjà ≥ 80 % — est probablement inutile."
+          "explanation": "L’option 1 est correcte, car le handbook valorise le delta with/without et +10 % reste sous le seuil approximatif de 30 % pour garder du contexte. L’option 0 est fausse, car un score absolu de 9/10 peut avoir peu de valeur si la baseline est déjà à 8/10. L’option 2 est fausse, car ajouter des assertions pour gonfler le delta revient à manipuler l'eval. L’option 3 est fausse, car les fixtures doivent refléter un comportement réaliste, pas être réécrites pour faire échouer la baseline sans skill."
         },
         {
           "prompt": "Dans les comparaisons pairwise en LLM-juge, comment neutraliser le biais de position ?",
@@ -432,7 +872,106 @@
             "Augmenter la température"
           ],
           "answer": 2,
-          "explanation": "Les juges favorisent la première réponse. Le protocole du double appel inversé (plus un juge d'une autre famille de modèles et une calibration sur golden set) rend les verdicts fiables."
+          "explanation": "L’option 2 est correcte, car exécuter A/B puis B/A et exiger un accord révèle et réduit la préférence pour la première position. L’option 0 est fausse, car placer toujours le candidat en premier amplifie précisément le biais à contrôler. L’option 1 est fausse, car une rubrique plus longue peut clarifier les critères sans supprimer le biais d'ordre. L’option 3 est fausse, car augmenter la température accroît le non-déterminisme au lieu de fiabiliser le verdict."
+        },
+        {
+          "prompt": "Que protège le single-writer interlock dans le pipeline de rédaction du handbook ?",
+          "options": [
+            "Il garantit qu'un seul agent modifie l'état persistant du pipeline à la fois",
+            "Il empêche le reviewer de lire les URL sources",
+            "Il force chaque artefact à être stocké en JSON",
+            "Il fait partager un même contexte au writer et au reviewer"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car le single-writer interlock empêche des agents concurrents de corrompre l'état persistant du runtime. L’option 1 est fausse, car le reviewer doit lire les URL sources pour fact-checker. L’option 2 est fausse, car le pipeline peut persister du Markdown et d'autres artefacts ; JSON n'est pas la garantie centrale. L’option 3 est fausse, car le reviewer a précisément besoin d'un contexte frais et isolé."
+        },
+        {
+          "prompt": "Quel verdict signifie que le pipeline du handbook peut sortir immédiatement avec un chapitre prêt pour relecture humaine ?",
+          "options": [
+            "REVISE",
+            "CERTIFY",
+            "REJECT",
+            "RESTART"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car CERTIFY est le verdict positif du reviewer indiquant que le chapitre est prêt pour une relecture humaine. L’option 0 est fausse, car REVISE renvoie le chapitre vers un nouveau round writer s'il reste des rounds. L’option 2 est fausse, car REJECT sort vers un checkpoint humain à cause d'un problème bloquant, pas d'une validation. L’option 3 est fausse, car RESTART ne fait pas partie des verdicts de pipeline décrits."
+        },
+        {
+          "prompt": "Dans la configuration LSP pour Copilot CLI, quels champs sont requis pour une entrée de serveur ?",
+          "options": [
+            "command et fileExtensions",
+            "args et env",
+            "name et version",
+            "repository et branch"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car la configuration LSP CLI exige une command pour démarrer le serveur et fileExtensions pour associer les fichiers aux language IDs. L’option 1 est fausse, car args et env sont des aides optionnelles, pas des champs obligatoires. L’option 2 est fausse, car name et version ne sont pas les clés utilisées pour lancer le serveur LSP. L’option 3 est fausse, car repository et branch relèvent du contrôle de version, pas de la configuration locale d'un language server."
+        },
+        {
+          "prompt": "Quel ordre de priorité Copilot CLI utilise-t-il pour la configuration LSP ?",
+          "options": [
+            "Configuration utilisateur, puis plugins, puis configuration projet",
+            "Configuration projet, puis plugins, puis configuration utilisateur",
+            "Plugins uniquement, sauf désactivation",
+            "Le fichier de configuration le plus gros gagne"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car le handbook indique que .github/lsp.json dans le projet est prioritaire, suivi des configurations de plugins, puis de la configuration utilisateur. L’option 0 est fausse, car elle inverse la précédence et laisserait les réglages personnels dépasser les réglages d'équipe. L’option 2 est fausse, car les plugins ne sont qu'un niveau dans la chaîne de priorité. L’option 3 est fausse, car la taille du fichier ne joue aucun rôle dans la priorité de configuration."
+        },
+        {
+          "prompt": "En comparant APM, plugins, symlink et outils tiers, qu'est-ce qui détermine réellement la taxe fixe en tokens des skills installés ?",
+          "options": [
+            "Le fait que le mode de distribution s'appelle plugin",
+            "La portée et l'ampleur de l'installation, car les descriptions sont toujours candidates",
+            "Le nombre de commits Git dans le dépôt source",
+            "Le fait que le package ait été installé depuis VS Code ou un terminal"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car les skills installés largement ajoutent leurs descriptions au routeur dans davantage de conversations, quel que soit le mécanisme de distribution. L’option 0 est fausse, car plugin contre APM n'est pas le déterminant direct des tokens. L’option 2 est fausse, car l'historique Git du dépôt n'entre pas dans le prompt comme métadonnée de routage. L’option 3 est fausse, car l'interface d'installation ne change pas le coût par tour de la description."
+        },
+        {
+          "prompt": "Quelle situation convient le mieux à APM plutôt qu'à un plugin en scope user ?",
+          "options": [
+            "Un projet a besoin d'un petit ensemble de primitives partagé par tous les contributeurs et verrouillé en version",
+            "Un développeur veut le même toolkit de brainstorming dans tous ses workspaces",
+            "Une équipe refuse de commiter tout manifeste ou lockfile",
+            "Une expérimentation locale ponctuelle doit suivre HEAD manuellement"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car APM est conçu pour des déclarations par projet avec manifeste et lockfile reproductibles par l'équipe. L’option 1 est fausse, car un plugin en scope user convient mieux à des outils personnels utilisés partout. L’option 2 est fausse, car la force d'APM dépend de apm.yml et apm.lock.yaml commités. L’option 3 est fausse, car le suivi manuel de HEAD ressemble davantage à git clone plus symlink qu'au modèle reproductible d'APM."
+        },
+        {
+          "prompt": "Pourquoi les assertions d'evals binaires sont-elles volontairement strictes en pass/fail ?",
+          "options": [
+            "Elles rendent les résultats comparables entre exécutions et exposent les régressions",
+            "Elles permettent au modèle d'expliquer un crédit partiel",
+            "Elles suppriment le besoin de prompts réalistes",
+            "Elles garantissent une sortie LLM déterministe"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car les assertions pass/fail rendent les exécutions comparables et utiles pour détecter les régressions malgré la variabilité des LLM. L’option 1 est fausse, car le crédit partiel relève des rubriques graduées, pas des evals binaires. L’option 2 est fausse, car le handbook insiste sur des prompts réalistes pour des fixtures utiles. L’option 3 est fausse, car les evals binaires évaluent des sorties non déterministes ; elles ne rendent pas le modèle déterministe."
+        },
+        {
+          "prompt": "Quand faut-il passer des evals binaires à une rubrique LLM-juge ?",
+          "options": [
+            "Quand des dimensions comme l'utilité, le ton ou la fidélité ne peuvent pas être capturées par des assertions proches de regex",
+            "Dès qu'une eval binaire échoue une fois",
+            "Quand on veut éviter la calibration humaine",
+            "Quand la sortie attendue doit faire moins de 72 caractères"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car les rubriques graduées et les LLM-juge servent aux dimensions qualitatives que des checks textuels pass/fail ne mesurent pas. L’option 1 est fausse, car une eval binaire qui échoue peut simplement révéler un bug concret sur une exigence déterministe. L’option 2 est fausse, car le handbook insiste sur la calibration des juges avec des labels humains. L’option 3 est fausse, car les contraintes de longueur sont justement bien gérées par des assertions binaires."
+        },
+        {
+          "prompt": "Pourquoi un LLM-juge non calibré est-il dangereux comme métrique ?",
+          "options": [
+            "C'est une opinion qui peut contenir des biais de position, verbosité, self-preference et non-déterminisme",
+            "Il ne peut pas produire de JSON",
+            "Il ne peut comparer que du code, pas de la prose",
+            "Il coûte toujours moins cher que les evals binaires"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car un juge ne devient une métrique qu'après contrôle des biais et calibration contre un golden set de labels humains. L’option 1 est fausse, car les prompts de juge demandent souvent un JSON avec score et reason. L’option 2 est fausse, car les LLM-juge sont particulièrement utiles pour les sorties ouvertes en prose et qualitatives. L’option 3 est fausse, car le coût n'est pas le problème de sécurité, et les evals par juge peuvent coûter plus cher que les checks binaires."
         }
       ]
     },
@@ -491,7 +1030,7 @@
             "Les tokens au-delà de 100k sont gratuits mais ignorés"
           ],
           "answer": 1,
-          "explanation": "La dilution du signal est le plus insidieux des quatre coûts (coût, latence, saturation, dilution) : la qualité baisse quand le ratio signal/bruit baisse, quelle que soit la taille de la fenêtre."
+          "explanation": "L’option 1 est correcte, car un ratio signal/bruit plus faible rend les instructions et le code pertinents plus difficiles à prioriser, même dans une grande fenêtre. L’option 0 est fausse, car la troncature silencieuse n'est pas le phénomène central décrit par la dilution du signal. L’option 2 est fausse, car les grandes fenêtres de contexte ne désactivent pas intrinsèquement le prompt cache. L’option 3 est fausse, car les tokens au-delà d'un seuil arbitraire ne sont ni gratuits ni automatiquement ignorés."
         },
         {
           "prompt": "Quelle pratique de structuration du code réduit le plus le contexte que Copilot doit charger ?",
@@ -502,7 +1041,7 @@
             "Des commentaires détaillés à chaque ligne"
           ],
           "answer": 1,
-          "explanation": "Le langage omniprésent et SOLID rendent le code auto-descriptif : seul le fichier pertinent est chargé ; la sur-fragmentation (fichiers de 5 lignes) ajoute du bruit de navigation — visez ~30–80 lignes."
+          "explanation": "L’option 1 est correcte, car SRP et l'Ubiquitous Language rendent l'intention visible dans les noms et permettent à Copilot de ne charger que l'unité pertinente. L’option 0 est fausse, car un gros service augmente le contexte inutile et la charge cognitive. L’option 2 est fausse, car la fragmentation extrême crée du bruit de navigation et davantage de fichiers à inspecter. L’option 3 est fausse, car les commentaires peuvent aider ponctuellement, mais les commentaires ligne par ligne ajoutent des tokens et répètent souvent le code."
         },
         {
           "prompt": "Qu'est-ce qui distingue un sous-agent de synthèse réellement utile d'un faux ?",
@@ -513,7 +1052,7 @@
             "Il s'exécute en moins de 10 ms"
           ],
           "answer": 1,
-          "explanation": "Un sous-agent qui colle 500 lignes brutes déplace le coût au lieu de le réduire. SNIP/RTK et ast-grep/rg/jq appliquent le même principe mécaniquement (jusqu'à ~90–99 % d'économies)."
+          "explanation": "L’option 1 est correcte, car un sous-agent de synthèse utile compresse le contexte brut en une conclusion exploitable par l'orchestrateur. L’option 0 est fausse, car le choix d'un modèle premium ne prouve aucune réduction de tokens. L’option 2 est fausse, car JSON peut structurer la sortie sans garantir une synthèse. L’option 3 est fausse, car la latence seule ne dit pas si le sous-agent a réduit le contexte."
         },
         {
           "prompt": "Dans une boucle d'autoresearch, combien de changements chaque expérience doit-elle apporter au SKILL.md ?",
@@ -524,7 +1063,7 @@
             "Aucun — seules les fixtures changent"
           ],
           "answer": 1,
-          "explanation": "Une mutation à la fois est la seule façon de savoir ce qui a aidé. Arrêt à 95 %+ de réussite sur 3 expériences consécutives — 70–85 % étant le plafond réaliste de la plupart des skills."
+          "explanation": "L’option 1 est correcte, car une seule mutation permet d'attribuer une variation de score à un changement précis du prompt. L’option 0 est fausse, car plusieurs modifications simultanées rendent la causalité impossible à lire. L’option 2 est fausse, car les fixtures définissent les tests, pas le nombre de modifications à grouper. L’option 3 est fausse, car l'autoresearch optimise SKILL.md tout en gardant les evals suffisamment stables pour comparer les runs."
         },
         {
           "prompt": "Vous avez planifié avec un modèle de raisonnement profond et voulez implémenter avec un modèle plus léger. Quand le transfert Markdown (plan.md + nouvelle session) vaut-il mieux que le fork de conversation ?",
@@ -535,29 +1074,117 @@
             "Jamais — le fork est toujours meilleur"
           ],
           "answer": 1,
-          "explanation": "Le fork hérite de tout le contexte, bruit de planification compris ; un transfert plan.md démarre une session propre où seule la spec compte (au prix d'un cache froid)."
+          "explanation": "L’option 1 est correcte, car le transfert Markdown conserve la spec actionnable tout en supprimant le bruit de planification pour une session d'implémentation propre. L’option 0 est fausse, car avoir besoin de chaque détail de raisonnement favorise un fork avec tout le contexte hérité. L’option 2 est fausse, car une nouvelle session fondée sur Markdown démarre avec un cache froid, pas un préfixe chaud. L’option 3 est fausse, car fork et Markdown sont des compromis, et aucun n'est toujours supérieur."
         },
         {
-          "prompt": "Dans le pattern Route & Assemble, sur quel niveau de modèle l'orchestrateur lui-même doit-il tourner ?",
+          "prompt": "Dans le pattern Route & Assemble avec subagents, sur quel palier de modèle l'orchestrateur lui-même doit-il tourner ?",
           "options": [
-            "Le niveau premium de raisonnement — il prend les décisions les plus dures",
-            "Le niveau léger (p. ex. Haiku 4.5 / Gemini Flash) car il ne fait que router et assembler, sans raisonner profondément ni écrire de code",
-            "Le même niveau que l'implémenteur",
+            "Le palier premium de raisonnement — il prend les décisions les plus difficiles",
+            "Le palier léger (p. ex. Haiku 4.5 / Gemini Flash) parce qu'il route et assemble seulement, sans raisonner profondément ni écrire de code",
+            "Le même palier que l'implémenteur",
             "Peu importe"
           ],
           "answer": 1,
-          "explanation": "La valeur de l'orchestrateur est le routage : les sous-agents planificateurs reçoivent les modèles de raisonnement profond, les implémenteurs les modèles d'ingénierie courante, et le contexte de chaque sous-agent est jeté après usage."
+          "explanation": "L’option 1 est correcte, car l'orchestrateur garde peu de contexte, délègue le travail difficile et assemble les résultats, ce qui suffit à un modèle léger. L’option 0 est fausse, car le raisonnement profond appartient aux subagents planificateurs, pas au routeur. L’option 2 est fausse, car l'implémenteur peut nécessiter un modèle d'ingénierie quotidienne plus fort que l'orchestrateur. L’option 3 est fausse, car choisir les paliers par rôle est central pour les bénéfices de coût et de contexte."
         },
         {
-          "prompt": "Quelle action ne casse PAS le cache de prompt pendant une longue session ?",
+          "prompt": "Quelle action ne casse PAS le prompt cache pendant une longue session ?",
           "options": [
-            "Modifier un message antérieur",
+            "Modifier un ancien message",
             "Réinsérer un gros bloc en haut de la conversation",
-            "Ajouter le nouveau contexte à la fin de la conversation",
+            "Ajouter du nouveau contexte à la fin de la conversation",
             "Changer de modèle en cours de session"
           ],
           "answer": 2,
-          "explanation": "Le cache réutilise le préfixe stable (système + outils + messages antérieurs). Ajouter à la fin le préserve — c'est ainsi qu'on atteint ~88 % de cache hit dans les Agent Debug Logs."
+          "explanation": "L’option 2 est correcte, car ajouter à la fin préserve le préfixe stable que le prompt cache peut réutiliser. L’option 0 est fausse, car modifier un message ancien change le préfixe et invalide tout ce qui suit. L’option 1 est fausse, car insérer un gros bloc en amont décale le prompt et casse la réutilisation du cache en aval. L’option 3 est fausse, car changer de modèle contredit la stratégie d'une session à modèle unique et cache stable."
+        },
+        {
+          "prompt": "Quelles quatre conséquences des tokens le handbook met-il en avant au-delà de la simple facture ?",
+          "options": [
+            "Coût, latence, saturation du contexte et dilution du signal",
+            "Syntaxe, types, imports et tests",
+            "Branches, commits, tags et releases",
+            "CPU, RAM, disque et réseau"
+          ],
+          "answer": 0,
+          "explanation": "L’option 0 est correcte, car le module présente les tokens comme affectant le coût direct, le temps de réponse, l'occupation d'une fenêtre finie et la qualité via la dilution du signal. L’option 1 est fausse, car ce sont des préoccupations de code, pas des dimensions économiques du contexte LLM. L’option 2 est fausse, car les concepts de version control ne décrivent pas l'économie des tokens. L’option 3 est fausse, car les ressources d'infrastructure ne sont pas les quatre conséquences des tokens enseignées."
+        },
+        {
+          "prompt": "Quelle règle de choix de modèle est recommandée avant d'escalader vers un modèle plus grand ?",
+          "options": [
+            "Toujours commencer par le modèle premium pour éviter les reprises",
+            "Faire passer les evals avec le plus petit modèle viable et escalader seulement s'il échoue",
+            "Choisir le modèle avec la plus grande fenêtre de contexte",
+            "Utiliser le même modèle pour tous les agents afin de simplifier les opérations"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car le handbook recommande de prouver que le plus petit modèle peut passer les evals avant de payer un palier supérieur. L’option 0 est fausse, car commencer par premium crée des coûts et de la latence inutiles. L’option 2 est fausse, car la taille de fenêtre seule ne garantit ni qualité ni valeur. L’option 3 est fausse, car différents agents et phases peuvent justifier différents paliers de modèle."
+        },
+        {
+          "prompt": "Pourquoi l'Ubiquitous Language réduit-il la consommation de tokens en développement assisté par IA ?",
+          "options": [
+            "Il cache les concepts métier derrière des abréviations plus courtes",
+            "Il encode l'intention dans les noms, donc moins de prompts explicatifs et de commentaires sont nécessaires",
+            "Il force chaque fonction à être générique",
+            "Il fait ignorer les signatures de type par le modèle"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car des noms comme calculateShippingCost(order, policy) portent directement le sens métier dans le code. L’option 0 est fausse, car les abréviations demandent souvent plus d'explications et augmentent l'ambiguïté. L’option 2 est fausse, car les fonctions génériques comme process(data) sont précisément celles qui nécessitent plus de contexte. L’option 3 est fausse, car des signatures de type claires aident le modèle au lieu d'être ignorées."
+        },
+        {
+          "prompt": "Dans les Object Calisthenics appliquées à la sobriété de contexte, pourquoi les fichiers extrêmement petits de cinq lignes sont-ils déconseillés ?",
+          "options": [
+            "Ils sont impossibles à lire pour Copilot",
+            "Ils créent du bruit de navigation et sur-fragmentent le domaine",
+            "Ils empêchent les tests unitaires de compiler",
+            "Ils forcent chaque classe à être globale"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car le handbook recommande de petites unités cohérentes, environ 30–80 lignes, plutôt qu'une fragmentation qui fait sauter l'agent entre trop de fichiers. L’option 0 est fausse, car Copilot peut lire de petits fichiers ; le problème est le nombre de sauts inutiles. L’option 2 est fausse, car la longueur d'un fichier ne détermine pas à elle seule si les tests compilent. L’option 3 est fausse, car la portée globale n'a pas de rapport avec la recommandation de taille de fichier."
+        },
+        {
+          "prompt": "Quel outil minimal-context est le mieux adapté pour extraire un champ d'un gros fichier JSON sans charger tout le fichier ?",
+          "options": [
+            "ast-grep",
+            "rg",
+            "jq",
+            "tokei"
+          ],
+          "answer": 2,
+          "explanation": "L’option 2 est correcte, car jq est conçu pour interroger du JSON et extraire des champs précis avec de fortes économies de tokens. L’option 0 est fausse, car ast-grep sert à la structure de code et au pattern matching AST. L’option 1 est fausse, car rg cherche des lignes de texte mais ne comprend pas la structure JSON comme un langage de requête. L’option 3 est fausse, car tokei produit des statistiques de code, pas des champs JSON."
+        },
+        {
+          "prompt": "Que fait snip dans la chaîne d'outils de réduction de contexte ?",
+          "options": [
+            "Il réécrit les fichiers source pour les raccourcir",
+            "Il proxy les commandes shell et filtre leur sortie via des pipelines YAML déterministes avant qu'elle n'atteigne le modèle",
+            "Il remplace les serveurs LSP par de la recherche regex",
+            "Il stocke chaque prompt dans un dashboard public"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car snip intercepte la sortie du terminal et applique des filtres déterministes pour éviter que des résultats verbeux ne saturent le contexte. L’option 0 est fausse, car snip filtre les sorties au lieu de modifier le code source. L’option 2 est fausse, car snip concerne la sortie shell, pas le remplacement de la navigation LSP de niveau compilateur. L’option 3 est fausse, car ses stats sont locales ; ce n'est pas un service public de journalisation de prompts."
+        },
+        {
+          "prompt": "Quel est le sweet spot pour les evals binaires dans une boucle d'autoresearch de skill ?",
+          "options": [
+            "Une seule eval, pour garder la boucle rapide",
+            "3 à 6 evals binaires, spécifiques, non gameable et dérivées du domaine",
+            "Vingt evals ou plus pour que le skill mémorise les critères",
+            "Uniquement des scores subjectifs de lisibilité de 1 à 5"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car le handbook recommande 3 à 6 evals avec des vérifications claires, binaires, spécifiques, non gameable et dérivées du domaine. L’option 0 est fausse, car une seule eval couvre rarement assez de comportements pour guider l'amélioration. L’option 2 est fausse, car trop d'evals peuvent pousser le skill à réciter les critères au lieu d'améliorer le comportement. L’option 3 est fausse, car les scores subjectifs gradués relèvent des rubriques LLM-juge, pas des checks binaires d'autoresearch."
+        },
+        {
+          "prompt": "Dans les Agent Debug Logs, pourquoi un ratio de 88 % de tokens d'entrée en cache est-il significatif ?",
+          "options": [
+            "Cela signifie que 88 % des tokens de sortie sont gratuits",
+            "Cela signifie que la plupart des tokens d'entrée viennent d'un préfixe de prompt réutilisé et que la partie non cachée guide l'optimisation",
+            "Cela prouve que le modèle n'a commis aucune erreur",
+            "Cela signifie qu'aucune autre réduction de tokens n'est possible"
+          ],
+          "answer": 1,
+          "explanation": "L’option 1 est correcte, car les tokens d'entrée en cache indiquent quelle part du préfixe de prompt a été réutilisée et concentrent l'optimisation sur les ruptures de cache et les nouveaux tokens. L’option 0 est fausse, car le ratio concerne les tokens d'entrée, pas les tokens de sortie. L’option 2 est fausse, car l'efficacité du cache ne dit rien sur la justesse de la réponse. L’option 3 est fausse, car même avec un taux élevé, le contexte non caché et les tokens de sortie restent optimisables."
         }
       ]
     }
