@@ -1,0 +1,392 @@
+{
+  "note": "Questions removed from the AI Engineer Expert track (DevEx, platform leadership, staff-plus influence). Kept for reference and possible reuse.",
+  "modules": [
+    {
+      "id": "devex-platform",
+      "title": "Developer Experience and platform engineering",
+      "quiz": [
+        {
+          "prompt": "What is the most common failure mode when teams adopt DORA metrics for DevEx work?",
+          "options": [
+            "They collect too much qualitative feedback",
+            "They use metrics as local optimization targets without understanding context or tradeoffs",
+            "They refuse to compare teams",
+            "They focus too much on incident learning"
+          ],
+          "answer": 1,
+          "explanation": "Correct: DORA metrics are useful as sociotechnical signals, but they become harmful when treated as scorecards for local optimization without context. 'Too much qualitative feedback' is wrong because qualitative data is often what explains the metric movement. 'Refuse to compare teams' is wrong because avoiding simplistic comparison can be healthy when team contexts differ. 'Focus too much on incident learning' is a distractor because incident learning complements delivery metrics rather than corrupting them."
+        },
+        {
+          "prompt": "Which combination gives the strongest DevEx understanding?",
+          "options": [
+            "Only survey data",
+            "Only deployment metrics",
+            "Delivery metrics, qualitative feedback, workflow traces, and business context",
+            "Only ticket counts"
+          ],
+          "answer": 2,
+          "explanation": "Correct: DevEx is multidimensional, so delivery outcomes, lived experience, workflow evidence, and business context must be interpreted together. 'Only survey data' is wrong because sentiment without behavioral and delivery data can be misleading. 'Only deployment metrics' fails because fast delivery can coexist with burnout, toil, or poor developer cognition. 'Only ticket counts' is a distractor because ticket volume measures activity more than value or friction."
+        },
+        {
+          "prompt": "An internal portal has high page views but engineers still bypass the paved road for service creation. What should the platform team investigate first?",
+          "options": [
+            "Whether the portal journey actually completes the job faster with fewer handoffs than the old path",
+            "Whether executives can mandate the portal in the next planning cycle",
+            "Whether the portal logo and visual design are modern enough",
+            "Whether more documentation pages can increase search traffic"
+          ],
+          "answer": 0,
+          "explanation": "Correct: Adoption that matters is successful completion of developer jobs with less friction, not page traffic. 'Mandate the portal' is wrong because forced usage can mask unresolved workflow problems. 'Modern logo' fails because visual polish rarely fixes missing capabilities or slow handoffs. 'More documentation pages' is a distractor because discoverability is only useful if the journey solves the task."
+        },
+        {
+          "prompt": "A team proposes using SPACE to create individual productivity scores. What is the Principal-level response?",
+          "options": [
+            "Use SPACE dimensions to guide team and system improvement, with privacy protections and qualitative interpretation",
+            "Proceed, because SPACE was designed to compare individual engineers objectively",
+            "Replace SPACE with only DORA because DORA is harder to game",
+            "Publish individual scores only to managers to avoid public shame"
+          ],
+          "answer": 0,
+          "explanation": "Correct: SPACE is intended to reason about productivity across satisfaction, performance, activity, communication, and efficiency at appropriate aggregation levels. 'Compare individual engineers objectively' is wrong because individual scoring damages trust and misuses the framework. 'Replace with only DORA' fails because DORA covers delivery performance, not the full developer experience. 'Scores only to managers' is a distractor because hiding misuse does not make it valid."
+        },
+        {
+          "prompt": "A Backstage catalog is inaccurate because service ownership metadata is stale. What is the most durable fix?",
+          "options": [
+            "Ask a platform engineer to manually correct ownership once per quarter",
+            "Make ownership metadata part of service lifecycle workflows, with validation and clear team accountability",
+            "Hide ownership fields until the data is perfect",
+            "Let teams enter free-text owner names to avoid friction"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Durable catalog quality comes from embedding metadata maintenance into creation, transfer, and retirement workflows. 'Manual quarterly correction' is wrong because it treats a systemic data-quality problem as heroics. 'Hide ownership' fails because missing ownership undermines incident response and discovery. 'Free-text owner names' is a distractor because it reduces friction by destroying consistency."
+        },
+        {
+          "prompt": "Which signal most directly indicates cognitive load in a developer journey?",
+          "options": [
+            "The number of Kubernetes clusters operated by the platform team",
+            "Repeated context switching across tools, unclear ownership, and high support-question recurrence",
+            "The count of internal Slack channels",
+            "The percentage of services written in Go"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Cognitive load appears in context switching, ambiguity, and repeated questions that show developers cannot form a simple mental model. 'Number of clusters' is wrong because platform complexity may be hidden or exposed depending on abstractions. 'Count of Slack channels' fails because channels are only a proxy without evidence of confusion. 'Percentage of Go services' is a distractor because language choice alone does not measure cognitive burden."
+        },
+        {
+          "prompt": "The executive team asks whether the platform is 'paying for itself.' Which answer is most defensible?",
+          "options": [
+            "Yes, because the platform team shipped all roadmap items",
+            "Show reduced duplicated effort, faster compliant delivery, lower incident toil, and opportunity cost avoided against platform operating cost",
+            "Yes, because platform engineers are more senior than product engineers",
+            "Show that every team uses at least one platform tool"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Platform value is defensible when benefits such as reuse, speed, risk reduction, and toil reduction are compared with cost. 'Shipped all roadmap items' is wrong because delivery of features is not proof of outcomes. 'More senior engineers' fails because staffing profile does not establish business value. 'Every team uses one tool' is a distractor because shallow usage may not create meaningful leverage."
+        },
+        {
+          "prompt": "Which research method best complements DORA data when diagnosing a sudden drop in deployment frequency?",
+          "options": [
+            "Asking managers to estimate who slowed down",
+            "Removing all change approvals immediately",
+            "Shadowing and interviewing teams to trace approval, CI, dependency, and release-friction points",
+            "Adding more deployment-frequency targets to team OKRs"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Workflow tracing and interviews expose the sociotechnical causes behind a metric change. 'Manager estimates' are wrong because secondhand attribution often misses actual friction. 'Remove all approvals' fails because it jumps to a solution before understanding risk and constraints. 'More targets' is a distractor because pressure can worsen gaming without fixing bottlenecks."
+        },
+        {
+          "prompt": "A platform API has excellent uptime but developers complain it is unreliable. Which investigation is most appropriate?",
+          "options": [
+            "Dismiss the complaint because uptime proves reliability",
+            "Lower the SLO so the API appears healthier",
+            "Measure user-visible success, latency, error quality, support burden, and workflow impact for key developer tasks",
+            "Ask teams to retry manually when the API fails"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Reliability for DevEx must be measured from the user's task perspective, including latency, errors, and recoverability. 'Dismiss the complaint' is wrong because aggregate uptime can hide painful partial failures. 'Lower the SLO' fails because it changes reporting rather than reality. 'Manual retries' is a distractor because it transfers toil to users."
+        },
+        {
+          "prompt": "What is the biggest risk of making platform adoption the only platform-team OKR?",
+          "options": [
+            "The platform team will collect too much qualitative evidence",
+            "Executives will understand the platform too clearly",
+            "Teams will stop needing documentation",
+            "Adoption may rise through mandates while developer outcomes and trust do not improve"
+          ],
+          "answer": 3,
+          "explanation": "Correct: Adoption alone can be inflated by mandates, bundling, or lack of alternatives without proving value. 'Too much qualitative evidence' is wrong because qualitative evidence helps interpret adoption. 'Executives understand clearly' fails because clarity is a benefit, not a risk. 'Teams stop needing documentation' is a distractor because good self-service still needs usable guidance."
+        },
+        {
+          "prompt": "Which anti-pattern most undermines self-service platform claims?",
+          "options": [
+            "Automated provisioning with policy checks",
+            "Clear escalation paths for unusual cases",
+            "Opinionated defaults with documented escape hatches",
+            "A request form that triggers opaque manual work by the platform team"
+          ],
+          "answer": 3,
+          "explanation": "Correct: A form that hides manual work is ticket-service, not true self-service, because users cannot independently complete the job. 'Automated provisioning' is wrong because automation supports self-service. 'Clear escalation paths' fails as a wrong answer because exceptions need human support. 'Opinionated defaults' is a distractor because defaults and escape hatches are core platform design tools."
+        },
+        {
+          "prompt": "A team improved deployment frequency but change-failure rate doubled. What should a Principal DevEx leader conclude?",
+          "options": [
+            "The DevEx program is unquestionably successful",
+            "Deployment frequency should be abandoned as a metric",
+            "Developers should deploy less often by policy",
+            "The system optimized speed without enough release safety, so examine test signal, rollout controls, and incident learning"
+          ],
+          "answer": 3,
+          "explanation": "Correct: DORA metrics must be interpreted as a balanced system, and faster flow with worse failure rates points to missing safety capabilities. 'Unquestionably successful' is wrong because one metric improved while reliability degraded. 'Abandon deployment frequency' fails because the metric remains useful when balanced with others. 'Deploy less often by policy' is a distractor because reducing cadence may hide rather than fix release-safety gaps."
+        }
+      ]
+    },
+    {
+      "id": "excellence-reliability",
+      "title": "Engineering excellence, reliability, and operational maturity",
+      "quiz": [
+        {
+          "prompt": "Which statement best matches an engineering-excellence mindset?",
+          "options": [
+            "Quality belongs mostly to QA",
+            "Reliability work slows product work and should be deferred",
+            "Quality, observability, release safety, and incident learning are shared system capabilities",
+            "Postmortems should focus on the person who merged the change"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Engineering excellence treats quality, observability, release safety, and learning as shared capabilities of the whole system. 'Quality belongs mostly to QA' is wrong because late inspection cannot compensate for weak engineering feedback loops. 'Reliability work slows product work' fails because reliability enables sustained product speed. 'Focus on the person' is a distractor because blame hides systemic contributors."
+        },
+        {
+          "prompt": "A Technology Radar discussion is useful for reliability when it does what?",
+          "options": [
+            "Creates fashion-driven adoption of every new observability tool",
+            "Replaces incident reviews",
+            "Classifies practices and tools by local maturity, risk, and learning evidence before broad rollout",
+            "Requires all teams to use the same stack immediately"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Radar-style governance helps organizations make evidence-based adoption decisions with explicit maturity and risk. 'Fashion-driven adoption' is wrong because novelty is not reliability value. 'Replaces incident reviews' fails because radar and incident learning answer different questions. 'Same stack immediately' is a distractor because forced uniformity can ignore context."
+        }
+      ]
+    },
+    {
+      "id": "principal-systems",
+      "title": "Principal-level architecture, influence, and strategy",
+      "quiz": [
+        {
+          "prompt": "What is the best indicator that your architecture review process is healthy?",
+          "options": [
+            "Every proposal is approved",
+            "Documents are long and comprehensive",
+            "Important tradeoffs are surfaced early and teams can move with clarity afterward",
+            "Only staff-plus engineers speak in the review"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Healthy review improves decision quality by surfacing tradeoffs early and enabling teams to proceed confidently. 'Every proposal is approved' is wrong because review without challenge may be ceremonial. 'Long documents' fail because length does not guarantee clarity or decision quality. 'Only staff-plus engineers speak' is a distractor because excluding implementers reduces context and buy-in."
+        },
+        {
+          "prompt": "An RFC proposes a new event platform but omits migration cost. What feedback is most Principal-level?",
+          "options": [
+            "Ask for adoption phases, compatibility strategy, deprecation plan, and measurable outcomes",
+            "Approve it if the target architecture is elegant",
+            "Reject it because migrations are always too risky",
+            "Require every team to migrate in the same quarter"
+          ],
+          "answer": 0,
+          "explanation": "Correct: Principal review tests whether the decision can be adopted safely, measured, and evolved. 'Elegant target architecture' is wrong because architecture value depends on transition feasibility. 'Reject it always' fails because risk can often be managed. 'Same-quarter migration' is a distractor because synchronized mandates increase blast radius and overload teams."
+        },
+        {
+          "prompt": "Which C4 diagram choice best supports an executive architecture discussion?",
+          "options": [
+            "Use a system context or container view that shows users, systems, responsibilities, and major risks",
+            "Start with code-level class diagrams for every service",
+            "Show only cloud vendor icons without relationships",
+            "Avoid diagrams because executives do not need technical context"
+          ],
+          "answer": 0,
+          "explanation": "Correct: Context and container views communicate boundaries, responsibilities, and risks at the right abstraction level. 'Class diagrams' are wrong because they bury executives in implementation detail. 'Vendor icons only' fails because icons without relationships do not explain architecture. 'Avoid diagrams' is a distractor because visual models can align non-specialists when scoped well."
+        },
+        {
+          "prompt": "Which DORA capability most directly supports safer architecture evolution?",
+          "options": [
+            "Change approval by an external board only",
+            "Loosely coupled architecture enabling teams to test and deploy independently",
+            "Large batches of changes to reduce release overhead",
+            "Manual environment provisioning"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Loose coupling enables independent testing, deployment, and recovery, which lowers change risk. 'External board only' is wrong because approval gates do not create technical safety by themselves. 'Large batches' fail because they increase blast radius and diagnosis cost. 'Manual provisioning' is a distractor because it slows and destabilizes change."
+        },
+        {
+          "prompt": "Which sign indicates architecture governance has become too centralized?",
+          "options": [
+            "Teams use shared ADR templates",
+            "High-risk decisions receive explicit review",
+            "Standards include documented escape hatches",
+            "Every low-risk decision waits for a committee, causing queues and reducing ownership"
+          ],
+          "answer": 3,
+          "explanation": "Correct: Central queues for low-risk decisions create bottlenecks and undermine team accountability. 'Shared ADR templates' is wrong because templates can improve clarity. 'High-risk review' fails as a wrong answer because selective review is appropriate. 'Escape hatches' are a distractor because they support pragmatic governance."
+        },
+        {
+          "prompt": "A roadmap balances innovation, risk, and adoption when it does what?",
+          "options": [
+            "Funds only brand-new capabilities",
+            "Delays all innovation until governance is perfect",
+            "Measures success only by launch dates",
+            "Sequences experiments, foundations, migration support, and risk controls with explicit learning milestones"
+          ],
+          "answer": 3,
+          "explanation": "Correct: Balanced roadmaps stage learning, infrastructure, adoption support, and controls so innovation can scale responsibly. 'Only new capabilities' is wrong because foundations and migration determine adoption. 'Wait for perfect governance' fails because it blocks learning. 'Launch dates only' is a distractor because launch is not adoption or value."
+        }
+      ]
+    },
+    {
+      "id": "leadership-influence",
+      "title": "Technical leadership, mentorship, and organizational influence",
+      "quiz": [
+        {
+          "prompt": "You disagree with a direction chosen by another team that affects your platform. What is the strongest Principal-level first move?",
+          "options": [
+            "Escalate immediately to their director",
+            "Publicly document why their choice is wrong",
+            "Understand their constraints directly, then work toward a shared decision with explicit tradeoffs",
+            "Build a competing solution to prove your point"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Principal influence starts by understanding the other team's constraints and building alignment around explicit tradeoffs. 'Escalate immediately' is wrong because it bypasses collaboration before facts are clear. 'Publicly document why wrong' fails because it creates defensiveness rather than shared ownership. 'Build a competing solution' is a distractor because it fragments the organization."
+        },
+        {
+          "prompt": "What most reliably scales a Principal engineer's impact beyond their own output?",
+          "options": [
+            "Reviewing every significant pull request personally",
+            "Growing other engineers through mentorship, clear standards, and delegated ownership",
+            "Attending every architecture meeting",
+            "Owning all critical-path code"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Principal impact scales when others become more capable through mentoring, standards, and delegated ownership. 'Reviewing every PR' is wrong because it creates a bottleneck. 'Attending every meeting' fails because presence is not leverage. 'Owning all critical-path code' is a distractor because central ownership limits growth and resilience."
+        },
+        {
+          "prompt": "A senior engineer you mentor wants only larger coding tasks but needs to grow influence. What plan is strongest?",
+          "options": [
+            "Pair them with an RFC, stakeholder interviews, and a delegated decision area with feedback",
+            "Give them all critical code so they stay motivated",
+            "Tell them influence is political and optional",
+            "Move them into management immediately"
+          ],
+          "answer": 0,
+          "explanation": "Correct: Delegated decision work plus feedback grows staff-plus skills while preserving technical identity. 'All critical code' is wrong because it reinforces individual contribution only. 'Influence is optional' fails because senior technical leadership requires alignment work. 'Move to management' is a distractor because influence growth is not synonymous with people management."
+        },
+        {
+          "prompt": "Which staff-plus archetype best fits an engineer coordinating a multi-team platform migration?",
+          "options": [
+            "Architect or right-hand style leader aligning strategy, interfaces, and execution across teams",
+            "Solver working privately on isolated bugs",
+            "Tech lead focused only on one squad's sprint",
+            "Specialist who refuses cross-team communication"
+          ],
+          "answer": 0,
+          "explanation": "Correct: Multi-team migration requires architecture, coordination, and organizational leverage across boundaries. 'Private solver' is wrong because isolated heroics cannot align teams. 'One-squad tech lead' fails because the scope exceeds a single team. 'Specialist refusing communication' is a distractor because expertise must be translated into adoption."
+        },
+        {
+          "prompt": "Which mentorship action is sponsorship rather than coaching?",
+          "options": [
+            "Creating a visible opportunity for an engineer to lead a cross-team design and advocating for their readiness",
+            "Giving private advice on presentation structure",
+            "Explaining how to debug a flaky test",
+            "Reviewing their code style comments"
+          ],
+          "answer": 0,
+          "explanation": "Correct: Sponsorship uses your influence to create opportunity and visibility for someone else's growth. 'Private advice' is wrong because that is coaching. 'Debugging help' fails because it is technical mentoring. 'Code style review' is a distractor because it does not create organizational opportunity."
+        },
+        {
+          "prompt": "A Principal engineer is invited to every design review and becomes the default decision maker. What is the risk?",
+          "options": [
+            "Design quality will automatically improve forever",
+            "Decisions may bottleneck on one person and other leaders may stop developing judgment",
+            "Teams will become too autonomous",
+            "Written decisions will become unnecessary"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Over-centralizing judgment creates queues and prevents other engineers from growing decision-making capability. 'Quality improves forever' is wrong because dependence on one reviewer is fragile. 'Too autonomous' fails because the described problem is insufficient autonomy. 'Writing unnecessary' is a distractor because durable decisions become more important at scale."
+        },
+        {
+          "prompt": "How should a Principal engineer respond when a public disagreement becomes heated?",
+          "options": [
+            "Win the argument with more forceful technical detail",
+            "Pause, restate shared goals and unresolved tradeoffs, move contentious details to a smaller working session, and document the decision path",
+            "Stop engaging permanently",
+            "Ask leadership to pick a side without context"
+          ],
+          "answer": 1,
+          "explanation": "Correct: De-escalation preserves trust while keeping the decision process explicit and evidence-based. 'Win with force' is wrong because dominance can destroy alignment. 'Stop engaging' fails because avoidance leaves the conflict unresolved. 'Leadership pick a side' is a distractor because escalation without context weakens decision quality."
+        },
+        {
+          "prompt": "Which signal best shows your mentoring is working?",
+          "options": [
+            "Mentees ask you to solve every hard problem",
+            "Mentees independently frame tradeoffs, lead decisions, and mentor others",
+            "You attend more meetings than before",
+            "Your code review comments become longer"
+          ],
+          "answer": 1,
+          "explanation": "Correct: Successful mentoring creates independent judgment and further multiplication through others. 'Ask you to solve everything' is wrong because dependence is the opposite of growth. 'More meetings' fails because activity does not prove impact. 'Longer comments' is a distractor because verbosity is not capability building."
+        },
+        {
+          "prompt": "Which delegation pattern is healthiest for growing a senior engineer?",
+          "options": [
+            "Delegate only trivial tasks",
+            "Delegate responsibility but keep all authority",
+            "Delegate the outcome, constraints, and decision rights, then provide checkpoints and feedback",
+            "Disappear until the final deadline"
+          ],
+          "answer": 2,
+          "explanation": "Correct: Effective delegation clarifies outcome, boundaries, authority, and support. 'Only trivial tasks' is wrong because it does not grow judgment. 'Responsibility without authority' fails because it sets people up to fail. 'Disappear' is a distractor because support and feedback are part of growth."
+        },
+        {
+          "prompt": "When should a Principal engineer choose a specialist operating mode?",
+          "options": [
+            "Whenever they want to avoid communication",
+            "Only when they have no leadership responsibilities",
+            "When they want to own all decisions personally",
+            "When a narrow domain has high leverage and deep expertise is needed across teams"
+          ],
+          "answer": 3,
+          "explanation": "Correct: Specialist mode is valuable when deep expertise in a critical domain creates broad leverage. 'Avoid communication' is wrong because specialists must translate expertise. 'No leadership responsibilities' fails because staff-plus specialists still lead through influence. 'Own all decisions' is a distractor because expertise should enable others."
+        },
+        {
+          "prompt": "A team repeatedly ignores feedback in RFC reviews. What is the most constructive next step?",
+          "options": [
+            "Assume bad intent and escalate",
+            "Stop reviewing all future RFCs",
+            "Rewrite their RFC yourself without involving them",
+            "Clarify decision rights, required review criteria, and unresolved risks with the team and sponsors"
+          ],
+          "answer": 3,
+          "explanation": "Correct: Clarifying decision rights and criteria turns vague frustration into an explicit governance conversation. 'Assume bad intent' is wrong because process ambiguity is common. 'Stop reviewing' fails because it abandons system stewardship. 'Rewrite it yourself' is a distractor because it removes ownership from the team."
+        },
+        {
+          "prompt": "Which behavior undermines leading without authority?",
+          "options": [
+            "Listening for constraints before proposing solutions",
+            "Using evidence and shared goals",
+            "Making tradeoffs explicit",
+            "Relying on title, sarcasm, or private escalations to force compliance"
+          ],
+          "answer": 3,
+          "explanation": "Correct: Coercive tactics weaken trust and make future influence harder. 'Listening for constraints' is wrong as an underminer because it builds credibility. 'Evidence and shared goals' fail as a wrong answer because they strengthen alignment. 'Explicit tradeoffs' are a distractor because they support informed decisions."
+        },
+        {
+          "prompt": "A mentorship plan for growing senior engineers should include what?",
+          "options": [
+            "Only a list of people to meet monthly",
+            "A promise that everyone will be promoted",
+            "Only code review assignments",
+            "Growth goals, stretch opportunities, sponsorship actions, feedback loops, and evidence of increasing ownership"
+          ],
+          "answer": 3,
+          "explanation": "Correct: A strong plan combines goals, opportunities, sponsorship, feedback, and observable ownership growth. 'Monthly meetings only' is wrong because cadence without outcomes is weak. 'Promotion promise' fails because growth support cannot guarantee promotion. 'Code review only' is a distractor because staff-plus growth includes influence and decision making."
+        }
+      ]
+    }
+  ]
+}

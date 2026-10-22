@@ -1,12 +1,19 @@
-# Learning Path DevEx / GenAI / Agentic Interview Prep
+# Learning Path — AI Engineer Expert (GenAI, Agentic, Evaluation & Cost Governance)
 
-A zero-build static application that presents a complete interview-preparation learning path for a Principal Software Engineer role focused on:
+A zero-build static application that presents a complete interview-preparation learning path for an **AI Engineer Expert** role focused on:
 
-- GenAI for software development
-- Agentic AI systems and LLMOps
-- Developer Experience and platform engineering
-- Engineering excellence and organizational impact
-- Technical leadership, mentorship, and influence
+- Production GenAI application patterns: RAG, conversational assistants, workflow automation
+- Agentic and tool-using systems with bounded autonomy
+- **GenAI evaluation**: golden datasets, LLM-as-a-judge, regression gating, human feedback
+- **AI observability**: OpenTelemetry GenAI tracing, SLIs and SLOs, cost and quality correlation
+- **AI consumption and cost governance**: model routing, caching, context budgets, quotas, chargeback
+- Reliability, security, privacy and guardrails for AI services
+- Responsible AI in regulated industries: EU AI Act, GDPR, DORA, insurance supervision
+
+> The track was retargeted from a *Principal Software Engineer — DevEx / GenAI* path.
+> The gap analysis, the module taxonomy and the remaining roadmap live in
+> [`plan-ai-engineer-expert.md`](plan-ai-engineer-expert.md); the content transformations are
+> recorded in [`scripts/migrations/README.md`](scripts/migrations/README.md).
 
 ## Live site
 
@@ -17,17 +24,36 @@ Once GitHub Pages is enabled (see below), the app is available at:
 ## What is included
 
 - English and French versions of the full app and quizzes, selectable with the EN / FR switcher (choice is remembered per browser)
-- A 20-week structured learning path across 10 modules
-- Curated, authoritative resources for GenAI, agent systems, LLMOps, DevEx, engineering excellence, and staff-plus leadership
-- Hard module quizzes with scoring and explanations
+- A **24-week structured learning path across 12 modules** with **236 scenario-driven questions**, in strict EN/FR parity
+- Four pillar modules matching the competencies the role singles out: `genai-evaluation`, `ai-observability`, `ai-cost-governance`, `responsible-ai-regulated`
+- Curated, authoritative resources: OpenAI and Anthropic docs, OpenTelemetry GenAI semantic conventions, Ragas, DeepEval, OWASP Top 10 for LLM applications, NIST AI RMF, FinOps for AI, EU AI Act, DORA, EIOPA
+- Hard module quizzes with scoring and explanations that justify the correct answer **and** every distractor
 - **Copilot Academy**: a separate quiz track built from the [AxaFrance learning-path-copilot](https://github.com/AxaFrance/learning-path-copilot) handbook ([site](https://axafrance.github.io/learning-path-copilot/)), with six progressively unlocked levels (Beginner → Padawan → Intermediate → Confirmed → Expert → Master). Score at least 80% on a level to unlock the next; each level links the handbook modules it covers
-- A global assessment aligned to Principal-level expectations
+- A global assessment built on the role's competencies, from evaluation strategy to stakeholder communication
 - An application plan describing the product, architecture, and roadmap for scaling this into a fuller training platform
 - Local progress tracking with export, import, and reset tools
 - **Readiness dashboard**: an interview readiness score (module completion, quiz mastery, Copilot Academy, mock interviews), risk zones, and adaptive next-step recommendations
 - **Mock interviews**: a deterministic 10-question simulator that samples hard questions across every module and grades them with a rubric (accuracy, breadth, consistency, mastery) plus readiness snapshots over time
 - **Optional server mode**: a dependency-free Node.js server (`server/`) that adds accounts with cross-device sync, server-side quiz scoring, deliverable submissions with rubric-based mentor reviews, anonymized cohorts, and a content authoring studio
 - **Offline support (PWA)**: a manifest and service worker cache the app shell and content for degraded offline revision
+
+## Learning path
+
+| # | Module | Weeks | Questions |
+| --- | --- | --- | --- |
+| 1 | LLM and GenAI foundations for production engineers | 1-2 | 20 |
+| 2 | Production Python and API engineering for AI systems | 3 | 18 |
+| 3 | Retrieval, grounding and context engineering | 4-5 | 18 |
+| 4 | Agentic and tool-using systems in production | 6-7 | 20 |
+| 5 | **GenAI evaluation: quality, regression testing and human feedback** | 8-10 | 24 |
+| 6 | **Observability and tracing for AI applications** | 11-12 | 20 |
+| 7 | **AI consumption, cost drivers and usage governance** | 13-14 | 20 |
+| 8 | Reliability, latency and operational maturity for AI services | 15-16 | 14 |
+| 9 | AI security, privacy, safety and guardrails | 17-18 | 13 |
+| 10 | **Responsible AI in regulated industries** | 19-20 | 20 |
+| 11 | AI platform patterns, reusable standards and cross-functional delivery | 21-22 | 23 |
+| 12 | Interview readiness: trade-offs, metrics and stakeholder communication | 23-24 | 26 |
+
 
 ## Run locally
 

@@ -1,0 +1,29 @@
+[project]
+name = "ai-engineer-expert-labs"
+version = "1.0.0"
+description = "Executable Python labs for the AI Engineer Expert learning path"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = [
+    "lab01_chat_service",
+    "lab02_rag_baseline",
+    "lab03_eval_harness",
+    "lab04_tracing",
+    "lab05_cost_router",
+    "lab06_guardrails",
+]
+asyncio_mode = "auto"
+addopts = "-q"
+

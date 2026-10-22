@@ -1,0 +1,392 @@
+{
+  "note": "Questions retirées du parcours AI Engineer Expert (DevEx, leadership plateforme, influence staff-plus). Conservées pour référence et réutilisation éventuelle.",
+  "modules": [
+    {
+      "id": "devex-platform",
+      "title": "Developer Experience et ingénierie de plateforme",
+      "quiz": [
+        {
+          "prompt": "Quel est le mode d'échec le plus courant quand les équipes adoptent les métriques DORA pour le travail DevEx ?",
+          "options": [
+            "Elles collectent trop de feedback qualitatif",
+            "Elles utilisent les métriques comme cibles d'optimisation locale sans comprendre le contexte ni les compromis",
+            "Elles refusent de comparer les équipes",
+            "Elles se concentrent trop sur l'apprentissage des incidents"
+          ],
+          "answer": 1,
+          "explanation": "Correct : les métriques DORA sont utiles comme signaux sociotechniques, mais deviennent nocives quand elles servent de scorecards locales sans contexte. 'Trop de feedback qualitatif' est faux car le qualitatif explique souvent les mouvements des métriques. 'Refuser de comparer les équipes' est faux car éviter les comparaisons simplistes peut être sain. 'Trop d'apprentissage des incidents' est un distracteur car cet apprentissage complète les métriques de livraison."
+        },
+        {
+          "prompt": "Quelle combinaison donne la compréhension DevEx la plus solide ?",
+          "options": [
+            "Uniquement les données d'enquêtes",
+            "Uniquement les métriques de déploiement",
+            "Métriques de livraison, feedback qualitatif, traces de workflows et contexte métier",
+            "Uniquement le nombre de tickets"
+          ],
+          "answer": 2,
+          "explanation": "Correct : la DevEx est multidimensionnelle et demande de combiner résultats de livraison, expérience vécue, traces de workflow et contexte métier. 'Uniquement les enquêtes' est faux car le ressenti sans données comportementales peut tromper. 'Uniquement les métriques de déploiement' échoue car une livraison rapide peut coexister avec du toil ou du burnout. 'Uniquement les tickets' est un distracteur car il mesure surtout l'activité."
+        },
+        {
+          "prompt": "Un portail interne a beaucoup de vues mais les ingénieurs contournent encore le paved road pour créer des services. Que faut-il examiner d'abord ?",
+          "options": [
+            "Si le parcours du portail termine réellement le job plus vite avec moins de handoffs que l'ancien chemin",
+            "Si les dirigeants peuvent rendre le portail obligatoire",
+            "Si le logo et le design visuel sont assez modernes",
+            "Si davantage de pages de documentation peuvent augmenter le trafic de recherche"
+          ],
+          "answer": 0,
+          "explanation": "Correct : l'adoption utile se mesure par l'achèvement d'un job développeur avec moins de friction, pas par le trafic. 'Rendre obligatoire' est faux car cela masque les problèmes de workflow. 'Logo moderne' échoue car le polish ne corrige pas les capacités manquantes. 'Plus de documentation' est un distracteur si le parcours ne résout pas la tâche."
+        },
+        {
+          "prompt": "Une équipe propose d'utiliser SPACE pour créer des scores individuels de productivité. Quelle est la réponse de niveau Principal ?",
+          "options": [
+            "Utiliser les dimensions SPACE pour améliorer les équipes et le système, avec protections de confidentialité et interprétation qualitative",
+            "Continuer, car SPACE a été conçu pour comparer objectivement les individus",
+            "Remplacer SPACE par DORA seulement car DORA est plus difficile à manipuler",
+            "Publier les scores individuels uniquement aux managers"
+          ],
+          "answer": 0,
+          "explanation": "Correct : SPACE sert à guider l'amélioration du système à un niveau d'agrégation approprié, pas à noter les individus. 'Comparer les individus' est faux car cela détruit la confiance et détourne le framework. 'DORA seulement' échoue car DORA ne couvre pas toute l'expérience développeur. 'Scores aux managers' est un distracteur car cacher le mauvais usage ne le rend pas valide."
+        },
+        {
+          "prompt": "Un catalogue Backstage est inexact parce que les métadonnées de ownership sont obsolètes. Quel correctif est le plus durable ?",
+          "options": [
+            "Demander à un ingénieur plateforme de corriger manuellement chaque trimestre",
+            "Intégrer les métadonnées de ownership aux workflows de cycle de vie, avec validation et responsabilité d'équipe claire",
+            "Masquer les champs ownership jusqu'à perfection",
+            "Laisser les équipes saisir des noms libres"
+          ],
+          "answer": 1,
+          "explanation": "Correct : la qualité durable vient de l'intégration des métadonnées dans la création, le transfert et la retraite des services. 'Correction manuelle trimestrielle' est faux car elle transforme un problème systémique en héroïsme. 'Masquer ownership' échoue car cela nuit à l'incident response et à la découverte. 'Noms libres' est un distracteur car cela sacrifie la cohérence."
+        },
+        {
+          "prompt": "Quel signal indique le plus directement la charge cognitive dans un parcours développeur ?",
+          "options": [
+            "Le nombre de clusters Kubernetes opérés par la plateforme",
+            "Des changements de contexte répétés entre outils, une ownership floue et des questions support récurrentes",
+            "Le nombre de canaux Slack internes",
+            "Le pourcentage de services écrits en Go"
+          ],
+          "answer": 1,
+          "explanation": "Correct : la charge cognitive apparaît dans le contexte switching, l'ambiguïté et les questions répétées. 'Nombre de clusters' est faux car la complexité peut être cachée ou exposée. 'Nombre de canaux Slack' échoue car c'est seulement un proxy. 'Pourcentage de Go' est un distracteur car le langage seul ne mesure pas la charge mentale."
+        },
+        {
+          "prompt": "La direction demande si la plateforme 'se rentabilise'. Quelle réponse est la plus défendable ?",
+          "options": [
+            "Oui, parce que l'équipe plateforme a livré toute la roadmap",
+            "Montrer la réduction du travail dupliqué, la livraison conforme plus rapide, moins de toil d'incident et le coût d'opportunité évité face au coût de la plateforme",
+            "Oui, parce que les ingénieurs plateforme sont plus seniors",
+            "Montrer que chaque équipe utilise au moins un outil plateforme"
+          ],
+          "answer": 1,
+          "explanation": "Correct : la valeur plateforme se défend en comparant réutilisation, vitesse, réduction du risque et du toil au coût d'exploitation. 'Roadmap livrée' est faux car livrer des features ne prouve pas les outcomes. 'Ingénieurs plus seniors' échoue car le profil d'équipe ne prouve pas la valeur. 'Chaque équipe utilise un outil' est un distracteur car l'usage superficiel peut ne créer aucun levier."
+        },
+        {
+          "prompt": "Quelle méthode de recherche complète le mieux les données DORA pour diagnostiquer une chute de fréquence de déploiement ?",
+          "options": [
+            "Demander aux managers qui a ralenti",
+            "Supprimer immédiatement toutes les approbations",
+            "Observer et interviewer les équipes pour tracer approbations, CI, dépendances et frictions de release",
+            "Ajouter plus d'objectifs de fréquence de déploiement aux OKR"
+          ],
+          "answer": 2,
+          "explanation": "Correct : le tracing de workflow et les interviews exposent les causes sociotechniques derrière la métrique. 'Estimations des managers' est faux car l'attribution indirecte manque souvent la friction réelle. 'Supprimer les approbations' échoue car c'est une solution prématurée. 'Plus d'objectifs' est un distracteur car la pression peut augmenter le gaming."
+        },
+        {
+          "prompt": "Une API plateforme a une excellente uptime mais les développeurs la disent peu fiable. Quelle investigation est la plus adaptée ?",
+          "options": [
+            "Rejeter la plainte car l'uptime prouve la fiabilité",
+            "Baisser le SLO pour rendre l'API plus saine",
+            "Mesurer le succès visible utilisateur, la latence, la qualité des erreurs, la charge support et l'impact workflow",
+            "Demander aux équipes de réessayer manuellement"
+          ],
+          "answer": 2,
+          "explanation": "Correct : la fiabilité DevEx se mesure du point de vue de la tâche utilisateur, avec latence, erreurs et récupérabilité. 'Rejeter la plainte' est faux car l'uptime agrégée cache les pannes partielles. 'Baisser le SLO' échoue car cela change le reporting, pas la réalité. 'Réessayer manuellement' est un distracteur car cela transfère le toil aux utilisateurs."
+        },
+        {
+          "prompt": "Quel est le plus grand risque de faire de l'adoption le seul OKR plateforme ?",
+          "options": [
+            "L'équipe collectera trop de preuves qualitatives",
+            "Les dirigeants comprendront trop clairement la plateforme",
+            "Les équipes n'auront plus besoin de documentation",
+            "L'adoption peut monter par mandat sans améliorer les outcomes développeur ni la confiance"
+          ],
+          "answer": 3,
+          "explanation": "Correct : l'adoption seule peut être gonflée par des mandats ou l'absence d'alternatives sans prouver la valeur. 'Trop de qualitatif' est faux car il aide à interpréter l'adoption. 'Dirigeants comprennent trop' échoue car la clarté est un bénéfice. 'Plus besoin de documentation' est un distracteur car le self-service a encore besoin de guidance."
+        },
+        {
+          "prompt": "Quel anti-pattern mine le plus une promesse de plateforme self-service ?",
+          "options": [
+            "Provisioning automatisé avec contrôles de policy",
+            "Chemins d'escalade clairs pour les cas inhabituels",
+            "Defaults opinionated avec escape hatches documentés",
+            "Un formulaire de demande qui déclenche un travail manuel opaque par l'équipe plateforme"
+          ],
+          "answer": 3,
+          "explanation": "Correct : un formulaire qui cache du manuel est un service ticketisé, pas du vrai self-service. 'Provisioning automatisé' est faux car il soutient le self-service. 'Escalade claire' échoue comme mauvaise réponse car les exceptions ont besoin de support. 'Defaults opinionated' est un distracteur car ils font partie d'une bonne conception plateforme."
+        },
+        {
+          "prompt": "Une équipe améliore la fréquence de déploiement mais double le change-failure rate. Que conclure ?",
+          "options": [
+            "Le programme DevEx est incontestablement réussi",
+            "Il faut abandonner la fréquence de déploiement comme métrique",
+            "Les développeurs doivent déployer moins souvent par politique",
+            "Le système a optimisé la vitesse sans assez de sécurité de release ; examiner tests, rollout controls et apprentissage d'incidents"
+          ],
+          "answer": 3,
+          "explanation": "Correct : les métriques DORA doivent être lues comme un système équilibré, et plus de vitesse avec plus d'échecs signale un manque de sécurité. 'Incontestablement réussi' est faux car la fiabilité s'est dégradée. 'Abandonner la métrique' échoue car elle reste utile avec d'autres signaux. 'Déployer moins' est un distracteur car cela cache le problème au lieu de corriger les capacités."
+        }
+      ]
+    },
+    {
+      "id": "excellence-reliability",
+      "title": "Excellence en ingénierie, fiabilité et maturité opérationnelle",
+      "quiz": [
+        {
+          "prompt": "Quelle affirmation correspond le mieux à un état d'esprit d'excellence en ingénierie ?",
+          "options": [
+            "La qualité appartient surtout à la QA",
+            "Le travail de fiabilité ralentit le produit et doit être différé",
+            "La qualité, l'observabilité, la sécurité des releases et l'apprentissage des incidents sont des capacités systémiques partagées",
+            "Les post-mortems doivent se concentrer sur la personne qui a mergé le changement"
+          ],
+          "answer": 2,
+          "explanation": "Correct : l'excellence traite qualité, observabilité, release safety et apprentissage comme des capacités partagées. 'La qualité appartient à la QA' est faux car l'inspection tardive ne compense pas de mauvais feedback loops. 'La fiabilité ralentit le produit' échoue car elle permet une vitesse durable. 'Se concentrer sur la personne' est un distracteur car le blâme cache les causes systémiques."
+        },
+        {
+          "prompt": "Une discussion Technology Radar est utile pour la fiabilité quand elle fait quoi ?",
+          "options": [
+            "Adopter par mode chaque nouvel outil d'observabilité",
+            "Remplacer les revues d'incident",
+            "Classer pratiques et outils par maturité locale, risque et preuves d'apprentissage avant rollout large",
+            "Forcer immédiatement toutes les équipes au même stack"
+          ],
+          "answer": 2,
+          "explanation": "Correct : un radar aide à prendre des décisions d'adoption fondées sur preuves, maturité et risque. 'Adoption par mode' est faux car la nouveauté n'est pas la valeur. 'Remplacer les incidents' échoue car les questions sont différentes. 'Même stack immédiat' est un distracteur car l'uniformité forcée ignore le contexte."
+        }
+      ]
+    },
+    {
+      "id": "principal-systems",
+      "title": "Architecture, influence et stratégie de niveau Principal",
+      "quiz": [
+        {
+          "prompt": "Quel est le meilleur indicateur de la santé de votre processus de revue d'architecture ?",
+          "options": [
+            "Chaque proposition est approuvée",
+            "Les documents sont longs et exhaustifs",
+            "Les compromis importants émergent tôt et les équipes avancent ensuite avec clarté",
+            "Seuls les ingénieurs staff-plus parlent pendant la revue"
+          ],
+          "answer": 2,
+          "explanation": "Correct : une revue saine améliore les décisions en révélant tôt les compromis et en donnant de la clarté. 'Tout approuver' est faux car la revue devient cérémonielle. 'Documents longs' échoue car la longueur ne garantit pas la qualité. 'Staff-plus seulement' est un distracteur car exclure les implémenteurs réduit le contexte."
+        },
+        {
+          "prompt": "Un RFC propose une nouvelle plateforme d'événements mais omet le coût de migration. Quel feedback est le plus Principal ?",
+          "options": [
+            "Demander des phases d'adoption, une stratégie de compatibilité, un plan de dépréciation et des outcomes mesurables",
+            "L'approuver si l'architecture cible est élégante",
+            "Le rejeter car les migrations sont toujours trop risquées",
+            "Exiger que toutes les équipes migrent le même trimestre"
+          ],
+          "answer": 0,
+          "explanation": "Correct : une revue Principal vérifie que la décision peut être adoptée, mesurée et évoluée en sécurité. 'Architecture élégante' est faux car la transition compte autant que la cible. 'Toujours rejeter' échoue car le risque peut se gérer. 'Même trimestre' est un distracteur car cela augmente le blast radius."
+        },
+        {
+          "prompt": "Quel choix de diagramme C4 soutient le mieux une discussion d'architecture avec des dirigeants ?",
+          "options": [
+            "Utiliser une vue contexte ou conteneur montrant utilisateurs, systèmes, responsabilités et risques majeurs",
+            "Commencer par des diagrammes de classes pour chaque service",
+            "Montrer seulement des icônes cloud sans relations",
+            "Éviter les diagrammes car les dirigeants n'ont pas besoin de contexte technique"
+          ],
+          "answer": 0,
+          "explanation": "Correct : les vues contexte et conteneur communiquent les frontières et risques au bon niveau. 'Classes détaillées' est faux car cela noie l'audience. 'Icônes seules' échoue car elles n'expliquent pas les relations. 'Pas de diagrammes' est un distracteur car les modèles visuels alignent bien quand ils sont ciblés."
+        },
+        {
+          "prompt": "Quelle capacité DORA soutient le plus directement une évolution d'architecture plus sûre ?",
+          "options": [
+            "Approbation par un board externe seulement",
+            "Architecture faiblement couplée permettant aux équipes de tester et déployer indépendamment",
+            "Gros lots de changements pour réduire l'overhead de release",
+            "Provisioning manuel des environnements"
+          ],
+          "answer": 1,
+          "explanation": "Correct : le couplage faible permet tests, déploiements et recovery indépendants. 'Board externe' est faux car l'approbation ne crée pas la sécurité technique. 'Gros lots' échoue car ils augmentent blast radius et diagnostic. 'Provisioning manuel' est un distracteur car il ralentit et fragilise le changement."
+        },
+        {
+          "prompt": "Quel signe indique que la gouvernance d'architecture est trop centralisée ?",
+          "options": [
+            "Les équipes utilisent des templates ADR partagés",
+            "Les décisions à haut risque reçoivent une revue explicite",
+            "Les standards ont des escape hatches documentés",
+            "Chaque décision à faible risque attend un comité, créant files d'attente et perte d'ownership"
+          ],
+          "answer": 3,
+          "explanation": "Correct : des files centrales pour de faibles risques créent des goulots et minent l'accountability des équipes. 'Templates ADR' est faux car ils améliorent la clarté. 'Revue haut risque' échoue comme mauvaise réponse car elle est appropriée. 'Escape hatches' est un distracteur car ils rendent la gouvernance pragmatique."
+        },
+        {
+          "prompt": "Une roadmap équilibre innovation, risque et adoption quand elle fait quoi ?",
+          "options": [
+            "Finance seulement de nouvelles capacités",
+            "Retarde toute innovation jusqu'à une gouvernance parfaite",
+            "Mesure le succès seulement par les dates de lancement",
+            "Séquence expérimentations, fondations, support migration et contrôles de risque avec jalons d'apprentissage explicites"
+          ],
+          "answer": 3,
+          "explanation": "Correct : une roadmap équilibrée stage apprentissage, fondations, adoption et contrôles pour scaler l'innovation responsable. 'Nouvelles capacités seulement' est faux car fondations et migration déterminent l'adoption. 'Gouvernance parfaite' échoue car cela bloque l'apprentissage. 'Dates de lancement' est un distracteur car lancer n'est pas adopter ni créer de valeur."
+        }
+      ]
+    },
+    {
+      "id": "leadership-influence",
+      "title": "Leadership technique, mentorat et influence organisationnelle",
+      "quiz": [
+        {
+          "prompt": "Vous êtes en désaccord avec une direction prise par une autre équipe qui affecte votre plateforme. Quel est le meilleur premier geste de niveau Principal ?",
+          "options": [
+            "Escalader immédiatement vers leur directeur",
+            "Documenter publiquement pourquoi leur choix est mauvais",
+            "Comprendre directement leurs contraintes, puis travailler vers une décision partagée avec des compromis explicites",
+            "Construire une solution concurrente pour prouver votre point"
+          ],
+          "answer": 2,
+          "explanation": "Correct : l'influence Principal commence par comprendre les contraintes de l'autre équipe et aligner les compromis. 'Escalader immédiatement' est faux car cela court-circuite la collaboration. 'Documenter publiquement pourquoi c'est mauvais' échoue car cela crée de la défense. 'Construire une solution concurrente' est un distracteur car cela fragmente l'organisation."
+        },
+        {
+          "prompt": "Qu'est-ce qui démultiplie le plus sûrement l'impact d'un ingénieur Principal au-delà de sa propre production ?",
+          "options": [
+            "Réviser personnellement chaque pull request significative",
+            "Faire grandir d'autres ingénieurs par le mentorat, des standards clairs et une propriété déléguée",
+            "Assister à chaque réunion d'architecture",
+            "Posséder tout le code du chemin critique"
+          ],
+          "answer": 1,
+          "explanation": "Correct : l'impact Principal scale quand d'autres deviennent plus capables via mentorat, standards et ownership déléguée. 'Réviser chaque PR' est faux car cela crée un goulot. 'Assister à chaque réunion' échoue car la présence n'est pas du levier. 'Posséder tout le code critique' est un distracteur car cela limite la résilience."
+        },
+        {
+          "prompt": "Un senior que vous mentorez veut seulement de plus grosses tâches de code mais doit développer son influence. Quel plan est le plus solide ?",
+          "options": [
+            "Le mettre sur un RFC, des interviews stakeholders et une zone de décision déléguée avec feedback",
+            "Lui donner tout le code critique pour le motiver",
+            "Lui dire que l'influence est politique et optionnelle",
+            "Le passer immédiatement en management"
+          ],
+          "answer": 0,
+          "explanation": "Correct : un travail de décision délégué avec feedback développe les compétences staff-plus tout en gardant l'identité technique. 'Tout le code critique' est faux car cela renforce seulement l'IC. 'Influence optionnelle' échoue car le leadership technique l'exige. 'Management immédiat' est un distracteur car l'influence n'est pas forcément management."
+        },
+        {
+          "prompt": "Quel archétype staff-plus convient le mieux à un ingénieur qui coordonne une migration plateforme multi-équipes ?",
+          "options": [
+            "Architecte ou right-hand alignant stratégie, interfaces et exécution entre équipes",
+            "Solver travaillant seul sur des bugs isolés",
+            "Tech lead concentré uniquement sur le sprint d'une squad",
+            "Spécialiste refusant la communication transverse"
+          ],
+          "answer": 0,
+          "explanation": "Correct : une migration multi-équipes exige architecture, coordination et levier organisationnel. 'Solver privé' est faux car l'héroïsme isolé n'aligne pas. 'Tech lead d'une squad' échoue car le périmètre est plus large. 'Spécialiste sans communication' est un distracteur car l'expertise doit être traduite en adoption."
+        },
+        {
+          "prompt": "Quelle action de mentorat est du sponsorship plutôt que du coaching ?",
+          "options": [
+            "Créer une opportunité visible pour qu'un ingénieur mène un design transverse et défendre sa préparation",
+            "Donner un conseil privé sur la structure de présentation",
+            "Expliquer comment débugger un test flaky",
+            "Relire ses commentaires de style de code"
+          ],
+          "answer": 0,
+          "explanation": "Correct : le sponsorship utilise votre influence pour créer opportunité et visibilité pour quelqu'un. 'Conseil privé' est faux car c'est du coaching. 'Debug test' échoue car c'est du mentoring technique. 'Style code' est un distracteur car cela ne crée pas d'opportunité organisationnelle."
+        },
+        {
+          "prompt": "Un Principal est invité à toutes les revues de design et devient le décideur par défaut. Quel est le risque ?",
+          "options": [
+            "La qualité de design s'améliorera automatiquement pour toujours",
+            "Les décisions peuvent dépendre d'une seule personne et les autres leaders cessent de développer leur jugement",
+            "Les équipes deviendront trop autonomes",
+            "Les décisions écrites deviendront inutiles"
+          ],
+          "answer": 1,
+          "explanation": "Correct : centraliser le jugement crée des files et empêche d'autres ingénieurs de développer leur capacité décisionnelle. 'Qualité automatique' est faux car la dépendance à un reviewer est fragile. 'Trop autonomes' échoue car le problème est l'autonomie insuffisante. 'Écrit inutile' est un distracteur car les décisions durables deviennent plus importantes."
+        },
+        {
+          "prompt": "Comment réagir quand un désaccord public devient tendu ?",
+          "options": [
+            "Gagner l'argument avec plus de détails techniques",
+            "Faire une pause, reformuler les objectifs communs et compromis ouverts, déplacer les détails sensibles en petit groupe et documenter le chemin de décision",
+            "Arrêter définitivement d'interagir",
+            "Demander à la direction de choisir sans contexte"
+          ],
+          "answer": 1,
+          "explanation": "Correct : la désescalade préserve la confiance tout en gardant le processus explicite et fondé sur preuves. 'Gagner par la force' est faux car la dominance détruit l'alignement. 'Arrêter' échoue car le conflit reste non résolu. 'Direction sans contexte' est un distracteur car cela affaiblit la décision."
+        },
+        {
+          "prompt": "Quel signal montre le mieux que votre mentorat fonctionne ?",
+          "options": [
+            "Les mentorés vous demandent de résoudre chaque problème difficile",
+            "Les mentorés cadrent seuls les compromis, mènent des décisions et mentorent d'autres personnes",
+            "Vous assistez à plus de réunions",
+            "Vos commentaires de code review deviennent plus longs"
+          ],
+          "answer": 1,
+          "explanation": "Correct : le mentorat réussi crée du jugement indépendant et une multiplication par d'autres. 'Vous demander tout' est faux car c'est de la dépendance. 'Plus de réunions' échoue car l'activité ne prouve pas l'impact. 'Commentaires plus longs' est un distracteur car la verbosité n'est pas la compétence."
+        },
+        {
+          "prompt": "Quel pattern de délégation est le plus sain pour faire grandir un senior ?",
+          "options": [
+            "Déléguer seulement des tâches triviales",
+            "Déléguer la responsabilité mais garder toute l'autorité",
+            "Déléguer l'outcome, les contraintes et les droits de décision, puis fournir checkpoints et feedback",
+            "Disparaître jusqu'à l'échéance finale"
+          ],
+          "answer": 2,
+          "explanation": "Correct : une bonne délégation clarifie outcome, limites, autorité et support. 'Tâches triviales' est faux car cela ne développe pas le jugement. 'Responsabilité sans autorité' échoue car cela prépare l'échec. 'Disparaître' est un distracteur car le support fait partie de la croissance."
+        },
+        {
+          "prompt": "Quand un Principal doit-il choisir un mode opératoire de spécialiste ?",
+          "options": [
+            "Quand il veut éviter la communication",
+            "Seulement quand il n'a aucune responsabilité de leadership",
+            "Quand il veut posséder toutes les décisions",
+            "Quand un domaine étroit a un fort levier et demande une expertise profonde transverse"
+          ],
+          "answer": 3,
+          "explanation": "Correct : le mode spécialiste est précieux quand une expertise profonde dans un domaine critique crée un levier large. 'Éviter la communication' est faux car le spécialiste doit traduire l'expertise. 'Aucun leadership' échoue car un staff-plus spécialiste mène par influence. 'Posséder toutes les décisions' est un distracteur car l'expertise doit enable les autres."
+        },
+        {
+          "prompt": "Une équipe ignore régulièrement le feedback en revue RFC. Quelle est l'étape constructive ?",
+          "options": [
+            "Supposer une mauvaise intention et escalader",
+            "Arrêter de revoir tous les futurs RFC",
+            "Réécrire leur RFC sans eux",
+            "Clarifier droits de décision, critères de revue requis et risques non résolus avec l'équipe et les sponsors"
+          ],
+          "answer": 3,
+          "explanation": "Correct : clarifier droits et critères transforme la frustration vague en conversation de gouvernance explicite. 'Mauvaise intention' est faux car l'ambiguïté de processus est fréquente. 'Arrêter de revoir' échoue car cela abandonne la stewardship. 'Réécrire sans eux' est un distracteur car cela retire l'ownership."
+        },
+        {
+          "prompt": "Quel comportement mine le leadership sans autorité ?",
+          "options": [
+            "Écouter les contraintes avant de proposer",
+            "Utiliser preuves et objectifs partagés",
+            "Rendre les compromis explicites",
+            "S'appuyer sur le titre, le sarcasme ou les escalades privées pour forcer la conformité"
+          ],
+          "answer": 3,
+          "explanation": "Correct : les tactiques coercitives affaiblissent la confiance et l'influence future. 'Écouter les contraintes' est faux comme comportement nuisible car cela crée de la crédibilité. 'Preuves et objectifs' échoue comme mauvaise réponse car ils alignent. 'Compromis explicites' est un distracteur car ils soutiennent la décision."
+        },
+        {
+          "prompt": "Que doit contenir un plan de mentorat pour faire grandir des seniors ?",
+          "options": [
+            "Seulement une liste de personnes à rencontrer mensuellement",
+            "Une promesse de promotion pour tout le monde",
+            "Seulement des affectations de code review",
+            "Objectifs de croissance, opportunités stretch, actions de sponsorship, boucles de feedback et preuves d'ownership croissante"
+          ],
+          "answer": 3,
+          "explanation": "Correct : un plan fort combine objectifs, opportunités, sponsorship, feedback et signes d'ownership. 'Réunions mensuelles seulement' est faux car la cadence sans outcomes est faible. 'Promesse de promotion' échoue car le soutien ne garantit pas la promotion. 'Code review seulement' est un distracteur car la croissance staff-plus inclut influence et décisions."
+        }
+      ]
+    }
+  ]
+}

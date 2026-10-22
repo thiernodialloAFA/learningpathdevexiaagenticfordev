@@ -4,7 +4,8 @@
 // calls (auth, sync, scoring, submissions) are never cached and require a
 // network, which is the documented degraded behaviour.
 
-const CACHE_NAME = "learning-path-v1";
+// Bump this on every content restructure so cached plan/academy JSON is replaced.
+const CACHE_NAME = "learning-path-v2-aie";
 
 const APP_SHELL = [
   "./",

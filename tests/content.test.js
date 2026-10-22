@@ -93,3 +93,91 @@ test("every quiz answer index points at an existing option", () => {
 test("app.js has valid syntax", () => {
   execFileSync(process.execPath, ["--check", path.join(rootDir, "app.js")]);
 });
+
+// --- AI Engineer Expert track invariants (see plan-ai-engineer-expert.md) ---
+
+const AIE_MODULE_IDS = [
+  "genai-foundations",
+  "python-prod-ai",
+  "rag-grounding",
+  "agentic-systems",
+  "genai-evaluation",
+  "ai-observability",
+  "ai-cost-governance",
+  "ai-reliability",
+  "ai-security-safety",
+  "responsible-ai-regulated",
+  "ai-platform-delivery",
+  "interview-readiness-aie"
+];
+
+// The four competencies the job description singles out. They must stay deep.
+const AIE_PILLARS = ["genai-evaluation", "ai-observability", "ai-cost-governance", "responsible-ai-regulated"];
+
+const MIN_QUESTIONS_PER_MODULE = 12;
+const MIN_QUESTIONS_PER_PILLAR = 20;
+
+test("the plan follows the AI Engineer Expert module taxonomy", () => {
+  for (const file of ["plan.en.json", "plan.fr.json"]) {
+    const plan = readJson(file);
+    assert.deepEqual(
+      plan.modules.map((module) => module.id),
+      AIE_MODULE_IDS,
+      `${file}: module ids and order`
+    );
+  }
+});
+
+test("every module carries enough questions, and pillars carry more", () => {
+  for (const file of ["plan.en.json", "plan.fr.json"]) {
+    const plan = readJson(file);
+    for (const module of plan.modules) {
+      const minimum = AIE_PILLARS.includes(module.id) ? MIN_QUESTIONS_PER_PILLAR : MIN_QUESTIONS_PER_MODULE;
+      assert.ok(
+        module.quiz.length >= minimum,
+        `${file} module ${module.id}: ${module.quiz.length} questions, expected at least ${minimum}`
+      );
+    }
+  }
+});
+
+test("no question prompt is duplicated inside a module", () => {
+  for (const file of ["plan.en.json", "plan.fr.json"]) {
+    const plan = readJson(file);
+    for (const module of plan.modules) {
+      const prompts = module.quiz.map((question) => question.prompt);
+      assert.equal(
+        new Set(prompts).size,
+        prompts.length,
+        `${file} module ${module.id}: duplicate prompt`
+      );
+    }
+  }
+});
+
+test("every explanation justifies the correct answer and the distractors", () => {
+  for (const file of ["plan.en.json", "plan.fr.json"]) {
+    const plan = readJson(file);
+    for (const module of plan.modules) {
+      module.quiz.forEach((question, index) => {
+        assert.ok(
+          question.explanation.length >= 80,
+          `${file} module ${module.id} question ${index}: explanation too short to cover the distractors`
+        );
+      });
+    }
+  }
+});
+
+test("content migrations parse", () => {
+  const migrationsDir = path.join(rootDir, "scripts", "migrations");
+  const files = fs
+    .readdirSync(migrationsDir)
+    .filter((file) => file.endsWith(".js"))
+    .map((file) => path.join(migrationsDir, file));
+  files.push(path.join(migrationsDir, "lib", "insert-module.js"));
+  for (const file of files) {
+    execFileSync(process.execPath, ["--check", file]);
+  }
+});
+
