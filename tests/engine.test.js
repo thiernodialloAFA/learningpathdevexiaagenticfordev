@@ -76,6 +76,14 @@ test("mergeProgress keeps best scores, ORs completion, and unions interviews", (
   assert.equal(merged.interviews.length, 2);
 });
 
+test("mergeProgress keeps the best capstone score", () => {
+  const merged = engine.mergeProgress(
+    { capstones: { cap1: 68, cap2: 85 } },
+    { capstones: { cap1: 74, cap2: 70, cap3: 92 } }
+  );
+  assert.deepEqual(merged.capstones, { cap1: 74, cap2: 85, cap3: 92 });
+});
+
 test("recordAttempt increments the attempt counter", () => {
   let state = engine.normalizeState({});
   state = engine.recordAttempt(state, "m1", 50, "2026-01-01T00:00:00.000Z");
@@ -109,6 +117,37 @@ test("computeReadiness is 0 for an empty state and 100 when everything is master
   });
   assert.equal(full.score, 100);
   assert.equal(full.riskZones.length, 0);
+});
+
+test("computeReadiness includes capstones at 15% and redistributes when none are configured", () => {
+  const all = engine.computeReadiness({
+    modules,
+    academyLevels,
+    capstones: [{ id: "cap1" }],
+    passThreshold: 80,
+    now: Date.parse("2026-03-01T00:00:00.000Z"),
+    state: {
+      completed: { m1: true, m2: true },
+      scores: { m1: 100, m2: 100 },
+      academy: { l1: 100, l2: 100 },
+      capstones: { cap1: 70 },
+      interviews: [{ at: "2026-02-28T00:00:00.000Z", score: 0 }]
+    }
+  });
+  assert.equal(all.score, 80);
+  assert.equal(all.components.capstoneMastery, 100);
+
+  const withoutCapstones = engine.computeReadiness({
+    modules,
+    academyLevels,
+    state: {
+      completed: { m1: true, m2: true },
+      scores: { m1: 100, m2: 100 },
+      academy: { l1: 100, l2: 100 },
+      interviews: [{ at: "2026-02-28T00:00:00.000Z", score: 100 }]
+    }
+  });
+  assert.equal(withoutCapstones.score, 100);
 });
 
 test("computeReadiness flags stale modules and below-threshold scores", () => {
@@ -172,6 +211,22 @@ test("buildInterview is deterministic for a seed and never repeats a question", 
 test("buildInterview caps at the available question count", () => {
   const interview = engine.buildInterview({ modules, questionCount: 99, seed: 1 });
   assert.equal(interview.questions.length, 4);
+});
+
+test("buildInterview restricts specialized tracks to their selected modules", () => {
+  const interview = engine.buildInterview({
+    modules: [
+      ...modules,
+      { id: "genai-evaluation", title: "Evaluation", quiz: modules[0].quiz },
+      { id: "rag-grounding", title: "RAG", quiz: modules[1].quiz }
+    ],
+    trackId: "evaluation",
+    questionCount: 10,
+    seed: 1
+  });
+  assert.equal(interview.trackId, "evaluation");
+  assert.ok(interview.questions.length > 0);
+  assert.ok(interview.questions.every((question) => ["genai-evaluation", "rag-grounding"].includes(question.moduleId)));
 });
 
 test("scoreInterview scores by module and produces a rubric", () => {

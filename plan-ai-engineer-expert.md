@@ -6,8 +6,9 @@
 >
 > Ce document est le plan d'exécution. Il décrit quoi créer, où, avec quel schéma, et comment se mesurer.
 >
-> **État au 16/10/2026 — lots L1 à L5 livrés.** Le parcours est restructuré en 12 modules / 24 semaines
-> et compte **236 questions** en parité EN/FR stricte. Voir §5.2 pour le détail et
+> **État au 26/10/2026 — lots L1 à L12 livrés.** Le parcours est restructuré en 12 modules / 24 semaines,
+> compte **236 questions** en parité EN/FR stricte, et comprend les labs, les tracks d'entretien,
+> les capstones, les métadonnées des ressources et le contrôle périodique des liens. Voir §5.2 pour le détail et
 > [`scripts/migrations/README.md`](scripts/migrations/README.md) pour le journal des migrations.
 
 ---
@@ -258,10 +259,12 @@ Chaque lab = 1 README (objectif, critères de réussite), 1 squelette, 1 suite d
 `scripts/validate-content.js` + `tests/content.test.js` imposent :
 - `plan.*.json` : `duration`, `targetRole`, `readinessTarget` (strings non vides), `goals[]`,
   `modules[]` avec `id` unique, `weeks`, `title`, `objective`, `outcomes[]`, `deliverables[]`,
-  `resources[{name, url https://}]`, `quiz[{prompt, options≥2, answer index valide, explanation}]`,
-  `finalAssessment[{title, criteria[]}]`, `applicationPlan[{title, bullets[]}]`.
+  `resources[{name, url https://, type?, reviewedAt?, level?}]`,
+  `quiz[{prompt, options≥2, answer index valide, explanation, type?}]`,
+  `finalAssessment[{title, criteria[]}]`, `applicationPlan[{title, bullets[]}]`,
+  `capstones[{id, afterModule, title, description, deliverable}]`.
 - **Parité EN/FR stricte** : même nombre de modules, mêmes `id` dans le même ordre, même nombre de
-  questions par module, **mêmes indices `answer`**. Toute nouvelle question doit être écrite
+  questions par module, mêmes formats de questions et capstones alignés, **mêmes indices `answer`**. Toute nouvelle question doit être écrite
   simultanément dans `plan.en.json` et `plan.fr.json`.
 
 ### 5.2 Lot de travaux
@@ -305,7 +308,8 @@ Chaque lab = 1 README (objectif, critères de réussite), 1 squelette, 1 suite d
 
 Après chaque lot : `node scripts/validate-content.js` puis `node --test tests/*.test.js` doivent passer.
 `tests/content.test.js` verrouille désormais la taxonomie des 12 modules, le minimum de questions
-par module (12, et 20 pour les piliers), l'unicité des énoncés et la longueur des explications.
+par module (12, et 20 pour les piliers), la couverture de scénarios, les métadonnées des ressources,
+l'unicité des énoncés et la longueur des explications.
 
 ---
 
@@ -313,19 +317,22 @@ par module (12, et 20 pour les piliers), l'unicité des énoncés et la longueur
 
 | Sprint | Durée | Livrable |
 | --- | --- | --- |
-| S1 | 1 sem. | L1 + L2 : nouvelle ossature 12 modules, contenu provisoire, tests verts |
-| S2 | 2 sem. | L3 : M5 `genai-evaluation` + M6 `ai-observability` complets EN/FR |
-| S3 | 2 sem. | L3 suite : M7 `ai-cost-governance` + M2 `python-prod-ai` |
-| S4 | 1 sem. | L4 + L5 : conformité régulée + évaluation finale |
-| S5 | 2 sem. | L7 : labs Python + CI |
-| S6 | 1 sem. | L6 + L9 + L10 : scénarios, tracks d'entretien, check de liens |
-| S7 | 1 sem. | L8 + L11 + L12 : fraîcheur, capstones, pondération |
+| S1 | 1 sem. | ✅ L1 + L2 : nouvelle ossature 12 modules, contenu provisoire, tests verts |
+| S2 | 2 sem. | ✅ L3 : M5 `genai-evaluation` + M6 `ai-observability` complets EN/FR |
+| S3 | 2 sem. | ✅ L3 suite : M7 `ai-cost-governance` + M2 `python-prod-ai` |
+| S4 | 1 sem. | ✅ L4 + L5 : conformité régulée + évaluation finale |
+| S5 | 2 sem. | ✅ L7 : labs Python + CI |
+| S6 | 1 sem. | ✅ L6 + L9 + L10 : scénarios, tracks d'entretien, check de liens |
+| S7 | 1 sem. | ✅ L8 + L11 + L12 : fraîcheur, capstones, pondération |
 
 ---
 
 ## 7. Comment je me mesure (critères de sortie)
 
 Prêt pour l'entretien quand **tout** est vrai :
+
+> Cette liste mesure la progression d'un apprenant et reste à cocher pendant l'utilisation du parcours;
+> elle ne représente pas des tâches de dépôt.
 
 - [ ] Readiness score ≥ **85 %**.
 - [ ] **Chaque** module ≥ 85 % au quiz, et les 4 piliers (M5, M6, M7, M10) ≥ **90 %**.
@@ -353,11 +360,7 @@ Prêt pour l'entretien quand **tout** est vrai :
 
 ---
 
-## 9. Prochaine action
+## 9. État et suite
 
-**L7 — labs Python.** Créer `labs/` avec les six ateliers exécutables (service de chat,
-RAG de base, harnais d'évaluation, traçage OTel, routeur de coût, garde-fous), chacun avec
-un README de critères de réussite, un squelette et une suite de tests, plus un workflow CI Python.
-
-Lots déjà livrés : L1 à L5 (voir §5.2). Lots restants : L6 à L12.
-
+Tous les lots d'adaptation du dépôt, L1 à L12, sont livrés. La suite consiste à suivre les critères
+personnels de préparation de la section 7, puis à maintenir le contenu et les liens à jour.

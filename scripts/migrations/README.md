@@ -38,6 +38,9 @@ module id or duplicate prompt).
 | 05 | `05-deepen-ai-cost-governance.js` | +11 questions on unit-cost modelling, prompt and semantic caching, model cascades, batch APIs, provisioned throughput, fine-tuning break-even and chargeback. |
 | 06 | `06-deepen-responsible-ai-regulated.js` | +13 questions on the EU AI Act, GDPR Article 22, DPIA, DORA, proxy discrimination, human oversight, model cards and post-market monitoring. |
 | 07 | `07-deepen-rag-grounding.js` | +11 questions on structure-aware chunking, hybrid search, cross-encoder reranking, query rewriting, context ordering, document-level authorisation and agentic retrieval. |
+| 08 | `08-scenario-case-studies.js` | Labels question formats, rewrites selected inherited questions as applied case studies and enforces at least 40% scenario questions in every module, with EN/FR format parity. |
+| 09 | `09-resource-metadata-capstones.js` | Adds resource type, evidence level and an unreviewed (`null`) review date; defines the three bilingual capstones. |
+| 10 | `10-refresh-resource-links.js` | Refreshes eight stale or unavailable curated links in both plan languages. |
 
 ## Writing a new migration
 
@@ -71,9 +74,11 @@ appendQuestions(
   description (`genai-evaluation`, `ai-observability`, `ai-cost-governance`,
   `responsible-ai-regulated`) hold at least 20.
 - Prompts are unique inside a module.
+- At least 40% of every module's questions are marked as applied scenarios.
 - Explanations are at least 80 characters and state why the correct option is
   right **and** why each distractor is wrong.
 - Resource URLs must start with `https://`.
+- Resource freshness dates stay `null` until the source has actually been reviewed.
 - The module id list and its order are asserted in `tests/content.test.js`.
 
 ## Archive
@@ -83,4 +88,3 @@ it was retargeted (DevEx metrics, platform leadership, staff-plus influence).
 Nothing is deleted: a later migration can recover any of them with
 `recoverFromArchive`, which also removes them from the archive so a question
 never exists twice.
-

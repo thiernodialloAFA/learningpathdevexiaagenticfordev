@@ -5,7 +5,7 @@
 // network, which is the documented degraded behaviour.
 
 // Bump this on every content restructure so cached plan/academy JSON is replaced.
-const CACHE_NAME = "learning-path-v2-aie";
+const CACHE_NAME = "learning-path-v3-aie";
 
 const APP_SHELL = [
   "./",

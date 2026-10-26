@@ -40,7 +40,8 @@ const createContentLayer = ({ repoDir, dataDir }) => {
   const sanitizeQuiz = (quiz) =>
     (Array.isArray(quiz) ? quiz : []).map((question) => ({
       prompt: question.prompt,
-      options: question.options
+      options: question.options,
+      ...(question.type ? { type: question.type } : {})
     }));
 
   // Public view of a content file with correct answers and explanations removed.

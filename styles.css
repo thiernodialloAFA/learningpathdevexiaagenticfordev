@@ -147,6 +147,17 @@ p {
   gap: 10px;
 }
 
+.resource-item {
+  display: grid;
+  gap: 6px;
+}
+
+.resource-meta {
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding-inline: 8px;
+}
+
 .chip,
 .meta-pill,
 .resource-link,

@@ -109,22 +109,22 @@ const loadContent = async () => {
 
 const ui = {
   en: {
-    pageTitle: "Principal Engineer Learning Path",
+    pageTitle: "AI Engineer Expert Learning Path",
     contentLoadError:
       "Unable to load the learning content. Please refresh the page or try again later.",
     metaDescription:
-      "A 20-week learning path with curated resources, hard quizzes, and a final assessment for Principal Software Engineer roles focused on DevEx, engineering excellence, GenAI, and agentic AI.",
-    heroEyebrow: "Principal interview preparation system",
-    heroTitle: "Learning Path for DevEx, Engineering Excellence, GenAI, and Agentic AI",
+      "A 24-week learning path with curated resources, scenario assessments, and practical labs for AI Engineer Expert roles.",
+    heroEyebrow: "AI Engineer Expert interview preparation",
+    heroTitle: "AI Engineer Expert Learning Path",
     heroSummary:
-      "A complete 20-week plan with current resources, hard assessments, and a final readiness review for Principal Software Engineer roles centered on Developer Experience, Engineering Excellence, and AI-powered development.",
+      "A complete 24-week plan covering production GenAI, agentic systems, evaluation, observability, cost governance, and regulated AI, with practical labs and interview preparation.",
     goalsTitle: "Target outcomes",
     curriculumEyebrow: "Curriculum",
     curriculumTitle: "Learning path",
     curriculumCopy: "Each module combines study, implementation, and a difficult checkpoint quiz.",
     assessmentEyebrow: "Final validation",
     assessmentTitle: "Global assessment",
-    assessmentCopy: "Use this as the final Principal-level readiness gate before interviews.",
+    assessmentCopy: "Use this as the final AI Engineer Expert readiness gate before interviews.",
     planEyebrow: "Product direction",
     planTitle: "Application plan",
     planCopy: "A practical blueprint for evolving this content into a broader learning product.",
@@ -144,6 +144,7 @@ const ui = {
     outcomesHeading: "Outcomes",
     deliverablesHeading: "Deliverables",
     resourcesHeading: "Resources",
+    resourceReviewPending: "review date pending",
     scoreQuiz: "Score quiz",
     markComplete: "Mark module deliverables complete",
     latestScore: (score) => `Latest score: ${score}%`,
@@ -185,6 +186,7 @@ const ui = {
     compQuizzes: "Quiz mastery",
     compAcademy: "Copilot Academy",
     compInterviews: "Mock interviews",
+    compCapstones: "Capstones",
     riskZonesHeading: "Risk zones",
     noRiskZones: "No risk zones — keep it up!",
     riskUnattempted: "quiz not attempted",
@@ -200,6 +202,7 @@ const ui = {
     recDeliverables: "Finish and check off the deliverables",
     recAcademy: "Pass the next Copilot Academy level",
     recInterview: "Run a mock interview to benchmark yourself",
+    recCapstone: "Submit this capstone for mentor review",
     recGo: "Go",
     interviewHeading: "Mock interview",
     interviewIntro:
@@ -211,6 +214,17 @@ const ui = {
     rubricHeading: "Rubric feedback",
     interviewBreakdownHeading: "Per-module breakdown",
     interviewHistoryHeading: "Readiness snapshots",
+    interviewTrackLabel: "Interview track",
+    trackFull: "Full path",
+    trackEvaluation: "Evaluation deep-dive",
+    trackCost: "Cost & FinOps",
+    trackSafety: "Safety & compliance",
+    trackSystemDesign: "System design",
+    capstonesHeading: "Capstone assessments",
+    capstoneCopy: "Submit these applied assessments for a four-dimension mentor review.",
+    capstoneDeliverable: "Expected evidence",
+    capstoneNotReviewed: "Not reviewed yet",
+    capstoneScore: (score) => `Best reviewed score: ${score}%`,
     dimAccuracy: "Accuracy",
     dimBreadth: "Breadth",
     dimConsistency: "Consistency",
@@ -291,22 +305,22 @@ const ui = {
     authorLoadError: "Could not load the content file."
   },
   fr: {
-    pageTitle: "Parcours d'apprentissage Ingénieur Principal",
+    pageTitle: "Parcours AI Engineer Expert",
     contentLoadError:
       "Impossible de charger le contenu pédagogique. Veuillez actualiser la page ou réessayer plus tard.",
     metaDescription:
-      "Un parcours d'apprentissage de 20 semaines avec des ressources organisées, des quiz difficiles et une évaluation finale pour les postes d'ingénieur logiciel principal axés sur la DevEx, l'excellence en ingénierie, la GenAI et l'IA agentique.",
-    heroEyebrow: "Système de préparation aux entretiens Principal",
-    heroTitle: "Parcours d'apprentissage DevEx, excellence en ingénierie, GenAI et IA agentique",
+      "Un parcours de 24 semaines avec des ressources sélectionnées, des évaluations par scénarios et des ateliers pratiques pour les postes d'AI Engineer Expert.",
+    heroEyebrow: "Préparation aux entretiens AI Engineer Expert",
+    heroTitle: "Parcours AI Engineer Expert",
     heroSummary:
-      "Un plan complet de 20 semaines avec des ressources à jour, des évaluations exigeantes et une revue finale de préparation pour les postes d'ingénieur logiciel principal centrés sur la Developer Experience, l'excellence en ingénierie et le développement propulsé par l'IA.",
+      "Un plan complet de 24 semaines couvrant la GenAI en production, les systèmes agentiques, l'évaluation, l'observabilité, la gouvernance des coûts et l'IA réglementée, avec des ateliers pratiques et une préparation aux entretiens.",
     goalsTitle: "Résultats visés",
     curriculumEyebrow: "Programme",
     curriculumTitle: "Parcours d'apprentissage",
     curriculumCopy: "Chaque module combine étude, mise en pratique et un quiz de contrôle difficile.",
     assessmentEyebrow: "Validation finale",
     assessmentTitle: "Évaluation globale",
-    assessmentCopy: "Utilisez ceci comme dernier jalon de préparation de niveau Principal avant les entretiens.",
+    assessmentCopy: "Utilisez ceci comme dernier jalon de préparation AI Engineer Expert avant les entretiens.",
     planEyebrow: "Direction produit",
     planTitle: "Plan d'application",
     planCopy: "Un plan pratique pour faire évoluer ce contenu vers un produit d'apprentissage plus large.",
@@ -326,6 +340,7 @@ const ui = {
     outcomesHeading: "Résultats",
     deliverablesHeading: "Livrables",
     resourcesHeading: "Ressources",
+    resourceReviewPending: "date de revue à définir",
     scoreQuiz: "Noter le quiz",
     markComplete: "Marquer les livrables du module comme terminés",
     latestScore: (score) => `Dernier score : ${score}%`,
@@ -367,6 +382,7 @@ const ui = {
     compQuizzes: "Maîtrise des quiz",
     compAcademy: "Académie Copilot",
     compInterviews: "Entretiens simulés",
+    compCapstones: "Capstones",
     riskZonesHeading: "Zones à risque",
     noRiskZones: "Aucune zone à risque — continuez !",
     riskUnattempted: "quiz non tenté",
@@ -382,6 +398,7 @@ const ui = {
     recDeliverables: "Terminez et cochez les livrables",
     recAcademy: "Réussissez le prochain niveau de l'Académie Copilot",
     recInterview: "Lancez un entretien simulé pour vous évaluer",
+    recCapstone: "Soumettez ce capstone à un mentor pour évaluation",
     recGo: "Aller",
     interviewHeading: "Entretien simulé",
     interviewIntro:
@@ -393,6 +410,17 @@ const ui = {
     rubricHeading: "Feedback par grille",
     interviewBreakdownHeading: "Détail par module",
     interviewHistoryHeading: "Instantanés de préparation",
+    interviewTrackLabel: "Parcours d'entretien",
+    trackFull: "Parcours complet",
+    trackEvaluation: "Évaluation approfondie",
+    trackCost: "Coûts et FinOps",
+    trackSafety: "Sûreté et conformité",
+    trackSystemDesign: "Conception de systèmes",
+    capstonesHeading: "Évaluations capstone",
+    capstoneCopy: "Soumettez ces évaluations pratiques pour une revue mentorée selon quatre dimensions.",
+    capstoneDeliverable: "Preuves attendues",
+    capstoneNotReviewed: "Pas encore évalué",
+    capstoneScore: (score) => `Meilleur score évalué : ${score}%`,
     dimAccuracy: "Exactitude",
     dimBreadth: "Étendue",
     dimConsistency: "Régularité",
@@ -715,6 +743,17 @@ const renderGoals = () => {
     .join("");
 };
 
+const renderResource = (resource) => `
+  <div class="resource-item">
+    <a class="resource-link" href="${escapeHtml(resource.url)}" target="_blank" rel="noreferrer">${escapeHtml(resource.name)}</a>
+    ${
+      resource.type
+        ? `<span class="resource-meta">${escapeHtml(resource.type)} · ${escapeHtml(resource.level || "")} · ${resource.reviewedAt ? escapeHtml(resource.reviewedAt) : t.resourceReviewPending}</span>`
+        : ""
+    }
+  </div>
+`;
+
 const openAccordions = new Set();
 
 // Grades a quiz either locally (static mode: content ships with answers) or
@@ -785,9 +824,7 @@ const renderModules = () => {
 
           <h4>${t.resourcesHeading}</h4>
           <div class="resource-list">
-            ${module.resources
-              .map((resource) => `<a class="resource-link" href="${resource.url}" target="_blank" rel="noreferrer">${resource.name}</a>`)
-              .join("")}
+            ${module.resources.map(renderResource).join("")}
           </div>
 
           <div class="quiz">
@@ -969,12 +1006,7 @@ const renderCopilotAcademy = () => {
         ? `
           <h4>${t.resourcesHeading}</h4>
           <div class="resource-list">
-            ${level.resources
-              .map(
-                (resource) =>
-                  `<a class="resource-link" href="${resource.url}" target="_blank" rel="noreferrer">${resource.name}</a>`
-              )
-              .join("")}
+            ${level.resources.map(renderResource).join("")}
           </div>
 
           <div class="quiz">
@@ -1135,6 +1167,11 @@ const riskZoneLabel = (zone) => {
     const level = academy.levels.find((entry) => entry.id === zone.id);
     return `${level ? level.title : zone.id} — ${t.riskAcademyNotPassed}`;
   }
+  if (zone.kind === "capstone") {
+    const capstone = (plan.capstones || []).find((entry) => entry.id === zone.id);
+    const status = zone.reason === "not-submitted" ? t.capstoneNotReviewed : t.riskBelow(zone.score);
+    return `${capstone ? capstone.title : zone.id} — ${status}`;
+  }
   return zone.reason === "never-run" ? t.riskInterviewNever : t.riskInterviewStale;
 };
 
@@ -1148,6 +1185,8 @@ const recommendationText = (recommendation) => {
       return t.recDeliverables;
     case "academy-level":
       return t.recAcademy;
+    case "capstone":
+      return t.recCapstone;
     default:
       return t.recInterview;
   }
@@ -1158,19 +1197,33 @@ let interviewResult = null;
 
 const INTERVIEW_QUESTION_COUNT = 10;
 
+const interviewTrackLabel = (trackId) => {
+  const labels = {
+    full: t.trackFull,
+    evaluation: t.trackEvaluation,
+    cost: t.trackCost,
+    safety: t.trackSafety,
+    "system-design": t.trackSystemDesign
+  };
+  return labels[trackId] || labels.full;
+};
+
 const renderDashboard = () => {
   const dashboardElement = document.getElementById("dashboard");
   if (!dashboardElement) return;
 
+  const capstones = server.available && server.token ? plan.capstones || [] : [];
   const readiness = engine.computeReadiness({
     modules: plan.modules,
     academyLevels: academy.levels,
+    capstones,
     state,
     passThreshold: academySettings.passThreshold
   });
   const recommendations = engine.buildRecommendations({
     modules: plan.modules,
     academyLevels: academy.levels,
+    capstones,
     state,
     passThreshold: academySettings.passThreshold,
     limit: 5
@@ -1200,6 +1253,7 @@ const renderDashboard = () => {
       ${componentRow(t.compQuizzes, readiness.components.quizMastery)}
       ${componentRow(t.compAcademy, readiness.components.academyMastery)}
       ${componentRow(t.compInterviews, readiness.components.interviewMastery)}
+      ${capstones.length > 0 ? componentRow(t.compCapstones, readiness.components.capstoneMastery) : ""}
     </div>
     <div class="dashboard-card">
       <h3>${t.riskZonesHeading}</h3>
@@ -1219,6 +1273,8 @@ const renderDashboard = () => {
                 ? (academy.levels.find((entry) => entry.id === recommendation.id) || {}).title || ""
                 : recommendation.kind === "interview"
                   ? t.interviewHeading
+                  : recommendation.kind === "capstone"
+                    ? ((plan.capstones || []).find((entry) => entry.id === recommendation.id) || {}).title || ""
                   : (plan.modules.find((entry) => entry.id === recommendation.id) || {}).title || "";
             return `
               <li>
@@ -1244,6 +1300,13 @@ const renderDashboard = () => {
       } else if (recommendation.kind === "interview") {
         const interviewElement = document.getElementById("interview-area");
         if (interviewElement) interviewElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (recommendation.kind === "capstone") {
+        const communityPanel = document.getElementById("community-panel");
+        if (communityPanel) {
+          const section = communityPanel.querySelector("details");
+          if (section) section.open = true;
+          communityPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       } else {
         jumpToAccordion("section-curriculum", `module-${recommendation.id}`);
       }
@@ -1303,6 +1366,11 @@ const renderInterviewArea = () => {
       <div class="interview-card">
         <h3>${t.interviewHeading}</h3>
         <p>${t.interviewIntro}</p>
+        <label>${t.interviewTrackLabel}
+          <select id="interview-track">
+            ${engine.INTERVIEW_TRACKS.map((track) => `<option value="${track.id}">${interviewTrackLabel(track.id)}</option>`).join("")}
+          </select>
+        </label>
         <button type="button" id="start-interview">${t.startInterview(INTERVIEW_QUESTION_COUNT)}</button>
         ${interviewResult ? renderInterviewResult() : ""}
         ${
@@ -1313,7 +1381,7 @@ const renderInterviewArea = () => {
                 ${snapshots
                   .map(
                     (snapshot) =>
-                      `<li><span>${new Date(snapshot.at).toLocaleString(language)}</span><strong>${snapshot.score}%</strong></li>`
+                      `<li><span>${new Date(snapshot.at).toLocaleString(language)}${snapshot.trackId ? ` · ${interviewTrackLabel(snapshot.trackId)}` : ""}</span><strong>${snapshot.score}%</strong></li>`
                   )
                   .join("")}
               </ul>
@@ -1325,7 +1393,12 @@ const renderInterviewArea = () => {
     const startButton = document.getElementById("start-interview");
     if (startButton) {
       startButton.addEventListener("click", () => {
-        currentInterview = engine.buildInterview({ modules: plan.modules, questionCount: INTERVIEW_QUESTION_COUNT });
+        const trackId = document.getElementById("interview-track").value;
+        currentInterview = engine.buildInterview({
+          modules: plan.modules,
+          questionCount: INTERVIEW_QUESTION_COUNT,
+          trackId
+        });
         interviewResult = null;
         renderInterviewArea();
       });
@@ -1389,7 +1462,7 @@ const renderInterviewArea = () => {
         const route = server.token ? "attempts" : "score";
         const { ok, payload } = await apiFetch(route, {
           method: "POST",
-          body: { kind: "interview", items, answers, language }
+          body: { kind: "interview", items, answers, language, trackId: currentInterview.trackId }
         });
         if (!ok || !payload) throw new Error("Scoring failed");
         interviewResult = payload;
@@ -1413,6 +1486,7 @@ const renderInterviewArea = () => {
           at: new Date().toISOString(),
           score: interviewResult.score,
           total: interviewResult.total,
+          trackId: currentInterview.trackId,
           rubric: interviewResult.rubric
         }
       ].slice(-20);
@@ -1561,11 +1635,14 @@ const renderAccount = () => {
 
 const submissionCard = (submission) => {
   const module = plan.modules.find((entry) => entry.id === submission.moduleId);
+  const capstone = submission.capstoneId
+    ? (plan.capstones || []).find((entry) => entry.id === submission.capstoneId)
+    : null;
   const review = submission.review;
   return `
     <article class="submission-card">
       <header>
-        <strong>${module ? module.title : escapeHtml(submission.moduleId)}</strong>
+        <strong>${capstone ? capstone.title : module ? module.title : escapeHtml(submission.moduleId)}</strong>
         <span class="badge">${submission.status === "reviewed" ? t.statusReviewed : t.statusPending}</span>
       </header>
       <p>${escapeHtml(submission.deliverable)}</p>
@@ -1619,11 +1696,31 @@ const renderCommunity = async () => {
   communityElement.innerHTML = `
     <div class="community-grid">
       <div>
+        <h3>${t.capstonesHeading}</h3>
+        <p>${t.capstoneCopy}</p>
+        ${(plan.capstones || [])
+          .map((capstone) => {
+            const score = state.capstones[capstone.id];
+            return `
+              <article class="submission-card">
+                <strong>${capstone.title}</strong>
+                <p>${capstone.description}</p>
+                <p><strong>${t.capstoneDeliverable}:</strong> ${capstone.deliverable}</p>
+                <span class="badge">${score === undefined ? t.capstoneNotReviewed : t.capstoneScore(score)}</span>
+              </article>
+            `;
+          })
+          .join("")}
         <h3>${t.submitHeading}</h3>
         <form id="submission-form" class="account-form">
           <label>${t.moduleSelectLabel}
             <select name="moduleId">
-              ${plan.modules.map((module) => `<option value="${module.id}">${module.title}</option>`).join("")}
+              <optgroup label="${t.deliverablesHeading}">
+                ${plan.modules.map((module) => `<option value="module:${module.id}">${module.title}</option>`).join("")}
+              </optgroup>
+              <optgroup label="${t.capstonesHeading}">
+                ${(plan.capstones || []).map((capstone) => `<option value="capstone:${capstone.id}">${capstone.title}</option>`).join("")}
+              </optgroup>
             </select>
           </label>
           <textarea name="deliverable" rows="3" maxlength="2000" placeholder="${t.deliverablePlaceholder}" required></textarea>
@@ -1647,7 +1744,9 @@ const renderCommunity = async () => {
                         (submission) => `
                           <article class="submission-card">
                             <header>
-                              <strong>${escapeHtml(submission.moduleId)}</strong>
+                              <strong>${submission.capstoneId
+                                ? escapeHtml((plan.capstones || []).find((entry) => entry.id === submission.capstoneId)?.title || submission.capstoneId)
+                                : escapeHtml((plan.modules.find((entry) => entry.id === submission.moduleId) || {}).title || submission.moduleId)}</strong>
                               <span class="badge">${escapeHtml(submission.accountId)}</span>
                             </header>
                             <p>${escapeHtml(submission.deliverable)}</p>
@@ -1713,10 +1812,15 @@ const renderCommunity = async () => {
   document.getElementById("submission-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.target;
+    const [submissionType, referenceId] = form.elements.moduleId.value.split(":");
+    const capstone = submissionType === "capstone"
+      ? (plan.capstones || []).find((entry) => entry.id === referenceId)
+      : null;
     const created = await apiFetch("submissions", {
       method: "POST",
       body: {
-        moduleId: form.elements.moduleId.value,
+        moduleId: capstone ? capstone.afterModule : referenceId,
+        ...(capstone ? { capstoneId: capstone.id } : {}),
         deliverable: form.elements.deliverable.value,
         url: form.elements.url.value || undefined
       }

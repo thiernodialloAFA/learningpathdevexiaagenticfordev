@@ -14,15 +14,24 @@
       "resources": [
         {
           "name": "100 · Setup & posture",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/100-setup-posture.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/100-setup-posture.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "101 · Instructions",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/101-instructions.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/101-instructions.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "102 · Prompts",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/102-prompts.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/102-prompts.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         }
       ],
       "quiz": [
@@ -207,15 +216,24 @@
       "resources": [
         {
           "name": "103 · Skills",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/103-skills.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/103-skills.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "104 · Agents",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/104-agents.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/104-agents.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "105 · Hooks",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/105-hooks.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/105-hooks.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         }
       ],
       "quiz": [
@@ -399,11 +417,17 @@
       "resources": [
         {
           "name": "106 · MCP",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/106-mcp.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/106-mcp.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "107 · Model choice",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/107-choix-de-modeles.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/01-fondations/107-choix-de-modeles.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         }
       ],
       "quiz": [
@@ -589,19 +613,31 @@
       "resources": [
         {
           "name": "207 · APM",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/207-apm.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/207-apm.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "208 · Workflows",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/208-workflows.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/208-workflows.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "209 · Plugins",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/209-plugins.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/209-plugins.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "210 · Copilot CLI",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/210-copilot-cli.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/210-copilot-cli.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         }
       ],
       "quiz": [
@@ -788,23 +824,38 @@
       "resources": [
         {
           "name": "211 · Agent pipeline",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/211-pipeline-agents-handbook.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/211-pipeline-agents-handbook.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "212 · LSP",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/212-lsp.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/212-lsp.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "213 · APM vs plugins",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/213-apm-vs-plugins.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/02-composition/213-apm-vs-plugins.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "310 · Binary evals",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/310-evals.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/310-evals.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "315 · LLM-judge evals",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/315-evals-llm-juge.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/315-evals-llm-juge.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         }
       ],
       "quiz": [
@@ -993,31 +1044,52 @@
       "resources": [
         {
           "name": "311 · Tokens & context",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/311-tokens-contexte.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/311-tokens-contexte.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "312 · Sobriety patterns",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/312-patterns-sobriete.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/312-patterns-sobriete.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "313 · Reduction tools",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/313-outils-reduction.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/313-outils-reduction.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "314 · Autoresearch",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/314-autoresearch.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/314-autoresearch.md",
+          "type": "paper",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "316 · Moving context",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/316-deplacer-contexte-modeles.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/316-deplacer-contexte-modeles.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "317 · Subagents",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/317-orchestrer-subagents.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/317-orchestrer-subagents.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         },
         {
           "name": "318 · Measuring usage",
-          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/318-mesurer-optimiser-consommation.md"
+          "url": "https://github.com/AxaFrance/learning-path-copilot/blob/main/docs/03-ingenierie-de-contexte/318-mesurer-optimiser-consommation.md",
+          "type": "repository",
+          "reviewedAt": null,
+          "level": "community"
         }
       ],
       "quiz": [

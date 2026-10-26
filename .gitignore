@@ -10,6 +10,16 @@ Thumbs.db
 # Node (if tooling is ever added)
 node_modules/
 
+# Python labs
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
 # Logs
 *.log
 server/.data/

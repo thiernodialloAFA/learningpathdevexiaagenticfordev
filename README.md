@@ -33,7 +33,9 @@ Once GitHub Pages is enabled (see below), the app is available at:
 - An application plan describing the product, architecture, and roadmap for scaling this into a fuller training platform
 - Local progress tracking with export, import, and reset tools
 - **Readiness dashboard**: an interview readiness score (module completion, quiz mastery, Copilot Academy, mock interviews), risk zones, and adaptive next-step recommendations
-- **Mock interviews**: a deterministic 10-question simulator that samples hard questions across every module and grades them with a rubric (accuracy, breadth, consistency, mastery) plus readiness snapshots over time
+- **Mock interviews**: deterministic 10-question simulations for the full path or specialized Evaluation, Cost & FinOps, Safety & Compliance, and System Design tracks, graded with a rubric and saved as readiness snapshots
+- **Capstones**: three applied assessments reviewed by mentors; passing reviews contribute 15% of interview readiness
+- **Resource governance**: resource types, evidence levels, and explicit review-date status; a weekly workflow checks curated links
 - **Optional server mode**: a dependency-free Node.js server (`server/`) that adds accounts with cross-device sync, server-side quiz scoring, deliverable submissions with rubric-based mentor reviews, anonymized cohorts, and a content authoring studio
 - **Offline support (PWA)**: a manifest and service worker cache the app shell and content for degraded offline revision
 
@@ -90,6 +92,7 @@ State is stored as JSON files under `server/.data/` (configurable with `DATA_DIR
 node --check app.js                 # JavaScript syntax check
 node scripts/validate-content.js    # Content schema validation
 node --test tests/*.test.js         # Automated tests (content, engine, server API, PWA)
+node scripts/check-links.js         # Optional live check of curated external links
 ```
 
 ## Deploy to GitHub Pages
@@ -114,6 +117,8 @@ The workflow checks JavaScript syntax, validates the content files, runs the aut
 | `data/*.json` | Versioned content: learning plans (EN/FR), Copilot Academy levels (EN/FR), and academy settings |
 | `server/` | Optional dependency-free Node.js server: API, auth, JSON file store, content overlay/publishing |
 | `scripts/validate-content.js` | Dependency-free schema validation for the content files (module + CLI) |
+| `scripts/migrations/` | One-time, parity-checked content migrations |
+| `scripts/check-links.js` | Deduplicated external resource-link checker (also run weekly in CI) |
 | `tests/*.test.js` | Automated tests: content schema, engine, server API end-to-end, and PWA wiring |
 | `styles.css` | Styling for the dark, responsive layout |
 | `manifest.webmanifest`, `sw.js`, `icons/` | PWA manifest, service worker (offline cache), and app icon |

@@ -129,7 +129,9 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
   };
 
   const putProgress = (accountId, state) => {
-    const merged = engine.mergeProgress(getProgress(accountId).state, state);
+    const currentState = getProgress(accountId).state;
+    const incoming = { ...state, capstones: currentState.capstones };
+    const merged = engine.mergeProgress(currentState, incoming);
     store.data.progress[accountId] = { state: merged, updatedAt: new Date().toISOString() };
     store.save();
     return store.data.progress[accountId];
@@ -164,17 +166,30 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
     if (body.kind === "interview") {
       const plan = content.getFull(`plan.${language}.json`);
       if (!plan) throw new HttpError(500, "Content unavailable");
+      const trackId = body.trackId || "full";
+      if (!engine.INTERVIEW_TRACKS.some((track) => track.id === trackId)) {
+        throw new HttpError(400, "Unknown interview track");
+      }
       const items = Array.isArray(body.items) ? body.items : [];
       if (items.length === 0 || items.length > MAX_ANSWERS || items.length !== body.answers.length) {
         throw new HttpError(400, "items must be a non-empty array matching answers");
       }
+      const interviewTrack = engine.INTERVIEW_TRACKS.find((track) => track.id === trackId);
       for (const item of items) {
         const module = plan.modules.find((entry) => entry.id === item.moduleId);
         if (!module || !Number.isInteger(item.questionIndex) || item.questionIndex < 0 || item.questionIndex >= module.quiz.length) {
           throw new HttpError(400, "items reference unknown questions");
         }
+        if (interviewTrack.moduleIds && !interviewTrack.moduleIds.includes(item.moduleId)) {
+          throw new HttpError(400, "items do not match the selected interview track");
+        }
       }
-      return { kind: "interview", refId: "interview", result: engine.scoreInterview({ modules: plan.modules, items, answers: body.answers }) };
+      return {
+        kind: "interview",
+        refId: "interview",
+        trackId,
+        result: engine.scoreInterview({ modules: plan.modules, items, answers: body.answers })
+      };
     }
 
     throw new HttpError(400, "kind must be module, academy, or interview");
@@ -297,7 +312,7 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
   route("POST", /^\/api\/attempts$/, async (req) => {
     const account = requireAccount(req);
     const body = await readJsonBody(req);
-    const { kind, refId, result } = scoreAttempt(body);
+    const { kind, refId, result, trackId } = scoreAttempt(body);
     const at = new Date().toISOString();
 
     let state = getProgress(account.id).state;
@@ -307,7 +322,10 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
     } else if (kind === "academy") {
       state.academy[refId] = Math.max(state.academy[refId] ?? 0, result.score);
     } else if (kind === "interview") {
-      state.interviews = [...state.interviews, { at, score: result.score, total: result.total, rubric: result.rubric }].slice(-20);
+      state.interviews = [
+        ...state.interviews,
+        { at, score: result.score, total: result.total, trackId, rubric: result.rubric }
+      ].slice(-20);
     }
     store.data.progress[account.id] = { state: engine.normalizeState(state), updatedAt: at };
 
@@ -367,6 +385,13 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
     const plan = content.getFull("plan.en.json");
     const module = plan && plan.modules.find((entry) => entry.id === body.moduleId);
     if (!module) throw new HttpError(400, "Unknown moduleId");
+    let capstone = null;
+    if (body.capstoneId !== undefined) {
+      capstone = Array.isArray(plan.capstones)
+        ? plan.capstones.find((entry) => entry.id === body.capstoneId)
+        : null;
+      if (!capstone || capstone.afterModule !== module.id) throw new HttpError(400, "Unknown capstone or module mismatch");
+    }
     const deliverable = typeof body.deliverable === "string" ? body.deliverable.trim().slice(0, 2000) : "";
     if (!deliverable) throw new HttpError(400, "deliverable text required");
     const url = typeof body.url === "string" && /^https:\/\/[^\s]+$/.test(body.url) ? body.url.slice(0, 500) : null;
@@ -374,6 +399,7 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
       id: `sub-${crypto.randomBytes(6).toString("hex")}`,
       accountId: account.id,
       moduleId: module.id,
+      ...(capstone ? { capstoneId: capstone.id } : {}),
       deliverable,
       url,
       status: "pending",
@@ -419,6 +445,14 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
       feedback,
       at: new Date().toISOString()
     };
+    if (submission.capstoneId) {
+      const state = getProgress(submission.accountId).state;
+      state.capstones[submission.capstoneId] = Math.max(
+        state.capstones[submission.capstoneId] ?? 0,
+        rubric.score
+      );
+      store.data.progress[submission.accountId] = { state, updatedAt: submission.review.at };
+    }
     store.save();
     return { status: 200, payload: { submission: publicSubmission(submission) } };
   });
@@ -484,11 +518,12 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
     const academy = content.getFull("academy.en.json");
     const threshold = passThreshold();
     const modules = plan ? plan.modules : [];
+    const capstones = plan && Array.isArray(plan.capstones) ? plan.capstones : [];
     const levels = academy ? academy.levels : [];
 
     const readinessOf = (accountId) => {
       const { state } = getProgress(accountId);
-      return engine.computeReadiness({ modules, academyLevels: levels, state, passThreshold: threshold });
+      return engine.computeReadiness({ modules, academyLevels: levels, capstones, state, passThreshold: threshold });
     };
 
     const readinessScores = cohort.members.map((member) => readinessOf(member).score);

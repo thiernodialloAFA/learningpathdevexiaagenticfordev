@@ -169,6 +169,48 @@ test("every explanation justifies the correct answer and the distractors", () =>
   }
 });
 
+test("every module contains at least 40% scenario questions in EN and FR", () => {
+  for (const file of ["plan.en.json", "plan.fr.json"]) {
+    const plan = readJson(file);
+    for (const module of plan.modules) {
+      const scenarios = module.quiz.filter((question) => question.type === "scenario").length;
+      assert.ok(
+        scenarios / module.quiz.length >= 0.4,
+        `${file} module ${module.id}: ${scenarios}/${module.quiz.length} scenario questions`
+      );
+    }
+  }
+});
+
+test("resources carry valid freshness and evidence metadata; capstones match across languages", () => {
+  const en = readJson("plan.en.json");
+  const fr = readJson("plan.fr.json");
+  for (const plan of [en, fr]) {
+    assert.equal(plan.capstones.length, 3);
+    for (const module of plan.modules) {
+      for (const resource of module.resources) {
+        assert.ok(resource.type, `${module.id}: resource type`);
+        assert.ok(resource.level, `${module.id}: evidence level`);
+        assert.ok(resource.reviewedAt === null || /^\d{4}-\d{2}-\d{2}$/.test(resource.reviewedAt));
+      }
+    }
+    for (const file of ["academy.en.json", "academy.fr.json"]) {
+      const academy = readJson(file);
+      for (const level of academy.levels) {
+        for (const resource of level.resources) {
+          assert.ok(resource.type, `${level.id}: resource type`);
+          assert.ok(resource.level, `${level.id}: evidence level`);
+          assert.ok(resource.reviewedAt === null || /^\d{4}-\d{2}-\d{2}$/.test(resource.reviewedAt));
+        }
+      }
+    }
+  }
+  assert.deepEqual(
+    en.capstones.map(({ id, afterModule }) => [id, afterModule]),
+    fr.capstones.map(({ id, afterModule }) => [id, afterModule])
+  );
+});
+
 test("content migrations parse", () => {
   const migrationsDir = path.join(rootDir, "scripts", "migrations");
   const files = fs
@@ -180,4 +222,3 @@ test("content migrations parse", () => {
     execFileSync(process.execPath, ["--check", file]);
   }
 });
-

@@ -55,10 +55,12 @@ test("sanitized content hides answers and explanations", async () => {
   assert.equal(status, 200);
   assert.ok(Array.isArray(payload.modules) && payload.modules.length > 0);
   for (const module of payload.modules) {
+    assert.ok(module.resources.every((resource) => resource.type && resource.level && "reviewedAt" in resource));
     for (const question of module.quiz) {
       assert.equal(question.answer, undefined);
       assert.equal(question.explanation, undefined);
       assert.ok(question.prompt && Array.isArray(question.options));
+      assert.ok(["knowledge", "scenario"].includes(question.type));
     }
   }
   const academy = await api("GET", "/api/content/academy.fr.json");
@@ -195,11 +197,17 @@ test("interview attempts are scored server-side and produce a rubric plus snapsh
   const items = modules.map((module) => ({ moduleId: module.id, questionIndex: 0 }));
   const attempt = await api("POST", "/api/attempts", {
     token: accounts.learner.token,
-    body: { kind: "interview", items, answers: items.map(() => 0) }
+    body: { kind: "interview", items, answers: items.map(() => 0), trackId: "full" }
   });
   assert.equal(attempt.status, 201);
   assert.equal(attempt.payload.rubric.length, 4);
   assert.equal(attempt.payload.state.interviews.length, 1);
+  assert.equal(attempt.payload.state.interviews[0].trackId, "full");
+
+  const mismatchedTrack = await api("POST", "/api/score", {
+    body: { kind: "interview", items, answers: items.map(() => 0), trackId: "evaluation" }
+  });
+  assert.equal(mismatchedTrack.status, 400);
 
   const invalid = await api("POST", "/api/attempts", {
     token: accounts.learner.token,
@@ -287,6 +295,40 @@ test("submission and rubric review workflow (mentoring)", async () => {
   assert.equal(mine.payload.submissions[0].review.feedback, "Strong evidence, tighten the eval story.");
 });
 
+test("capstone submissions feed mentor scores into readiness progress", async () => {
+  const planContent = await api("GET", "/api/content/plan.en.json");
+  const capstone = planContent.payload.capstones[0];
+
+  const mismatch = await api("POST", "/api/submissions", {
+    token: accounts.learner.token,
+    body: { moduleId: planContent.payload.modules[0].id, capstoneId: capstone.id, deliverable: "Evidence" }
+  });
+  assert.equal(mismatch.status, 400);
+
+  const submitted = await api("POST", "/api/submissions", {
+    token: accounts.learner.token,
+    body: { moduleId: capstone.afterModule, capstoneId: capstone.id, deliverable: "Evaluation suite and regression report" }
+  });
+  assert.equal(submitted.status, 201);
+  assert.equal(submitted.payload.submission.capstoneId, capstone.id);
+
+  const review = await api("POST", `/api/submissions/${submitted.payload.submission.id}/review`, {
+    token: accounts.mentor.token,
+    body: { ratings: { correctness: 4, depth: 4, tradeoffs: 3, communication: 3 }, feedback: "Clear evidence." }
+  });
+  assert.equal(review.status, 200);
+  const progress = await api("GET", "/api/progress", { token: accounts.learner.token });
+  assert.equal(progress.payload.state.capstones[capstone.id], 88);
+
+  const forged = await api("PUT", "/api/progress", {
+    token: accounts.learner.token,
+    body: { state: { capstones: { [capstone.id]: 100 } } }
+  });
+  assert.equal(forged.status, 200);
+  const protectedProgress = await api("GET", "/api/progress", { token: accounts.learner.token });
+  assert.equal(protectedProgress.payload.state.capstones[capstone.id], 88);
+});
+
 test("cohorts: mentor creates, learner joins by code, stats are anonymized", async () => {
   const denied = await api("POST", "/api/cohorts", { token: accounts.learner.token, body: { name: "Nope" } });
   assert.equal(denied.status, 403);
@@ -318,7 +360,7 @@ test("cohorts: mentor creates, learner joins by code, stats are anonymized", asy
 test("static serving exposes the app shell but never data/ or the store", async () => {
   const index = await fetch(`${baseUrl}/`);
   assert.equal(index.status, 200);
-  assert.match(await index.text(), /Principal Engineer Learning Path/);
+  assert.match(await index.text(), /AI Engineer Expert Learning Path/);
 
   const engineJs = await fetch(`${baseUrl}/lib/engine.js`);
   assert.equal(engineJs.status, 200);
