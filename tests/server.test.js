@@ -127,6 +127,53 @@ test("admin can grant roles; non-admin cannot", async () => {
   assert.equal(invalid.status, 400);
 });
 
+test("sync key reset: self-service rotation and admin reset", async () => {
+  const created = await api("POST", "/api/accounts", { body: { displayName: "Rotator" } });
+  const oldKey = created.payload.syncKey;
+  const accountId = created.payload.account.id;
+
+  const first = await api("POST", "/api/sessions", { body: { accountId, syncKey: oldKey } });
+  const keptToken = first.payload.token;
+  const second = await api("POST", "/api/sessions", { body: { accountId, syncKey: oldKey } });
+  const revokedToken = second.payload.token;
+
+  const anonymous = await api("POST", `/api/accounts/me/sync-key`);
+  assert.equal(anonymous.status, 401);
+
+  const rotated = await api("POST", "/api/accounts/me/sync-key", { token: keptToken });
+  assert.equal(rotated.status, 200);
+  assert.ok(rotated.payload.syncKey.length >= 24);
+  assert.notEqual(rotated.payload.syncKey, oldKey);
+  assert.equal(rotated.payload.account.id, accountId);
+
+  // The rotating device keeps its session; other devices are signed out.
+  assert.equal((await api("GET", "/api/me", { token: keptToken })).status, 200);
+  assert.equal((await api("GET", "/api/me", { token: revokedToken })).status, 401);
+
+  assert.equal((await api("POST", "/api/sessions", { body: { accountId, syncKey: oldKey } })).status, 401);
+  const newLogin = await api("POST", "/api/sessions", {
+    body: { accountId, syncKey: rotated.payload.syncKey }
+  });
+  assert.equal(newLogin.status, 201);
+
+  const denied = await api("POST", `/api/accounts/${accountId}/sync-key`, { token: accounts.learner.token });
+  assert.equal(denied.status, 403);
+
+  const adminReset = await api("POST", `/api/accounts/${accountId}/sync-key`, { token: accounts.admin.token });
+  assert.equal(adminReset.status, 200);
+  assert.notEqual(adminReset.payload.syncKey, rotated.payload.syncKey);
+  // An admin reset revokes every session of the target account.
+  assert.equal((await api("GET", "/api/me", { token: keptToken })).status, 401);
+  assert.equal((await api("GET", "/api/me", { token: newLogin.payload.token })).status, 401);
+  assert.equal(
+    (await api("POST", "/api/sessions", { body: { accountId, syncKey: adminReset.payload.syncKey } })).status,
+    201
+  );
+
+  const unknown = await api("POST", "/api/accounts/acct-000000000000/sync-key", { token: accounts.admin.token });
+  assert.equal(unknown.status, 404);
+});
+
 test("progress sync merges across devices and imports the legacy export", async () => {
   const deviceA = await api("PUT", "/api/progress", {
     token: accounts.learner.token,

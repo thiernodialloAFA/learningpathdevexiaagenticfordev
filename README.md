@@ -79,6 +79,7 @@ PORT=8080 node server/server.js  # custom port
 Server mode adds, on top of everything the static site does:
 
 - **Accounts & sync**: passwordless accounts based on a generated sync key (scrypt-hashed, shown once). Progress is merged across devices — no email, no password, no PII. `server/auth.js` documents OIDC as the production upgrade path.
+- **Sync key reset**: a signed-in learner can rotate their own key (`POST /api/accounts/me/sync-key`, current device stays signed in, other devices are revoked); an admin can reset any account for a learner who lost their key (`POST /api/accounts/:id/sync-key`, all sessions revoked). The new key is returned once and never stored in clear text.
 - **Server-side scoring**: the API serves sanitized content (no answers or explanations in the browser); quizzes and mock interviews are graded via the API, and attempt history is recorded.
 - **Community**: deliverable submissions reviewed against a 4-dimension rubric, a mentor review queue (mentor/admin roles), and cohorts with anonymized aggregate stats.
 - **Authoring studio**: authors/admins edit content JSON in the browser, validate it against the schema, and publish without redeploying (stored as an overlay in the data directory).

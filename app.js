@@ -254,6 +254,13 @@ const ui = {
     serverScoringNote: "Quizzes are scored server-side; correct answers never reach the browser.",
     syncNow: "Sync now",
     signOut: "Sign out",
+    resetSyncKey: "Reset sync key",
+    resetSyncKeyConfirm: "Generate a new sync key? The current key stops working and other devices are signed out.",
+    resetSyncKeyError: "Could not reset the sync key. Try again later.",
+    adminResetHeading: "Admin — reset a learner's sync key",
+    adminResetButton: "Reset this account's key",
+    adminResetNotice: (id) => `New sync key for ${id} — copy it now, it is shown only once:`,
+    adminResetError: "Could not reset that account's sync key — check the account ID.",
     deleteAccount: "Delete server account",
     deleteAccountConfirm: "Delete your server account and all synced data? This cannot be undone.",
     lastSync: (time) => `Last sync: ${time}`,
@@ -451,6 +458,14 @@ const ui = {
     serverScoringNote: "Les quiz sont notés côté serveur ; les bonnes réponses n'atteignent jamais le navigateur.",
     syncNow: "Synchroniser",
     signOut: "Se déconnecter",
+    resetSyncKey: "Réinitialiser la clé",
+    resetSyncKeyConfirm:
+      "Générer une nouvelle clé de synchronisation ? L'ancienne cesse de fonctionner et les autres appareils sont déconnectés.",
+    resetSyncKeyError: "Impossible de réinitialiser la clé. Réessayez plus tard.",
+    adminResetHeading: "Admin — réinitialiser la clé d'un apprenant",
+    adminResetButton: "Réinitialiser la clé de ce compte",
+    adminResetNotice: (id) => `Nouvelle clé pour ${id} — copiez-la maintenant, elle n'est affichée qu'une fois :`,
+    adminResetError: "Réinitialisation impossible — vérifiez l'identifiant du compte.",
     deleteAccount: "Supprimer le compte serveur",
     deleteAccountConfirm:
       "Supprimer votre compte serveur et toutes les données synchronisées ? Cette action est irréversible.",
@@ -1513,6 +1528,20 @@ const updatePanelVisibility = () => {
   authorPanel.hidden = !(server.available && (role === "author" || role === "admin"));
 };
 
+// Renders a freshly issued sync key with a copy button. The key is never
+// stored client-side: it is shown once and the learner must save it.
+const showSyncKey = (container, notice, accountId, syncKey) => {
+  container.innerHTML = `
+    <p>${notice}</p>
+    <p><strong>${t.accountIdLabel}:</strong> <code>${escapeHtml(accountId)}</code></p>
+    <p class="sync-key-row"><code>${escapeHtml(syncKey)}</code>
+      <button type="button" class="button--ghost" data-copy-key>${t.copyKey}</button></p>
+  `;
+  container.querySelector("[data-copy-key]").addEventListener("click", () => {
+    if (navigator.clipboard) navigator.clipboard.writeText(syncKey).catch(() => {});
+  });
+};
+
 const renderAccount = () => {
   const accountElement = document.getElementById("account");
   if (!accountElement || !server.available) return;
@@ -1526,13 +1555,35 @@ const renderAccount = () => {
       </p>
       <div class="progress-tools">
         <button type="button" class="button--ghost" id="sync-now">${t.syncNow}</button>
+        <button type="button" class="button--ghost" id="reset-sync-key">${t.resetSyncKey}</button>
         <button type="button" class="button--ghost" id="sign-out">${t.signOut}</button>
         <button type="button" class="button--ghost button--danger" id="delete-account">${t.deleteAccount}</button>
       </div>
+      <div id="sync-key-details"></div>
+      ${
+        server.account.role === "admin"
+          ? `<form id="admin-reset-form" class="account-form">
+               <h3>${t.adminResetHeading}</h3>
+               <input type="text" name="accountId" placeholder="${t.accountIdPlaceholder}" required />
+               <button type="submit">${t.adminResetButton}</button>
+               <div id="admin-reset-details"></div>
+             </form>`
+          : ""
+      }
     `;
     document.getElementById("sync-now").addEventListener("click", async () => {
       await syncProgress();
       renderAll();
+    });
+    document.getElementById("reset-sync-key").addEventListener("click", async () => {
+      if (!confirm(t.resetSyncKeyConfirm)) return;
+      const detailsElement = document.getElementById("sync-key-details");
+      const reset = await apiFetch("accounts/me/sync-key", { method: "POST" });
+      if (!reset.ok) {
+        detailsElement.innerHTML = `<p class="content-load-error">${t.resetSyncKeyError}</p>`;
+        return;
+      }
+      showSyncKey(detailsElement, t.syncKeyNotice, reset.payload.account.id, reset.payload.syncKey);
     });
     document.getElementById("sign-out").addEventListener("click", async () => {
       await apiFetch("sessions", { method: "DELETE" });
@@ -1549,6 +1600,20 @@ const renderAccount = () => {
       saveSession();
       renderAll();
     });
+    const adminResetForm = document.getElementById("admin-reset-form");
+    if (adminResetForm) {
+      adminResetForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const accountId = event.target.elements.accountId.value.trim();
+        const detailsElement = document.getElementById("admin-reset-details");
+        const reset = await apiFetch(`accounts/${encodeURIComponent(accountId)}/sync-key`, { method: "POST" });
+        if (!reset.ok) {
+          detailsElement.innerHTML = `<p class="content-load-error">${t.adminResetError}</p>`;
+          return;
+        }
+        showSyncKey(detailsElement, t.adminResetNotice(reset.payload.account.id), reset.payload.account.id, reset.payload.syncKey);
+      });
+    }
     return;
   }
 

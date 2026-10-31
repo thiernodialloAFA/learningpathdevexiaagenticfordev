@@ -267,10 +267,31 @@ const createApp = ({ dataDir = DATA_DIR } = {}) => {
     return { status: 200, payload: { ok: true } };
   });
 
+  // Self-service sync key rotation: the learner keeps their current session,
+  // every other device is signed out, and the new key is shown once.
+  route("POST", /^\/api\/accounts\/me\/sync-key$/, async (req) => {
+    const account = requireAccount(req);
+    if (!authLimiter(clientKey(req))) throw new HttpError(429, "Too many requests, retry later");
+    const header = req.headers.authorization || "";
+    const currentToken = header.slice("Bearer ".length).trim();
+    const { account: updated, syncKey } = auth.resetSyncKey(store, account, { keepSessionToken: currentToken });
+    return { status: 200, payload: { account: updated, syncKey } };
+  });
+
   route("GET", /^\/api\/accounts$/, async (req) => {
     requireRole(req, "admin");
     const accounts = Object.values(store.data.accounts).map(auth.publicAccount);
     return { status: 200, payload: { accounts } };
+  });
+
+  // Admin reset for a learner who lost their sync key: all of the target's
+  // sessions are revoked and the new key must be handed over out of band.
+  route("POST", /^\/api\/accounts\/(?<id>acct-[a-f0-9]+)\/sync-key$/, async (req, params) => {
+    requireRole(req, "admin");
+    const target = store.data.accounts[params.id];
+    if (!target) throw new HttpError(404, "Unknown account");
+    const { account, syncKey } = auth.resetSyncKey(store, target);
+    return { status: 200, payload: { account, syncKey } };
   });
 
   route("PUT", /^\/api\/accounts\/(?<id>acct-[a-f0-9]+)\/role$/, async (req, params) => {
